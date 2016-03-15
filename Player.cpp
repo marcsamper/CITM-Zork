@@ -48,7 +48,10 @@ void Player::Look(World*look, dir watch){
 					enter = false;
 					break;
 				}
+
+				
 			}
+			
 		}
 	}
 }
@@ -58,5 +61,46 @@ void Player::Look(World*look, dir watch){
 void Player::LookRoom()const{
 	printf("%s", position->description);
 	}
+//Method open door:
+void Player::OpenDoor(World*open, dir door){
+	if (enter == true){
+		for (int i = 0; i < 18; i++){
+			if (open->exit[i].origin == position){
+				if (open->exit[i].direction == door){
+					if (open->exit[i].open == false){
+					printf("The door is oppened\n");
+					open->exit[i].open =true;
+					enter = false;
+					break;
+					
+				}
 
+
+			}
+
+		}
+	}
+}
+}
+//method close door:
+void Player::CloseDoor(World*open, dir door){
+	if (enter == true){
+		for (int i = 0; i < 18; i++){
+			if (open->exit[i].origin == position){
+				if (open->exit[i].direction == door){
+					if (open->exit[i].open == true){
+						printf("You closed the door\n");
+						open->exit[i].open =false;
+						enter = false;
+						break;
+						
+					}
+
+
+				}
+
+			}
+		}
+	}
+}
 

@@ -11,8 +11,8 @@ public:
 	char description[500];
 
 public:
-	/*Room();
-	~Room();*/
+	Room();
+	~Room();
 
 
 };

@@ -23,9 +23,9 @@ public:
 	bool open=true;
 	dir direction;
 
-/*public:
+public:
 	Exit();
-	~Exit();*/
+	~Exit();
 
 };
 #endif;

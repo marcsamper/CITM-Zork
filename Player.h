@@ -13,6 +13,8 @@ public:
 	void MovePosition(World *movement, dir direction);
 	void Look(World*look, dir watch);
 	void LookRoom()const;
+	void OpenDoor(World* open, dir door);
+	void CloseDoor(World* open, dir door);
 	Player();
 	~Player();
 	
