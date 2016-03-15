@@ -16,6 +16,7 @@ public:
 	World();
 	~World();
 	void CreateWorld();
+	bool Inpunts();
 	
 
 

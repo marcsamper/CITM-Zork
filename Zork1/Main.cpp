@@ -8,14 +8,24 @@
 
 int main(){
 
-	printf("Welcome to the CIMT's Zork, an adventure of a boy that has to find where is the thug boy who has stolen him an important homework\n");
-	printf("You will have to move you character by writting NORTH EAST SOUTH WEST or 'n' 'e' 's' 'w'\nTo quit the game press 'q'.\nLETS START!");
-	Player player;
-	Exit exit[15];
-	World();
-	Player();
+	
 
-	getchar();
+	bool start = true;
+	World *world = new World;
+	world->CreateWorld();
+	printf("Welcome to the CIMT's Zork, an adventure of a boy that has to find where is the thug boy who has stolen him an important homework\n");
+	printf("%s\n%s\nWhat do you want to do?", world->player->position->name, world->player->position->description);
+	while (start == true){
+		
+		start=world->Inpunts();
+	}
+
+
+	
+	
+
+	
+	
 	return 0;
 
 		}

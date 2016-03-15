@@ -1,7 +1,7 @@
 #ifndef _PLAYER_H
 #define _PLAYER_H
 #include "Room.h"
-#include "World.h"
+class World;
 
 class Player{
 public:
@@ -9,7 +9,8 @@ public:
 	Room *position;
 
 public:
-	
+	bool enter=true;
+	void MovePosition(World *movement, dir direction);
 	Player();
 	~Player();
 	

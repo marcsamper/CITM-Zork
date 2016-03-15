@@ -7,12 +7,12 @@
 
 class Room{
 public:
-	char name[20];
-	char description[250];
+	char name[30];
+	char description[500];
 
 public:
-	Room();
-	~Room();
+	/*Room();
+	~Room();*/
 
 
 };

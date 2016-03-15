@@ -8,9 +8,8 @@ enum dir{
 	NORTH,
 	SOUTH,
 	EAST,
-	WEST,
-	UP,
-	DOWN
+	WEST
+	
 };
 class Room;
 
@@ -24,9 +23,9 @@ public:
 	bool open = true;
 	dir direction;
 
-public:
+/*public:
 	Exit();
-	~Exit();
+	~Exit();*/
 
 };
 #endif;
