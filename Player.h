@@ -10,7 +10,7 @@ public:
 	Room *position;
 
 public:
-	bool enter=true;
+	bool enter = true;
 	void MovePosition(const World *movement, dir direction);
 	void Look(const World*look, dir watch);
 	void LookRoom();
@@ -18,6 +18,6 @@ public:
 	void CloseDoor(const World* open, dir door);
 	Player();//builder
 	~Player();//destroyer
-	
+
 };
 #endif

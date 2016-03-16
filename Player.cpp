@@ -53,7 +53,7 @@ void Player::Look(const World*look, dir watch){
 }
 
 //Method to look and recive the information of the room you are actually in:
- void Player::LookRoom(){
+void Player::LookRoom(){
 	printf("%s", position->description);
 }
 
@@ -82,7 +82,7 @@ void Player::CloseDoor(const World*open, dir door){
 				if (open->exit[i].direction == door){//Checking if the direction iss the same of the exit direction
 					if (open->exit[i].open == true){//Checking if the door to enter the room is opened
 						printf("You closed the door\n");
-						open->exit[i].open =false;
+						open->exit[i].open = false;
 						enter = false;
 						break;
 					}
@@ -91,4 +91,3 @@ void Player::CloseDoor(const World*open, dir door){
 		}
 	}
 }
-
