@@ -13,7 +13,7 @@ And finally if you want to exit the game press 'q' or write quit.
 
 GITHUB REPOSITORY:https://github.com/marcsamper/CITM-Zork       
     
-HOW TO RUN IT:
+HOW TO RUN IT:     
 Open the .exe      
 If you want to download the code, press download ZIP, when you have it first of all, open the folder CITM Zork and     
 execute the CITMZork.vcxproj a window will apear if you have Visual Studio 2015, in this window press Cancel, then     
