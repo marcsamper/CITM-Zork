@@ -1,20 +1,12 @@
 WELKOME TO THE CITM'S ZORK:
 Place: The game will take place in the CITM Buildings with three floors with different
-
 rooms in each one.
+HOW TO PLAY:
+TO MOVE THROUGH THE ROOMS USE THE COMAND GO, go, Go, 'g' PLUS THE DIRECTION YOU WANT (NORTH, north,North, 'n', SOUTH, south, South,'s', EAST, east, East,'e', WEST,west, West, 'w').
+YOU CAN ALSO MOVE BY ONLY WRITING (NORTH, north,North, 'n', SOUTH, south, South,'s', EAST, east, East,'e', WEST,west, West, 'w').
+TOO LOOK ALL THE POSIBLE EXITS USE THE COMMAND LOOK, look, Look, 'l' PLUS THE  DIRECTION YOU WANT.
+USE THE COMPAND OPEN/CLOSE, open/close, Open/close, 'o'/'c' TO OPEN/CLOSE DOORS. IF YOU WANT TO EXIT WRITE QUIT, 'q'.
 
-History: The protagonist is a boy called Sam and he is 18 years old. He is studying
-
-videogames and he has to deliver a very important work that has been a lot of hours
-
-working in it, but one boy of his class steals him, this boy is Pep, is a bad student and
-
-he is repeating the curse. Sam is not a strong boy, he is short and a little bit shy, but he
-
-is so clever and this will help him. He has to think what to do to get his work back to
-
-deliver it. To achieve this he will have to explore all the rooms and floors of the
-
-building finding clues and puzzles to find out the way to take the work from Pep.
+GITHUB REPOSITORY:https://github.com/marcsamper/CITM-Zork
 
 CREATED BY MARC SAMPER.
