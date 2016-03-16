@@ -1,5 +1,3 @@
-
-
 #ifndef _WORLD_H
 #define _WORLD_H
 #include "Room.h"
@@ -13,11 +11,10 @@ public:
 	Exit *exit = nullptr;
 
 public:
-	World();
-	~World();
-	void CreateWorld();
+	void CreateWorld()const;
 	bool Inpunts();
-	
+	World();//builder
+	~World();//destroyer
 
 
 

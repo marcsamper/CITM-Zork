@@ -18,9 +18,8 @@ World::~World(){
 	delete[] exit;
 	delete[] player;
 }
-void World::CreateWorld(){
+void World::CreateWorld()const{
 	
-
 	//NAMES AND DESCRIPTIONS FOR EVERY ROOM 
 
 	strcpy_s(room[0].name, "Entrance");
@@ -28,28 +27,29 @@ void World::CreateWorld(){
 	strcpy_s(room[1].name, "Secretary's Room");
 	strcpy_s(room[1].description,"You are now in the Secretary's Room. Seems nobody is here.There are some papers about the students on the table.Go West to exit the room");
 	strcpy_s(room[2].name, "Photography set");
-	strcpy_s(room[2].description,"You are now in the Photography set, a big room equiped with a lot of technology.In the center of the set you can see a camera on the floor next to a red backpack.Go East to exit the room");
+	strcpy_s(room[2].description,"You are now in the Photography set, a big room equiped with a lot of technology.In the center of the set you can see a camera on the floor next to a red\nbackpack.Go East to exit the room");
 	strcpy_s(room[3].name, "Floor 1");
-	strcpy_s(room[3].description,"You are now in the Floor 1, you can see some students talking next to a drinking fountain.");
+	strcpy_s(room[3].description,"You are now in the Floor 1, you can see some students talking next to a drinkingfountain.");
 	strcpy_s(room[4].name, "Toilets");
-	strcpy_s(room[4].description,"You are now in the toilets, the floor is a little wet but the smell is not that bad.\nThere are three toilets and a big mirror.In front of the mirror there's a boy crying.Go South to exit the room");
+	strcpy_s(room[4].description,"You are now in the toilets, the floor is a little wet but the smell is not that bad.There are three toilets and a big mirror.In front of the mirror there's a boy crying.Go South to exit the room");
 	strcpy_s(room[5].name, "Art Room");
-	strcpy_s(room[5].description,"You are now in the Art Room, you see a lot of tables and a huge amount of pencils.\n You also see a boy, his name is Pep, he is the bully who has stolen your homework.Go North to exit the room East");
+	strcpy_s(room[5].description,"You are now in the Art Room, you see a lot of tables and a huge amount of pencils.You also see a boy, his name is Pep, he is the bully who has stolen your homework.Go North to exit the room East");
 	strcpy_s(room[6].name, "Neg Floor");
 	strcpy_s(room[6].description,"You are in the floor -1. It's a little cold.");
 	strcpy_s(room[7].name, "Vending Machine");
 	strcpy_s(room[7].description,"You are in front of the vending machine, there are a los of snacks, but you don't have money.Go East to exit the room");
 	strcpy_s(room[8].name, "Dining Room");
-	strcpy_s(room[8].description,"You are in the dining room. You can see 3 big tables and two microwaves.\nThere are few people on the last table having lunch.Go West to exit the room");
+	strcpy_s(room[8].description,"You are in the dining room. You can see 3 big tables and two microwaves.There are few people on the last table having lunch.Go West to exit the room");
 	strcpy_s(room[9].name, "Programming Room");
-	strcpy_s(room[9].description,"You have entered teh Programming Room.You are alone with the teacher. He looks very angry.\nBut if you have your homework you will not have any problem...Go North to exit the room");
-	//PLAYER FIRST POSITION:
+	strcpy_s(room[9].description,"You have entered teh Programming Room.You are alone with the teacher. He looks very angry.But if you have your homework you will not have any problem...Go North to exit the room");
+	//SETTING PLAYER FIRST POSITION:
 	
 	player->position= &room[0];
+	//SETTING THE PLAYER NAME:
 	strcpy_s(player->name, "Jimmy");
 
 
-	//SETTING UP EXITS: NAME, DESCRIPTION, ORIGIN, DESTINATION AND DIRECTION
+	//SETTING UP EXITS: NAME, DESCRIPTION, ORIGIN, DESTINATION, DIRECTION AND OPEN:
 	//Entrance exit to Secretary's Room:
 	strcpy_s(exit[0].name, "E-S");
 	strcpy_s(exit[0].description,"You see the Secretary's Room, but nobody is inside");
@@ -181,15 +181,16 @@ void World::CreateWorld(){
 //Chequing the commands the playar writes:
 bool World::Inpunts(){
 	fflush(stdin);
-	char command[20];
-	char first[15];
-	char second[15] = "void";
+	char command[20];//the complet command
+	char first[15];//here will go the first command
+	char second[15] = "void";//here will go the second command, initialized with 'void' cause if the player only puts one word
 	char *phrase;
 	gets_s(command);
 	if (strcmp(command, "\0") == 0){
 		return true;
 	}
 
+	//Copying the first word to first
 	strcpy_s(first, strtok_s(command, " ", &phrase));
 	if (strcmp(phrase, "") != 0){
 		strcpy_s(second, strtok_s(NULL, " ", &phrase));
@@ -197,11 +198,11 @@ bool World::Inpunts(){
 	//Comand Quit to exit the game
 	if (strcmp(first, "Quit") == 0 || strcmp(first, "quit") == 0 || strcmp(first, "q") == 0 || strcmp(first, "QUIT") == 0){
 		printf("You exit the game");
-		return false;
+		return false;//here we stop the loop and stops execution the function Inputs on main.cpp
 	}
 	//Command Go:
 	else if (strcmp(first, "Go") == 0 || strcmp(first, "go") == 0 || strcmp(first, "GO") == 0 || strcmp(first, "g") == 0){
-		if (strcmp(second, "void") == 0){
+		if (strcmp(second, "void") == 0){//if the player only writes Go, the programm asks the direction and puts it in second
 			printf("Where?\n");
 			gets_s(second);
 		}
@@ -245,7 +246,7 @@ bool World::Inpunts(){
 	}
 	//Command Look:
 	else if (strcmp(first, "Look") == 0 || strcmp(first, "look") == 0 || strcmp(first, "LOOK") == 0 || strcmp(first, "l") == 0){
-		if (strcmp(second, "void") == 0){
+		if (strcmp(second, "void") == 0){//if the player only writes Look, the programm asks the direction and puts it in second
 			printf("Where?\n");
 			gets_s(second);
 		}
@@ -281,7 +282,7 @@ bool World::Inpunts(){
 	//OPEN:
 	else if (strcmp(first, "Open") == 0 || strcmp(first, "open") == 0 || strcmp(first, "OPEN") == 0 || strcmp(first, "o") == 0){
 		if (strcmp(second, "void") == 0){
-			printf("Where?\n");
+			printf("Where?\n");//if the player only writes Open, the programm asks the direction and puts it in second
 			gets_s(second);
 		}
 		//East:
@@ -305,7 +306,7 @@ bool World::Inpunts(){
 		//CLOSE:
 	else if (strcmp(first, "Close") == 0 || strcmp(first, "close") == 0 || strcmp(first, "CLOSE") == 0 || strcmp(first, "c") == 0){
 		if (strcmp(second, "void") == 0){
-			printf("Where?\n");
+			printf("Where?\n");//if the player only writes Close, the programm asks the direction and puts it in second
 			gets_s(second);
 		}
 		//East:
@@ -328,7 +329,7 @@ bool World::Inpunts(){
 		}
 	}
 				
-	player->enter = true;
+	player->enter = true;//complets the loop to continue recieving commands
 	return true;
 }
 

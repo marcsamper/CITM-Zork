@@ -1,5 +1,3 @@
-
-
 #ifndef _EXIT_H
 #define _EXIT_H
 #include "Room.h"
@@ -24,8 +22,8 @@ public:
 	dir direction;
 
 public:
-	Exit();
-	~Exit();
+	Exit();//builder
+	~Exit();//destroyer
 
 };
 #endif;
