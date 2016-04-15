@@ -2,15 +2,22 @@
 #define STRING_H
 
 
-class String{
+class String: public Entity{
 	private:
 		char* buffer = nullptr;
+		char* buffer2 = nullptr;
 		unsigned int reserved_memory;
+		unsigned int reserved_memory2;
+	
+		
 	public://constructors and destructors
-		String(const char* str);
+		String();
+		String(const char* str, const char* str2, unsigned int i);
 		String(const String& copy);
 		~String();
 	public://methods
+		bool compare(const char*str, const char*str2);
+		World* asign=nullptr;
 		unsigned int length()const;
 		const char* c_str() const;
 		bool empty() const;

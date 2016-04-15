@@ -4,12 +4,13 @@
 #include "Exits.h"
 class World;
 
-class Player{
+class Player: public Entity{
 public:
-	char name[30];
+	//char name[30];
 	Room *position;
 
 public:
+
 	bool enter = true;
 	void MovePosition(const World *movement, dir direction);
 	void Look(const World*look, dir watch);

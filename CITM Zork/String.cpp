@@ -2,12 +2,19 @@
 #include <stdlib.h>
 #include <string.h>
 #include "String.h"
+#include "Entity.h"
+#include "World.h"
 
-String::String(const char* str){
+String::String(){}
+String::String(const char* str, const char* str2, unsigned int i){
+	
 	
 	reserved_memory = strlen(str) + 1;
-	buffer = new char[reserved_memory];//+1 per guardar el 0 del final de l'string
 	strcpy_s(buffer, reserved_memory, str);//sempre que strcpy rep punters hem d'especificar el tamany máxim que pot copiar
+	asign->room[i].name = buffer;
+	reserved_memory2 = strlen(str2) + 1;
+	buffer = new char[reserved_memory2];//+1 per guardar el 0 del final de l'string
+	strcpy_s(buffer, reserved_memory2, str2);
 	printf("La clase string se esta construyendo\n");
 
 }
@@ -82,7 +89,7 @@ void String::operator+=(const String& str){
 }
 
 String String:: operator+(const String& str) const{
-	String extra(buffer);
+	String extra(str);
 	int count = str.length() + reserved_memory;
 	extra.buffer = new char[count];
 	strcpy_s(extra.buffer, count, buffer);
@@ -93,3 +100,9 @@ String String:: operator+(const String& str) const{
 void String::cleanup(){
 	strcpy_s(buffer, reserved_memory, "");
 }
+
+bool String::compare(const char* str, const char* str2){
+
+	return(strcmp(str, str2) == 0);
+}
+
