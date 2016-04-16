@@ -1,6 +1,8 @@
 #ifndef _EXIT_H
 #define _EXIT_H
 #include "Room.h"
+#include "String.h"
+#include "Entity.h"
 
 enum dir{
 	NORTH,
@@ -12,16 +14,18 @@ enum dir{
 class Room;
 
 
-class Exit{
+class Exit:public Entity{
 public:
-	char name[20];
-	char description[250];
+	
 	Room *origin = nullptr;
 	Room *destination = nullptr;
-	bool open = true;
+	Entity* point=nullptr;
+
 	dir direction;
+	bool open;
 
 public:
+	Exit(const const char* name, const const char* description, bool open, Room* origins, Room* destinations, dir direction);
 	Exit();//builder
 	~Exit();//destroyer
 

@@ -3,194 +3,78 @@
 #include <string.h>
 #include "World.h"
 #include "String.h"
+#include "Entity.h"
+#include "Vector.h"
+#include "Item.h"
 
 
 
 World::World()
 {
-	room = new Entity[11];
-	exit = new Exit[18];
+	
+	Room* entrance;
 	player = new Player[1];
-	inventory = new Entity[5];
-	pointer = new String[];
+	
+	
 }
 
 World::~World(){
 
-	delete[] room;
-	delete[] exit;
+	
+
 	delete[] player;
-	delete[]pointer;
-	delete[]inventory;
+	
 	
 }
-void World::CreateWorld()const{
+void World::CreateWorld(){
+	Room* entrance;
 
 	//NAMES AND DESCRIPTIONS FOR EVERY ROOM 
-	String room0("Entrance", "You are now in the entrance of the CITM.", 0);//(name, description and wich room)
-	String room1("Secretary's Room", "You are now in the Secretary's Room. Seems nobody is here.There are some papers about the students on the table.Go West to exit the room", 1);
-	String room2("Photography set", "You are now in the Photography set, a big room equiped with a lot of technology.In the center of the set you can see a camera on the floor next to a red\nbackpack.Go East to exit the room", 2);
-	String room3("Floor 1", "You are now in the Floor 1, you can see some students talking next to a drinkingfountain.", 3);
-	String room4("Toilets", "You are now in the toilets, the floor is a little wet but the smell is not that bad.There are three toilets and a big mirror.In front of the mirror there's a boy crying.Go South to exit the room", 4);
-	String room5("Art Room", "You are now in the Art Room, you see a lot of tables and a huge amount of pencils.You also see a boy, his name is Pep, he is the bully who has stolen your homework.Go North to exit the room East", 5);
-	String room6("Neg Floor", "You are in the floor -1. It's a little cold.", 6);
-	String room7("Vending Machine", "You are in front of the vending machine, there are a los of snacks, but you don't have money.Go East to exit the room", 7);
-	String room8("Dining Room", "You are in the dining room. You can see 3 big tables and two microwaves.There are few people on the last table having lunch.Go West to exit the room", 8);
-	String room6("Programming Room", "You have entered teh Programming Room.You are alone with the teacher. He looks very angry.But if you have your homework you will not have any problem...Go North to exit the room", 9);
-	//strcpy_s(room[0].name, "Entrance");
-	//strcpy_s(room[0].description, "You are now in the entrance of the CITM.");
-	//strcpy_s(room[1].name, "Secretary's Room");
-	//strcpy_s(room[1].description, "You are now in the Secretary's Room. Seems nobody is here.There are some papers about the students on the table.Go West to exit the room");
-	//strcpy_s(room[2].name, "Photography set");
-	//strcpy_s(room[2].description, "You are now in the Photography set, a big room equiped with a lot of technology.In the center of the set you can see a camera on the floor next to a red\nbackpack.Go East to exit the room");
-	//strcpy_s(room[3].name, "Floor 1");
-	//strcpy_s(room[3].description, "You are now in the Floor 1, you can see some students talking next to a drinkingfountain.");
-	//strcpy_s(room[4].name, "Toilets");
-	//strcpy_s(room[4].description, "You are now in the toilets, the floor is a little wet but the smell is not that bad.There are three toilets and a big mirror.In front of the mirror there's a boy crying.Go South to exit the room");
-	//strcpy_s(room[5].name, "Art Room");
-	//strcpy_s(room[5].description, "You are now in the Art Room, you see a lot of tables and a huge amount of pencils.You also see a boy, his name is Pep, he is the bully who has stolen your homework.Go North to exit the room East");
-	//strcpy_s(room[6].name, "Neg Floor");
-	//strcpy_s(room[6].description, "You are in the floor -1. It's a little cold.");
-	//strcpy_s(room[7].name, "Vending Machine");
-	//strcpy_s(room[7].description, "You are in front of the vending machine, there are a los of snacks, but you don't have money.Go East to exit the room");
-	//strcpy_s(room[8].name, "Dining Room");
-	//strcpy_s(room[8].description, "You are in the dining room. You can see 3 big tables and two microwaves.There are few people on the last table having lunch.Go West to exit the room");
-	strcpy_s(room[9].name, "Programming Room");
-	strcpy_s(room[9].description, "You have entered teh Programming Room.You are alone with the teacher. He looks very angry.But if you have your homework you will not have any problem...Go North to exit the room");
-	//SETTING PLAYER FIRST POSITION:
+	roomer.push_back((new Room("Entrance", "You are now in the entrance of the CITM.")));//room 0
+	roomer.push_back((new Room("Secretary's Room", "You are now in the Secretary's Room. Seems nobody is here.There are some papers about the students on the table.Go West to exit the room")));//room 1
+	roomer.push_back((new Room("Photography set", "You are now in the Photography set, a big room equiped with a lot of technology.In the center of the set you can see a camera on the floor next to a red\nbackpack.Go East to exit the room")));//room 2
+	roomer.push_back((new Room("Floor 1", "You are now in the Floor 1, you can see some students talking next to a drinkingfountain.")));//room 3
+	roomer.push_back((new Room("Toilets", "You are now in the toilets, the floor is a little wet but the smell is not that bad.There are three toilets and a big mirror.In front of the mirror there's a boy crying.Go South to exit the room")));//room 4
+	roomer.push_back((new Room("Art Room", "You are now in the Art Room, you see a lot of tables and a huge amount of pencils.You also see a boy, his name is Pep, he is the bully who has stolen your homework.Go North to exit the room East")));//room 5
+	roomer.push_back((new Room("Neg Floor", "You are in the floor -1. It's a little cold.")));//room 6
+	roomer.push_back((new Room("Vending Machine", "You are in front of the vending machine, there are a los of snacks, but you don't have money.Go East to exit the room")));//room 7
+	roomer.push_back((new Room("Dining Room", "You are in the dining room. You can see 3 big tables and two microwaves.There are few people on the last table having lunch.Go West to exit the room")));//room 8
+	roomer.push_back((new Room("Programming Room", "You have entered teh Programming Room.You are alone with the teacher. He looks very angry.But if you have your homework you will not have any problem...Go North to exit the room")));//room 9
+	
+	//SETTING THE PLAYER NAME AND POSITION:
 
-	player->position = &room[0];
-	//SETTING THE PLAYER NAME:
-	strcpy_s(player->name, "Jimmy");
-
-
+	player->position = roomer[0];
+	
 	//SETTING UP EXITS: NAME, DESCRIPTION, ORIGIN, DESTINATION, DIRECTION AND OPEN:
-	//Entrance exit to Secretary's Room:
-	strcpy_s(exit[0].name, "E-S");
-	strcpy_s(exit[0].description, "You see the Secretary's Room, but nobody is inside");
-	exit[0].origin = &room[0];
-	exit[0].destination = &room[1];
-	exit[0].open = true;
-	exit[0].direction = EAST;
-	//Secretary's Room exit to Entrance:
-	strcpy_s(exit[1].name, "S-E");
-	strcpy_s(exit[1].description, "You see the entrance, there's a lot of silence");
-	exit[1].origin = &room[1];
-	exit[1].destination = &room[0];
-	exit[1].open = true;
-	exit[1].direction = WEST;
-	//Entrance exit to Photography set:
-	strcpy_s(exit[2].name, "E-P");
-	strcpy_s(exit[2].description, "You see the photograpy set, but seems the door is closed");
-	exit[2].origin = &room[0];
-	exit[2].destination = &room[2];
-	exit[2].open = false;
-	exit[2].direction = WEST;
-	//Photography set exit to Entrance:
-	strcpy_s(exit[3].name, "P-E");
-	strcpy_s(exit[3].description, "You see the entrance, there's a lot of silence");
-	exit[3].origin = &room[2];
-	exit[3].destination = &room[0];
-	exit[3].open = true;
-	exit[3].direction = EAST;
-	//Entrance exit to floor 1 by upstairs:
-	strcpy_s(exit[4].name, "E-F");
-	strcpy_s(exit[4].description, "You see the upstairs that go to the floor 1");
-	exit[4].origin = &room[0];
-	exit[4].destination = &room[3];
-	exit[4].open = true;
-	exit[4].direction = NORTH;
-	//Floor 1 exit to Entrance by Downstairs:
-	strcpy_s(exit[5].name, "F-E");
-	strcpy_s(exit[5].description, "You see the downstairs that go to the entrance");
-	exit[5].origin = &room[3];
-	exit[5].destination = &room[0];
-	exit[5].open = true;
-	exit[5].direction = SOUTH;
-	//Floor 1 exit to Toilets:
-	strcpy_s(exit[6].name, "F-T");
-	strcpy_s(exit[6].description, "You see the toilets, there's a tears trail");
-	exit[6].origin = &room[3];
-	exit[6].destination = &room[4];
-	exit[6].open = true;
-	exit[6].direction = NORTH;
-	//Toilet exit to the Floor 1:
-	strcpy_s(exit[7].name, "T-F");
-	strcpy_s(exit[7].description, "You see the whole Floor 1, the sun iluminates all the floor");
-	exit[7].origin = &room[4];
-	exit[7].destination = &room[3];
-	exit[7].open = true;
-	exit[7].direction = SOUTH;
-	//Floor 1 exit to the art Room:
-	strcpy_s(exit[8].name, "F-A");
-	strcpy_s(exit[8].description, "You see the Art Room, there are some pencils on the entrance");
-	exit[8].origin = &room[3];
-	exit[8].destination = &room[5];
-	exit[8].open = true;
-	exit[8].direction = WEST;
-	//Art Room exit to the Floor 1:
-	strcpy_s(exit[9].name, "A-F");
-	strcpy_s(exit[9].description, "You see the whole Floor 1, the sun iluminates all the floor 1");
-	exit[9].origin = &room[5];
-	exit[9].destination = &room[3];
-	exit[9].open = true;
-	exit[9].direction = EAST;
-	//Entrance exit to floor -1 by downstairs:
-	strcpy_s(exit[10].name, "E-N");
-	strcpy_s(exit[10].description, "You see the downstairs that go to the floor -1");
-	exit[10].origin = &room[0];
-	exit[10].destination = &room[6];
-	exit[10].open = true;
-	exit[10].direction = SOUTH;
-	//Floor -1 exit to the entrance by Upstairs:
-	strcpy_s(exit[11].name, "N-E");
-	strcpy_s(exit[11].description, "You see the upstairs that go to the Entrance");
-	exit[11].origin = &room[6];
-	exit[11].destination = &room[0];
-	exit[11].open = true;
-	exit[11].direction = NORTH;
-	//Floor-1 exit to the Vending Machine:			
-	strcpy_s(exit[12].name, "N-V");
-	strcpy_s(exit[12].description, "You see the Vending Machine, it has a lot of snacks");
-	exit[12].origin = &room[6];
-	exit[12].destination = &room[7];
-	exit[12].open = true;
-	exit[12].direction = WEST;
-	//Vending Machine exit to the Floor -1:
-	strcpy_s(exit[13].name, "V-N");
-	strcpy_s(exit[13].description, "You can see the whole floor -1, it's a little bit cold");
-	exit[13].origin = &room[7];
-	exit[13].destination = &room[6];
-	exit[13].open = true;
-	exit[13].direction = EAST;
-	//Floor -1 exit to the dining rooom:
-	strcpy_s(exit[14].name, "N-D");
-	strcpy_s(exit[14].description, "You see the entrance of the dining room, and you hear some noises inside");
-	exit[14].origin = &room[6];
-	exit[14].destination = &room[8];
-	exit[14].open = true;
-	exit[14].direction = EAST;
-	//Dining Room exit to the floor -1:
-	strcpy_s(exit[15].name, "D-N");
-	strcpy_s(exit[15].description, "You can see the whole floor -1, it's a little bit cold");
-	exit[15].origin = &room[8];
-	exit[15].destination = &room[6];
-	exit[15].open = true;
-	exit[15].direction = WEST;
-	//Floor -1 exit to the programming room:
-	strcpy_s(exit[16].name, "N-P");
-	strcpy_s(exit[16].description, "You see the programming room.In this class you have to deliver your homework. It's a bad idea if you enter without the homework.");
-	exit[16].origin = &room[6];
-	exit[16].destination = &room[9];
-	exit[16].open = true;
-	exit[16].direction = SOUTH;
-	//Programming room exit to the floor -1:
-	strcpy_s(exit[17].name, "P-N");
-	strcpy_s(exit[17].description, "You can see the whole floor -1, it's a little bit cold");
-	exit[17].origin = &room[9];
-	exit[17].destination = &room[6];
-	exit[17].open = true;
-	exit[17].direction = NORTH;
+	
+	exit.push_back((new Exit("E-S", "You see the Secretary's Room, but nobody is inside", true, roomer[0], roomer[1], EAST)));//Entrance exit to Secretary's Room
+	exit.push_back((new Exit("S-E", "You see the entrance, there's a lot of silence", true, roomer[1], roomer[0], WEST)));//Secretary's Room exit to Entrance
+	exit.push_back((new Exit("E-S", "You see the photograpy set, but seems the door is closed",false, roomer[0], roomer[2], WEST)));//Entrance exit to Photography set
+	exit.push_back((new Exit("P-E", "You see the entrance, there's a lot of silence", true, roomer[2], roomer[0], EAST)));//Photography set exit to Entrance
+	exit.push_back((new Exit("E-F", "You see the upstairs that go to the floor 1", true, roomer[0], roomer[3], NORTH)));//Entrance exit to floor 1 by upstairs
+	exit.push_back((new Exit("F-E", "You see the downstairs that go to the entrance", true, roomer[3], roomer[0], SOUTH)));//Floor 1 exit to Entrance by Downstairs
+	exit.push_back((new Exit("F-T", "You see the toilets, there's a tears trail", true, roomer[3], roomer[4], NORTH)));//Floor 1 exit to Toilets
+	exit.push_back((new Exit("T-F", "You see the whole Floor 1, the sun iluminates all the floor", true, roomer[4], roomer[3], WEST)));//Toilet exit to the Floor 1
+	exit.push_back((new Exit("F-A", "You see the Art Room, there are some pencils on the entrance", true, roomer[3], roomer[5], WEST)));//Floor 1 exit to the art Room
+	exit.push_back((new Exit("A-F", "You see the whole Floor 1, the sun iluminates all the floor 1", true, roomer[5], roomer[3], EAST)));//Art Room exit to the Floor 1
+	exit.push_back((new Exit("E-N", "You see the downstairs that go to the floor -1", true, roomer[0], roomer[6], SOUTH)));//Entrance exit to floor -1 by downstairs
+	exit.push_back((new Exit("N-E", "You see the upstairs that go to the Entrance", true, roomer[6], roomer[0], NORTH)));//Floor -1 exit to the entrance by Upstairs
+	exit.push_back((new Exit("N-V", "You see the Vending Machine, it has a lot of snacks", true, roomer[6], roomer[7], WEST)));//Floor-1 exit to the Vending Machine:
+	exit.push_back((new Exit("V-N", "You can see the whole floor -1, it's a little bit cold", true, roomer[7], roomer[6], EAST)));//Vending Machine exit to the Floor -1
+	exit.push_back((new Exit("N-D", "You see the entrance of the dining room, and you hear some noises inside", true, roomer[6], roomer[8], EAST)));//Floor -1 exit to the dining rooom
+	exit.push_back((new Exit("D-N", "You can see the whole floor -1, it's a little bit cold", true, roomer[8], roomer[6], WEST)));	//Dining Room exit to the floor -1
+	exit.push_back((new Exit("N-P", "You see the programming room.In this class you have to deliver your homework. It's a bad idea if you enter without the homework.", true, roomer[6], roomer[9], SOUTH)));//Floor -1 exit to the programming room
+	exit.push_back((new Exit("P-N", "You can see the whole floor -1, it's a little bit cold", true, roomer[9], roomer[6], NORTH)));	//Programming room exit to the floor - 1
+	
+	//ADD EVERY ITEM IN EACH ROOM:
+	roomer[1]->item.push_back((new Item("Folder", "A folder with all the information of some students", true)));
+	roomer[2]->item.push_back((new Item("Camera", "A new shinny camera with some stickers", true)));
+	roomer[7]->item.push_back((new Item("Candy", "Seems somebody loves this candy", true)));
+	roomer[8]->item.push_back((new Item("Kleenex", "They have a strawberry smell, probably someone needs them", true)));
+
+
+	
+
 
 }
 //Chequing the commands the playar writes:
@@ -201,13 +85,13 @@ bool World::Inpunts(){
 	char second[15] = "void";//here will go the second command, initialized with 'void' cause if the player only puts one word
 	char *phrase;
 	gets_s(command);
-	if (strcmp(command, "\0") == 0){
+	if (pointer->compare(command, "\0") == 0){
 		return true;
 	}
 
 	//Copying the first word to first
 	strcpy_s(first, strtok_s(command, " ", &phrase));
-	if (strcmp(phrase, "") != 0){
+	if (pointer->compare(phrase, "") != 0){
 		strcpy_s(second, strtok_s(NULL, " ", &phrase));
 	}
 	//Comand Quit to exit the game
@@ -343,18 +227,44 @@ bool World::Inpunts(){
 
 		}
 	}
-	//inventary put
-	else if (pointer->compare(first, "put") == 0 || pointer->compare(first, "Put") == 0 || pointer->compare(first, "PUT") == 0 || pointer->compare(first, "p") == 0){
+	//COMMAND TAKE ITEM
+	else if (pointer->compare(first, "take") == 0 || pointer->compare(first, "Take") == 0 || pointer->compare(first, "TAKE") == 0 || pointer->compare(first, "t") == 0){
 		if (pointer->compare(second, "void") == 0){
 			printf("What?\n");//if the player only writes Close, the programm asks the direction and puts it in second
 			gets_s(second);
 		}
-		if (second != "null"){
-			
+		if (pointer->compare(second, "Folder") == 0 || pointer->compare(second, "folder") == 0 || pointer->compare(second, "FOLDER") == 0 || pointer->compare(second, "f") == 0){
+			player->TakeItem(this, "Folder");
 		}
+		if (pointer->compare(second, "Candy") == 0 || pointer->compare(second, "Candy") == 0 || pointer->compare(second, "CANDY") == 0 || pointer->compare(second, "c") == 0){
+			player->TakeItem(this, "Candy");
+		}
+		if (pointer->compare(second, "Kleenex") == 0 || pointer->compare(second, "kleenex") == 0 || pointer->compare(second, "KLEENEX") == 0 || pointer->compare(second, "k") == 0){
+			player->TakeItem(this, "Kleenex");
+		}
+		if (pointer->compare(second, "Camera") == 0 || pointer->compare(second, "camera") == 0 || pointer->compare(second, "CAMERA") == 0 || pointer->compare(second, "C") == 0){
+			player->TakeItem(this, "Kleenex");
+		}
+		//COMMAND DROP ITEM
+		/*else if (pointer->compare(first, "drop") == 0 || pointer->compare(first, "Drop") == 0 || pointer->compare(first, "DROP") == 0 || pointer->compare(first, "d") == 0){
+			if (pointer->compare(second, "void") == 0){
+			printf("What?\n");//if the player only writes Close, the programm asks the direction and puts it in second
+			gets_s(second);
+			}
+			if (pointer->compare(second, "Folder") == 0 || pointer->compare(second, "folder") == 0 || pointer->compare(second, "FOLDER") == 0 || pointer->compare(second, "f") == 0){
+			player->DropeItem(this, "Folder");
+			}
+			if (pointer->compare(second, "Candy") == 0 || pointer->compare(second, "Candy") == 0 || pointer->compare(second, "CANDY") == 0 || pointer->compare(second, "c") == 0){
+			player->DropeItem(this, "Candy");
+			}
+			if (pointer->compare(second, "Kleenex") == 0 || pointer->compare(second, "kleenex") == 0 || pointer->compare(second, "KLEENEX") == 0 || pointer->compare(second, "k") == 0){
+			player->DropeItem(this, "Kleenex");
+			}
+			if (pointer->compare(second, "Camera") == 0 || pointer->compare(second, "camera") == 0 || pointer->compare(second, "CAMERA") == 0 || pointer->compare(second, "C") == 0){
+			player->DropeItem(this, "Kleenex");
+			}*/
 
-
-
-	player->enter = true;//complets the loop to continue recieving commands
-	return true;
+		player->enter = true;//complets the loop to continue recieving commands
+		return true;
+	}
 }

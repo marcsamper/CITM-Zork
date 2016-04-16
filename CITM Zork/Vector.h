@@ -2,6 +2,7 @@
 #define VECTOR_H
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 template<class TYPE>
 class Vector{
@@ -13,6 +14,9 @@ private:
 
 public:
 
+	Vector(unsigned int size) :capacity(size){
+		buffer = new TYPE[size];
+	}
 	Vector(){
 		buffer = new TYPE[capacity];
 	}
@@ -98,7 +102,7 @@ public:
 		return(num_elements == 0);
 
 	}
-	unsigned int capacity()const{
+	unsigned int capacitys()const{
 		return capacity;
 	}
 
@@ -119,14 +123,30 @@ public:
 		}
 	}
 
-	void pop_back(){
-		if (num_elements > 0){
-			num_elements--;
+	bool pop_back(TYPE& value){
+
+		if (value.num_elements > 0){
+			value.num_elements--;
+			return true;
 		}
+		return false;
 	}
-	//empty(),clean(),size(),capacity(),pop_back()elimina lultim element,shrink_to_fit(),
+	
+	TYPE operator[](unsigned int num)const{
 
+		assert( num < num_elements);//make sure... if not jump to error
+		return buffer[num];
 
+	}
+
+	TYPE& operator[](unsigned int num){//para poder escribir data[5]=3
+
+		assert( num < num_elements);//make sure... if not jump to error
+		return buffer[num];
+
+	}
+
+	//at
 
 
 

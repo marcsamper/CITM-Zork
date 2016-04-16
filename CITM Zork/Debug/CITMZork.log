@@ -1,22 +1,17 @@
-﻿Build started 09/04/2016 13:00:57.
-     1>Project "C:\Users\Marc Samper\Desktop\Music\CITM-Zork\CITM Zork\CITMZork.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Exit.cpp Main.cpp Player.cpp Room.cpp World.cpp
-         World.cpp
-         Room.cpp
-         Player.cpp
-         Main.cpp
-         Exit.cpp
-         Generating Code...
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Marc Samper\Desktop\Music\CITM-Zork\CITM Zork\Debug\CITMZork.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Marc Samper\Desktop\Music\CITM-Zork\CITM Zork\Debug\CITMZork.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Marc Samper\Desktop\Music\CITM-Zork\CITM Zork\Debug\CITMZork.lib" /MACHINE:X86 Debug\Exit.obj
+﻿Build started 16/04/2016 21:16:12.
+     1>Project "C:\Users\Marc Samper\Desktop\CITM-Zork-master\CITM Zork\CITMZork.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Marc Samper\Desktop\CITM-Zork-master\Debug\CITMZork.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Marc Samper\Desktop\CITM-Zork-master\Debug\CITMZork.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Marc Samper\Desktop\CITM-Zork-master\Debug\CITMZork.lib" /MACHINE:X86 Debug\Entity.obj
+         Debug\Exit.obj
+         Debug\Item.obj
          Debug\Main.obj
          Debug\Player.obj
          Debug\Room.obj
+         Debug\String.obj
          Debug\World.obj
-         CITMZork.vcxproj -> C:\Users\Marc Samper\Desktop\Music\CITM-Zork\CITM Zork\Debug\CITMZork.exe
-     1>Done Building Project "C:\Users\Marc Samper\Desktop\Music\CITM-Zork\CITM Zork\CITMZork.vcxproj" (Build target(s)).
+         CITMZork.vcxproj -> C:\Users\Marc Samper\Desktop\CITM-Zork-master\Debug\CITMZork.exe
+     1>Done Building Project "C:\Users\Marc Samper\Desktop\CITM-Zork-master\CITM Zork\CITMZork.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.27
+Time Elapsed 00:00:00.12

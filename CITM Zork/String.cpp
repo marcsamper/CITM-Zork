@@ -5,19 +5,14 @@
 #include "Entity.h"
 #include "World.h"
 
-String::String(){}
-String::String(const char* str, const char* str2, unsigned int i){
-	
-	
+String::String(const char* str){
 	reserved_memory = strlen(str) + 1;
+	buffer = new char[reserved_memory];
 	strcpy_s(buffer, reserved_memory, str);//sempre que strcpy rep punters hem d'especificar el tamany máxim que pot copiar
-	asign->room[i].name = buffer;
-	reserved_memory2 = strlen(str2) + 1;
-	buffer = new char[reserved_memory2];//+1 per guardar el 0 del final de l'string
-	strcpy_s(buffer, reserved_memory2, str2);
-	printf("La clase string se esta construyendo\n");
 
+	
 }
+
 
 String::String(const String& copy){
 
@@ -27,7 +22,9 @@ String::String(const String& copy){
 	strcpy_s(buffer, reserved_memory, copy.buffer);
 
 }
-
+String::String(){
+	//buffer = new char[reserved_memory];
+}
 String::~String(){
 	printf("La clase string se esta destruyendo\n");
 	delete[] buffer;
@@ -105,4 +102,6 @@ bool String::compare(const char* str, const char* str2){
 
 	return(strcmp(str, str2) == 0);
 }
+
+
 

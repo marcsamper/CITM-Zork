@@ -3,6 +3,8 @@
 #include <string.h>
 #include "World.h"
 #include "Room.h"
+#include "Exits.h"
+#include "Item.h"
 
 
 
@@ -19,11 +21,11 @@ Player::~Player(){
 void Player::MovePosition(const World* movement, dir direction){
 	if (enter == true){
 		for (int i = 0; i < 18; i++){
-			if (movement->exit[i].origin == position){//Checking if the position of the player is the same of the exit origin
-				if (movement->exit[i].direction == direction){//Checking if the direction iss the same of the exit direction
-					if (movement->exit[i].open == true){//Checking if the door to enter the room is closed
-						position = movement->exit[i].destination;//Now the player position is the destination of the exit
-						printf("%s\n%s\n", movement->exit[i].destination->name, movement->exit[i].destination->description);
+			if (movement->exit[i]->origin== position){//Checking if the position of the player is the same of the exit origin
+				if (movement->exit[i]->direction == direction){//Checking if the direction iss the same of the exit direction
+					if (movement->exit[i]->open == true){//Checking if the door to enter the room is closed
+						position = movement->exit[i]->destination;//Now the player position is the destination of the exit
+						printf("%s\n%s\n", movement->exit[i]->destination->name, movement->exit[i]->destination->description);
 						enter = false;
 						break;
 					}
@@ -41,9 +43,9 @@ void Player::MovePosition(const World* movement, dir direction){
 void Player::Look(const World*look, dir watch){
 	if (enter == true){
 		for (int i = 0; i < 18; i++){
-			if (look->exit[i].origin == position){//Checking if the position of the player is the same of the exit origin
-				if (look->exit[i].direction == watch){//Checking if the direction iss the same of the exit direction
-					printf("%s\n", look->exit[i].description);
+			if (look->exit[i]->origin == position){//Checking if the position of the player is the same of the exit origin
+				if (look->exit[i]->direction == watch){//Checking if the direction iss the same of the exit direction
+					printf("%s\n", look->exit[i]->point->description);
 					enter = false;
 					break;
 				}
@@ -61,11 +63,11 @@ void Player::LookRoom(){
 void Player::OpenDoor(const World*open, dir door){
 	if (enter == true){
 		for (int i = 0; i < 18; i++){
-			if (open->exit[i].origin == position){//Checking if the position of the player is the same of the exit origin
-				if (open->exit[i].direction == door){//Checking if the direction iss the same of the exit direction
-					if (open->exit[i].open == false){//Checking if the door to enter the room is closed
+			if (open->exit[i]->origin == position){//Checking if the position of the player is the same of the exit origin
+				if (open->exit[i]->direction == door){//Checking if the direction iss the same of the exit direction
+					if (open->exit[i]->open == false){//Checking if the door to enter the room is closed
 						printf("The door is oppened\n");
-						open->exit[i].open = true;
+						open->exit[i]->open = true;
 						enter = false;
 						break;
 					}
@@ -78,11 +80,11 @@ void Player::OpenDoor(const World*open, dir door){
 void Player::CloseDoor(const World*open, dir door){
 	if (enter == true){
 		for (int i = 0; i < 18; i++){
-			if (open->exit[i].origin == position){//Checking if the position of the player is the same of the exit origin
-				if (open->exit[i].direction == door){//Checking if the direction iss the same of the exit direction
-					if (open->exit[i].open == true){//Checking if the door to enter the room is opened
+			if (open->exit[i]->origin == position){//Checking if the position of the player is the same of the exit origin
+				if (open->exit[i]->direction == door){//Checking if the direction iss the same of the exit direction
+					if (open->exit[i]->open == true){//Checking if the door to enter the room is opened
 						printf("You closed the door\n");
-						open->exit[i].open = false;
+						open->exit[i]->open = false;
 						enter = false;
 						break;
 					}
@@ -91,3 +93,37 @@ void Player::CloseDoor(const World*open, dir door){
 		}
 	}
 }
+void Player::TakeItem(const World* item, const char* name){
+	
+	for (int i = 0; i < 18; i++){
+		if (item->roomer[i]->item[i]->in==true){
+				for (int j = 0; j < 4; j++){
+					if (item->roomer[i]->item[j]->name == name){
+						printf("You have taken the %s", item->roomer[i]->item[j]->name);
+						item->roomer[i]->item[i]->in = false;
+					}
+				}
+				printf("This object doesn't exist");
+			}
+		printf("This object is not in this room");
+		}
+		
+	}
+
+void Player::DropItem(const World* item, const char* name){
+	for (int i = 0; i < 4; i++){
+		if (item->roomer[i]->item[i]->in == false){
+			for (int j = 0; j < 4; j++){
+				if (item->roomer[i]->item[j]->name == name){
+					printf("You have taken the %s", item->roomer[i]->item[j]->name);
+					item->roomer[i]->item[i]->in = false;
+				}
+			}
+			printf("This object doesn't exist");
+		}
+		printf("This object is not in this room");
+	}
+}
+
+
+		

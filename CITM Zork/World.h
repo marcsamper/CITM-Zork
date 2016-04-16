@@ -5,18 +5,23 @@
 #include"Player.h"
 #include "Entity.h"
 #include "String.h"
-class World: public Entity
-{
+#include "Vector.h"
+class World: public Entity{
 public:
-	Entity *room = nullptr;
+
+	Vector<Room*> roomer;
+	Vector<Exit*> exit;
+
+	
+	//Entity *room = nullptr;
 	Player *player = nullptr;
-	Exit *exit = nullptr;
+
 	Entity*inventory = nullptr;
 	String* pointer=nullptr;
 	
 
 public:
-	void CreateWorld()const;
+	void CreateWorld();
 	bool Inpunts();
 	World();//builder
 	~World();//destroyer
