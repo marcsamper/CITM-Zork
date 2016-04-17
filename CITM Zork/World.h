@@ -11,10 +11,12 @@ public:
 
 	Vector<Room*> roomer;
 	Vector<Exit*> exit;
+	Vector<Item*> item;
+	Player* player;
 
 	
 	//Entity *room = nullptr;
-	Player *player = nullptr;
+	
 
 	Entity*inventory = nullptr;
 	String* pointer=nullptr;

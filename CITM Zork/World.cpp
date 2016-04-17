@@ -9,23 +9,14 @@
 
 
 
-World::World()
-{
-	
-	Room* entrance;
-	player = new Player[1];
-	
+World::World(){	
 	
 }
 
-World::~World(){
-
-	
-
-	delete[] player;
-	
+World::~World(){	
 	
 }
+
 void World::CreateWorld(){
 	Room* entrance;
 
@@ -67,12 +58,15 @@ void World::CreateWorld(){
 	exit.push_back((new Exit("P-N", "You can see the whole floor -1, it's a little bit cold", true, roomer[9], roomer[6], NORTH)));	//Programming room exit to the floor - 1
 	
 	//ADD EVERY ITEM IN EACH ROOM:
-	roomer[1]->item.push_back((new Item("Folder", "A folder with all the information of some students", true)));
-	roomer[2]->item.push_back((new Item("Camera", "A new shinny camera with some stickers", true)));
-	roomer[7]->item.push_back((new Item("Candy", "Seems somebody loves this candy", true)));
-	roomer[8]->item.push_back((new Item("Kleenex", "They have a strawberry smell, probably someone needs them", true)));
+	item.push_back((new Item("Folder", "A folder with all the information of some students", true)));
+	item.push_back((new Item("Camera", "A new shinny camera with some stickers", true)));
+	item.push_back((new Item("Candy", "Seems somebody loves this candy", true)));
+	item.push_back((new Item("Kleenex", "They have a strawberry smell, probably someone needs them", true)));
 
-
+	roomer[1]->item.push_back(item[0]);
+	roomer[2]->item.push_back(item[1]);
+	roomer[7]->item.push_back(item[2]);
+	roomer[8]->item.push_back(item[3]);
 	
 
 

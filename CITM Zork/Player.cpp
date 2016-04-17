@@ -93,30 +93,38 @@ void Player::CloseDoor(const World*open, dir door){
 		}
 	}
 }
+void Player::Inventory(){
+	if ()
+}
 void Player::TakeItem(const World* item, const char* name){
 	
 	for (int i = 0; i < 18; i++){
-		if (item->roomer[i]->item[i]->in==true){
-				for (int j = 0; j < 4; j++){
-					if (item->roomer[i]->item[j]->name == name){
-						printf("You have taken the %s", item->roomer[i]->item[j]->name);
-						item->roomer[i]->item[i]->in = false;
+		if (item->roomer[i] == position){
+			for (int j = 0; j < 4; j++){
+				if (item->roomer[i]->item[j]->name == name){
+					if (item->roomer[i]->item[j]->in == true){
+					printf("You have taken the %s", item->roomer[i]->item[j]->name);
+					item->roomer[i]->item[j]->in = false;
+					item->roomer[i]->item[j]->inventory = true;
 					}
 				}
 				printf("This object doesn't exist");
 			}
-		printf("This object is not in this room");
+			printf("This object is not in this room");
 		}
+	}
 		
 	}
 
 void Player::DropItem(const World* item, const char* name){
 	for (int i = 0; i < 4; i++){
-		if (item->roomer[i]->item[i]->in == false){
+		
 			for (int j = 0; j < 4; j++){
 				if (item->roomer[i]->item[j]->name == name){
-					printf("You have taken the %s", item->roomer[i]->item[j]->name);
-					item->roomer[i]->item[i]->in = false;
+					if (item->roomer[i]->item[j]->in == false){
+					printf("You have droped the %s", item->roomer[i]->item[j]->name);
+					item->roomer[i]->item[j]->in = true;
+					item->roomer[i]->item[j]->inventory = true;
 				}
 			}
 			printf("This object doesn't exist");

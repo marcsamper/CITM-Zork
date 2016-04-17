@@ -8,6 +8,7 @@ class Player: public Entity{
 public:
 	
 	Room *position=nullptr;
+	
 
 public:
 
@@ -19,6 +20,7 @@ public:
 	void CloseDoor(const World* open, dir door);
 	void TakeItem(const World* take, const char* name);
 	void DropItem(const World* item, const char* name);
+	void Inventory();
 	Player();//builder
 	~Player();//destroyer
 

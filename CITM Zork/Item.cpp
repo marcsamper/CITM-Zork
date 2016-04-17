@@ -2,11 +2,9 @@
 #include "Item.h"
 #include "Room.h"
 
-Item::Item(const char* name, const char*description, bool in){
+Item::Item(const char* name, const char*description, bool in) : Entity(name, description, in){
 
-	item->name = name;
-	item->description = description;
-	item->in = in;
+	
 }
 
 Item::Item(){

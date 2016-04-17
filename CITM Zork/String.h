@@ -1,9 +1,6 @@
 #ifndef STRING_H
 #define STRING_H
 
-
-
-
 class String{
 	private:
 		char* buffer = nullptr;
