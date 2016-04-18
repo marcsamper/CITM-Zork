@@ -2,12 +2,14 @@
 #define _PLAYER_H
 #include "Room.h"
 #include "Exits.h"
+#include "Entity.h"
 
 
 class Player: public Entity{
 public:
 	
 	Room *position=nullptr;
+	
 	Vector<Entity*> trans;
 	int life= 100;//stats
 	int attack=40;//stats
@@ -24,7 +26,7 @@ public:
 	void CloseDoor(const World* open, dir door);
 	void PickItem(const World* take, String& name);
 	void DropItem(const World* item, String& name);*/
-
+	
 	Player();//builder
 	~Player();//destroyer
 

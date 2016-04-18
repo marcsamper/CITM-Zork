@@ -13,6 +13,8 @@ public:
 	Vector<Room*> roomer;
 	Vector<Exit*> exit;
 	Vector<Item*> item;
+	
+	
 	Player* player;
 	String* pointer=nullptr;
 	
@@ -25,9 +27,12 @@ public:
 	void LookRoom();
 	void OpenDoor(dir door);
 	void CloseDoor(dir door);
-	void PickItem(String& name)const;
-	void DropItem(String& name)const;
-	bool Inpunts(String& command);
+	void PickItem( String name);
+	void DropItem(const String name);
+	bool Inpunts();
+	void PutItem(const String item);
+	void GetItem(const String item);
+
 	World();//builder
 	~World();//destroyer
 

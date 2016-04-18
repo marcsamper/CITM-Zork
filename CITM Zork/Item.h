@@ -10,7 +10,7 @@ class Item: public Entity{
 
 public:
 	Room* localitzation;
-	//Entity* item = nullptr;
+	Vector<Entity*> transp;
 public:
 	Item(const char*, const char*, Room*);
 	~Item();

@@ -7,13 +7,13 @@
 template<class TYPE>
 class Vector{
 private:
-	TYPE* buffer = nullptr;
+	
 	unsigned int capacity = 10;
 	unsigned int num_elements = 0;
 
 
 public:
-
+	TYPE* buffer = nullptr;
 	Vector(unsigned int size) :capacity(size){
 		buffer = new TYPE[size];
 	}

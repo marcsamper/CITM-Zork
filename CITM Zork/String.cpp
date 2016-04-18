@@ -98,6 +98,20 @@ void String::cleanup(){
 	strcpy_s(buffer, reserved_memory, "");
 }
 
+void String:: Token_ize(Vector<String*>& str){
+	char* str2 = nullptr;
+	
+	str.push_back(new String(strtok_s(buffer, " ", &str2)));
+	while (strcmp(str2, "") != 0){
+		str.push_back(new String(strtok_s(NULL, " ", &str2)));
+	}
+
+}
+String String::copier()const{
+	String copy(buffer);
+	return copy;
+
+}
 /*bool String::compare(const String& str, const char* str2){
 
 	return(strcmp(str, str2) == 0);
