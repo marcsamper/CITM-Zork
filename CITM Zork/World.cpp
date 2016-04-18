@@ -58,12 +58,15 @@ void World::CreateWorld(){
 	exit.push_back((new Exit("P-N", "You can see the whole floor -1, it's a little bit cold", true, roomer[9], roomer[6], NORTH)));	//Programming room exit to the floor - 1
 	
 	//ADD EVERY ITEM IN EACH ROOM:
-	item.push_back(new Item("Folder", "A folder with all the information of some students", roomer[1]));
-	item.push_back(new Item("Camera", "A new shinny camera with some stickers", roomer[2]));
-	item.push_back(new Item("Candy", "Seems somebody loves this candy", roomer[7]));
-	item.push_back(new Item("Kleenex", "They have a strawberry smell, probably someone needs them", roomer[8]));
+	item.push_back(new Item("folder", "A folder with all the information of some students", roomer[1]));
+	item.push_back(new Item("camera", "A new shinny camera with some stickers", roomer[2]));
+	item.push_back(new Item("candy", "Seems somebody loves this candy", roomer[7]));
+	item.push_back(new Item("kleenex", "They have a strawberry smell, probably someone needs them", roomer[8]));
 
-	
+	roomer[1]->drive.push_back(item[0]);
+	roomer[2]->drive.push_back(item[1]);
+	roomer[7]->drive.push_back(item[2]);
+	roomer[8]->drive.push_back(item[3]);
 	
 
 
@@ -195,6 +198,18 @@ bool World::Inpunts(String& command){
 
 	//Commands to open/close the doors:
 	//OPEN:
+	else if (command == "open east" || command == "open e"){
+		OpenDoor(EAST);
+	}
+	else if (command == "open south" || command == "open s"){
+		OpenDoor(SOUTH);
+	}
+	else if (command == "open west" || command == "open w"){
+		OpenDoor(WEST);
+	}
+	else if (command == "open north" || command == "open n"){
+		OpenDoor(NORTH);
+	}
 	else if (command == "open" || command == "Open" || command == "OPEN" || command == "o"){
 		
 			printf("Where?\n");//if the player only writes Open, the programm asks the direction and puts it in second
@@ -222,6 +237,18 @@ bool World::Inpunts(String& command){
 		
 	
 	//CLOSE:
+	else if (command == "close east" || command == "close e"){
+		CloseDoor(EAST);
+	}
+	else if (command == "open south" || command == "open s"){
+		CloseDoor(SOUTH);
+	}
+	else if (command == "open west" || command == "open w"){
+		CloseDoor(WEST);
+	}
+	else if (command == "open north" || command == "open n"){
+		CloseDoor(NORTH);
+	}
 	else if (command == "close" || command == "Close" || command == "CLOSE" || command == "c"){
 
 		printf("Where?\n");//if the player only writes Open, the programm asks the direction and puts it in second
@@ -310,7 +337,9 @@ bool World::Inpunts(String& command){
 			DropItem(command2);
 		}
 	}
-	
+	else if (command == "item" || command == "i"){
+		player->Inventory();
+	}
 
 	
 
@@ -393,10 +422,12 @@ bool World::Inpunts(String& command){
 
 	void World::PickItem(String& name)const{
 		int tmp=0;
-		for (int j = 0; j < 4; j++){
-			if (player->position == item[j]->localitzation && item[j]->name == name){
+		for (int j = 0; j < 3; j++){
+			if ((player->position == item[j]->localitzation) && (item[j]->name == name)){
 				printf("You picked the %s", item[j]->name.c_str());
 				tmp = 1;
+				player->trans.push_back(item[j]);
+				player->position->drive.cleaner(j);
 
 			}
 		}
@@ -408,9 +439,12 @@ bool World::Inpunts(String& command){
 	void World::DropItem(String& name)const{
 			int tmp = 0;
 			for (int j = 0; j < 4; j++){
-				if (player->position == item[j]->localitzation && item[j]->name == name){
+				if (item[j]->name == name){
 					printf("You Droped the %s", item[j]->name.c_str());
 					item[j]->localitzation =player->position;
+					player->position->drive.push_back(item[j]);
+					player->trans.cleaner(j);
+					
 				}
 
 			}

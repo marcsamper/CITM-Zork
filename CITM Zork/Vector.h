@@ -145,8 +145,16 @@ public:
 		return buffer[num];
 
 	}
-
-	//at
+	
+	void cleaner(unsigned int num){
+		for (int i = num; i < num_elements; i++){
+			buffer[i] = buffer[i + 1];
+			}
+			num_elements--;
+		
+		}
+	
+	
 
 
 

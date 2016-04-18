@@ -20,3 +20,20 @@ Player::~Player(){
 
 }
 
+void Player::Inventory(){
+	
+	if (trans.size() == 0){
+		printf("You don't have items");
+	}
+	
+	for (int i = 0; i<trans.size(); i++){
+		printf("--INVENTORY:----->");
+		printf("-%s\n", trans[i]->name.c_str());
+			 
+			
+			  
+			  
+				
+	}
+}
+

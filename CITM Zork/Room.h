@@ -8,8 +8,9 @@
 
 
 class Room:public Entity{
-
+	
 public:
+	Vector<Entity*> drive;
 	Room (const char* name, const char* description);
 
 	~Room();
