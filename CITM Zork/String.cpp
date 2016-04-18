@@ -16,7 +16,7 @@ String::String(const char* str){
 
 String::String(const String& copy){
 
-	printf("Soy un constructor de copia\n");
+
 	reserved_memory = strlen(copy.buffer) + 1;
 	buffer = new char[reserved_memory];
 	strcpy_s(buffer, reserved_memory, copy.buffer);
@@ -26,7 +26,7 @@ String::String(){
 	//buffer = new char[reserved_memory];
 }
 String::~String(){
-	printf("La clase string se esta destruyendo\n");
+	
 	delete[] buffer;
 
 }
@@ -57,10 +57,10 @@ bool String::operator == (const char* str) const{
 }
 
 void String::operator =(const String& str){
-	reserved_memory = strlen(buffer) + 1;
-	if (str.length() + 1 > reserved_memory){
-		reserved_memory = str.length() + 1;
-		delete[]buffer;
+	if (reserved_memory < str.length() + 1)
+	{
+		delete[] buffer;
+		reserved_memory= str.length() + 1;
 		buffer = new char[reserved_memory];
 	}
 	strcpy_s(buffer, reserved_memory, str.buffer);
@@ -98,10 +98,10 @@ void String::cleanup(){
 	strcpy_s(buffer, reserved_memory, "");
 }
 
-bool String::compare(const char* str, const char* str2){
+/*bool String::compare(const String& str, const char* str2){
 
 	return(strcmp(str, str2) == 0);
-}
+}*/
 
 
 

@@ -10,7 +10,7 @@
 
 
 World::World(){	
-	
+	player = new Player;
 }
 
 World::~World(){	
@@ -19,7 +19,7 @@ World::~World(){
 
 void World::CreateWorld(){
 	Room* entrance;
-
+	
 	//NAMES AND DESCRIPTIONS FOR EVERY ROOM 
 	roomer.push_back((new Room("Entrance", "You are now in the entrance of the CITM.")));//room 0
 	roomer.push_back((new Room("Secretary's Room", "You are now in the Secretary's Room. Seems nobody is here.There are some papers about the students on the table.Go West to exit the room")));//room 1
@@ -58,207 +58,365 @@ void World::CreateWorld(){
 	exit.push_back((new Exit("P-N", "You can see the whole floor -1, it's a little bit cold", true, roomer[9], roomer[6], NORTH)));	//Programming room exit to the floor - 1
 	
 	//ADD EVERY ITEM IN EACH ROOM:
-	item.push_back((new Item("Folder", "A folder with all the information of some students", true)));
-	item.push_back((new Item("Camera", "A new shinny camera with some stickers", true)));
-	item.push_back((new Item("Candy", "Seems somebody loves this candy", true)));
-	item.push_back((new Item("Kleenex", "They have a strawberry smell, probably someone needs them", true)));
+	item.push_back(new Item("Folder", "A folder with all the information of some students", roomer[1]));
+	item.push_back(new Item("Camera", "A new shinny camera with some stickers", roomer[2]));
+	item.push_back(new Item("Candy", "Seems somebody loves this candy", roomer[7]));
+	item.push_back(new Item("Kleenex", "They have a strawberry smell, probably someone needs them", roomer[8]));
 
-	roomer[1]->item.push_back(item[0]);
-	roomer[2]->item.push_back(item[1]);
-	roomer[7]->item.push_back(item[2]);
-	roomer[8]->item.push_back(item[3]);
+	
 	
 
 
 }
 //Chequing the commands the playar writes:
-bool World::Inpunts(){
-	fflush(stdin);
-	char command[20];//the complet command
-	char first[15];//here will go the first command
-	char second[15] = "void";//here will go the second command, initialized with 'void' cause if the player only puts one word
+bool World::Inpunts(String& command){
+	
+		
+	char second[30];
 	char *phrase;
-	gets_s(command);
-	if (pointer->compare(command, "\0") == 0){
+	String command2;
+	
+	if (command=="\0"){
 		return true;
 	}
 
 	//Copying the first word to first
-	strcpy_s(first, strtok_s(command, " ", &phrase));
-	if (pointer->compare(phrase, "") != 0){
-		strcpy_s(second, strtok_s(NULL, " ", &phrase));
-	}
+	
 	//Comand Quit to exit the game
-	if (pointer->compare(first, "Quit") == 0 || pointer->compare(first, "quit") == 0 || pointer->compare(first, "q") == 0 || pointer->compare(first, "QUIT") == 0){
+	if (command=="Quit" ||command=="quit"|| command== "q"||command =="QUIT"){
 		printf("You exit the game");
 		return false;//here we stop the loop and stops execution the function Inputs on main.cpp
 	}
 	//Command Go:
-	else if (pointer->compare(first, "Go") == 0 || pointer->compare(first, "go") == 0 || pointer->compare(first, "GO") == 0 || pointer->compare(first, "g") == 0){
-		if (pointer->compare(second, "void") == 0){//if the player only writes Go, the programm asks the direction and puts it in second
+	else if (command == "go east" || command == "go e"){
+		MovePosition(EAST);
+	}
+	else if (command == "go south" || command == "go s"){
+		MovePosition(SOUTH);
+	}
+	else if (command == "go west" || command == "go w"){
+		MovePosition(WEST);
+	}
+	else if (command == "go north" || command == "go n"){
+		MovePosition(NORTH);
+	}
+	else if (command == "Go" || command == "go" || command == "GO" || command == "g"){
 			printf("Where?\n");
 			gets_s(second);
-		}
-		//East:
-		if (pointer->compare(second, "east") == 0 || pointer->compare(second, "East") == 0 || pointer->compare(second, "EAST") == 0 || pointer->compare(second, "e") == 0){
-			player->MovePosition(this, EAST);
-		}
+			command2 = second;
+			//East:
+			if (command2 == "east" || command2 == "East" || command2 == "EAST" || command2 == "e"){
+				MovePosition( EAST);
+			}
 
-		//South
-		if (pointer->compare(second, "south") == 0 || pointer->compare(second, "South") == 0 || pointer->compare(second, "SOUTH") == 0 || pointer->compare(second, "s") == 0){
-			player->MovePosition(this, SOUTH);
-		}
-		//West
-		if (pointer->compare(second, "west") == 0 || pointer->compare(second, "West") == 0 || pointer->compare(second, "WEST") == 0 || pointer->compare(second, "w") == 0){
-			player->MovePosition(this, WEST);
-		}
-		//North
-		if (pointer->compare(second, "north") == 0 || pointer->compare(second, "North") == 0 || pointer->compare(second, "NORTH") == 0 || pointer->compare(second, "n") == 0){
-			player->MovePosition(this, NORTH);
+			//South
+			else if (command2 == "south" || command2 == "South" || command2 == "SOUTH" || command2 == "S"){
+				MovePosition( SOUTH);
+			}
+			//West
+			else if (command2 == "west" || command2 == "West" || command2 == "WEST" || command2 == "w"){
+				MovePosition( WEST);
+			}
+			//North
+			else if (command2 == "north" || command2 == "North" || command2 == "NORTH" || command2 == "n"){
+				MovePosition( NORTH);
 
+			}
 		}
-	}
+	
+	
 
 	//Moving without using the command go:
-	if (pointer->compare(first, "east") == 0 || pointer->compare(first, "East") == 0 || pointer->compare(first, "EAST") == 0 || pointer->compare(first, "e") == 0){
-		player->MovePosition(this, EAST);
+	else if (command == "east" || command == "East" || command == "EAST" || command == "e"){
+		MovePosition(EAST);
 	}
 
 	//South
-	if (pointer->compare(first, "south") == 0 || pointer->compare(first, "South") == 0 || pointer->compare(first, "SOUTH") == 0 || pointer->compare(first, "s") == 0){
-		player->MovePosition(this, SOUTH);
+	else if (command == "south" || command == "South" || command == "SOUTH" || command == "S"){
+		MovePosition(SOUTH);
 	}
 	//West
-	if (pointer->compare(first, "west") == 0 || pointer->compare(first, "West") == 0 || pointer->compare(first, "WEST") == 0 || pointer->compare(first, "w") == 0){
-		player->MovePosition(this, WEST);
+	else if (command == "west" || command == "West" || command == "WEST" || command == "w"){
+		MovePosition(WEST);
 	}
 	//North
-	if (pointer->compare(first, "north") == 0 || pointer->compare(first, "North") == 0 || pointer->compare(first, "NORTH") == 0 || pointer->compare(first, "n") == 0){
-		player->MovePosition(this, NORTH);
+	else if (command == "north" || command == "North" || command == "NORTH" || command == "n"){
+		MovePosition(NORTH);
 
 	}
 	//Command Look:
-	else if (pointer->compare(first, "look") == 0 || pointer->compare(first, "Look") == 0 || pointer->compare(first, "LOOK") == 0 || pointer->compare(first, "l") == 0){
-		if (pointer->compare(second, "void") == 0){//if the player only writes Look, the programm asks the direction and puts it in second
+	else if (command == "look east" || command == "look e"){
+		Look (EAST);
+	}
+	else if (command == "look south" || command == "look s"){
+		Look(SOUTH);
+	}
+	else if (command == "look west" || command == "look w"){
+		Look(WEST);
+	}
+	else if (command == "look north" || command == "look n"){
+		Look(NORTH);
+	}
+	else if (command == "look" || command == "Look" || command == "LOOK" || command == "l"){
 			printf("Where?\n");
 			gets_s(second);
-		}
-		//East:
-		if (pointer->compare(second, "east") == 0 || pointer->compare(second, "East") == 0 || pointer->compare(second, "EAST") == 0 || pointer->compare(second, "e") == 0){
-			player->Look(this, EAST);
-		}
+			command2 = second;
+			//East:
+			if (command2 == "east" || command2 == "East" || command2 == "EAST" || command2 == "e"){
+				Look(EAST);
+			}
 
-		//South
-		if (pointer->compare(second, "south") == 0 || pointer->compare(second, "South") == 0 || pointer->compare(second, "SOUTH") == 0 || pointer->compare(second, "s")){
-			player->Look(this, SOUTH);
-		}
-		//West
-		if (pointer->compare(second, "west") == 0 || pointer->compare(second, "West") == 0 || pointer->compare(second, "WEST") == 0 || pointer->compare(second, "w") == 0){
-			player->Look(this, WEST);
-		}
-		//North
-		if (pointer->compare(second, "north") == 0 || pointer->compare(second, "North") == 0 || pointer->compare(second, "NORTH") == 0 || pointer->compare(second, "n") == 0){
-			player->Look(this, NORTH);
+			//South
+			else if (command2 == "south" || command2 == "South" || command2 == "SOUTH" || command2 == "S"){
+				Look(SOUTH);
+			}
+			//West
+			else if (command2 == "west" || command2 == "West" || command2 == "WEST" || command2 == "w"){
+				Look(WEST);
+			}
+			//North
+			else if (command2 == "north" || command2 == "North" || command2 == "NORTH" || command2 == "n"){
+				Look(NORTH);
 
-		}
-		if (pointer->compare(second, "room") == 0 || pointer->compare(second, "Room") == 0 || pointer->compare(second, "ROOM") == 0 || pointer->compare(second, "r") == 0){
-			player->LookRoom();
-
-		}
+			}
 	}
+			
+	else if (command == "room" || command == "Room" || command == "ROOM" || command == "r"){
+				LookRoom();
+
+			}
+		
+		
+	
 	//Command help to explain how all the commands work
-	else if (pointer->compare(first, "help") == 0 || pointer->compare(first, "Help") == 0 || pointer->compare(first, "HELP") == 0 || pointer->compare(first, "h") == 0){
+	else if (command == "help" || command == "Help" || command == "HELP" || command == "h"){
 		printf("TO MOVE THROUGH THE ROOMS USE THE COMAND GO, go, Go, 'g' PLUS THE DIRECTION YOU WANT (NORTH, north,North, 'n', SOUTH, south, South,'s', EAST, east, East,'e', WEST,west, West, 'w').YOU CAN ALSO MOVE BY ONLY WRITING (NORTH, north,North, 'n', SOUTH, south, South,'s', EAST, east, East,'e', WEST,west, West, 'w').TOO LOOK ALL THE POSIBLE EXITS USE THE COMMAND LOOK, look, Look, 'l' PLUS THE  DIRECTION YOU WANT.\nUSE THE COMPAND OPEN/CLOSE, open/close, Open/close, 'o'/'c' TO OPEN/CLOSE DOORS. IF YOU WANT TO EXIT WRITE QUIT, 'q'.\n ");
 	}
 
 	//Commands to open/close the doors:
 	//OPEN:
-	else if (pointer->compare(first, "open") == 0 || pointer->compare(first, "Open") == 0 || pointer->compare(first, "OPEN") == 0 || pointer->compare(first, "o") == 0){
-		if (pointer->compare(second, "void") == 0){
+	else if (command == "open" || command == "Open" || command == "OPEN" || command == "o"){
+		
 			printf("Where?\n");//if the player only writes Open, the programm asks the direction and puts it in second
 			gets_s(second);
-		}
-		//East:
-		if (pointer->compare(second, "east") == 0 || pointer->compare(second, "East") == 0 || pointer->compare(second, "EAST") == 0 || pointer->compare(second, "e") == 0){
-			player->OpenDoor(this, EAST);
-		}
+			command2 = second;
+			//East:
+			if (command2 == "east" || command2 == "East" || command2 == "EAST" || command2 == "e"){
+				OpenDoor( EAST);
+			}
 
-		//South
-		if (pointer->compare(second, "south") == 0 || pointer->compare(second, "South") == 0 || pointer->compare(second, "SOUTH") == 0 || pointer->compare(second, "s")){
-			player->OpenDoor(this, SOUTH);
+			//South
+			else if (command2 == "south" || command2 == "South" || command2 == "SOUTH" || command2 == "S"){
+				OpenDoor( SOUTH);
+			}
+			//West
+			else if (command2 == "west" || command2 == "West" || command2 == "WEST" || command2 == "w"){
+				OpenDoor(WEST);
+			}
+			//North
+			else if (command2 == "north" || command2 == "North" || command2 == "NORTH" || command2 == "n"){
+				OpenDoor(NORTH);
+
+			}
 		}
-		//West
-		if (pointer->compare(second, "west") == 0 || pointer->compare(second, "West") == 0 || pointer->compare(second, "WEST") == 0 || pointer->compare(second, "w") == 0){
-			player->OpenDoor(this, WEST);
-		}
-		//North
-		if (pointer->compare(second, "north") == 0 || pointer->compare(second, "North") == 0 || pointer->compare(second, "NORTH") == 0 || pointer->compare(second, "n") == 0){
-			player->OpenDoor(this, NORTH);
-		}
-	}
+		
+	
 	//CLOSE:
-	else if (pointer->compare(first, "close") == 0 || pointer->compare(first, "Close") == 0 || pointer->compare(first, "CLOSE") == 0 || pointer->compare(first, "c") == 0){
-		if (pointer->compare(second, "void") == 0){
-			printf("Where?\n");//if the player only writes Close, the programm asks the direction and puts it in second
-			gets_s(second);
-		}
+	else if (command == "close" || command == "Close" || command == "CLOSE" || command == "c"){
+
+		printf("Where?\n");//if the player only writes Open, the programm asks the direction and puts it in second
+		gets_s(second);
+		command2 = second;
 		//East:
-		if (strcmp(second, "east") == 0 || strcmp(second, "East") == 0 || strcmp(second, "EAST") == 0 || strcmp(second, "e") == 0){
-			player->CloseDoor(this, EAST);
+		if (command2 == "east" || command2 == "East" || command2 == "EAST" || command2 == "e"){
+			CloseDoor(EAST);
 		}
 
 		//South
-		if (strcmp(second, "south") == 0 || strcmp(second, "South") == 0 || strcmp(second, "SOUTH") == 0 || strcmp(second, "s") == 0){
-			player->CloseDoor(this, SOUTH);
+		else if (command2 == "south" || command2 == "South" || command2 == "SOUTH" || command2 == "S"){
+			CloseDoor(SOUTH);
 		}
 		//West
-		if (strcmp(second, "west") == 0 || strcmp(second, "West") == 0 || strcmp(second, "WEST") == 0 || strcmp(second, "w") == 0){
-			player->CloseDoor(this, WEST);
+		else if (command2 == "west" || command2 == "West" || command2 == "WEST" || command2 == "w"){
+			CloseDoor( WEST);
 		}
 		//North
-		if (strcmp(second, "north") == 0 || strcmp(second, "North") == 0 || strcmp(second, "NORTH") == 0 || strcmp(second, "n") == 0){
-			player->CloseDoor(this, NORTH);
+		else if (command2 == "north" || command2 == "North" || command2 == "NORTH" || command2 == "n"){
+			CloseDoor( NORTH);
 
 		}
 	}
-	//COMMAND TAKE ITEM
-	else if (pointer->compare(first, "take") == 0 || pointer->compare(first, "Take") == 0 || pointer->compare(first, "TAKE") == 0 || pointer->compare(first, "t") == 0){
-		if (pointer->compare(second, "void") == 0){
-			printf("What?\n");//if the player only writes Close, the programm asks the direction and puts it in second
-			gets_s(second);
+	
+	//COMMAND PICK ITEM
+	else if (command == "pick folder" || command == "pick f"){
+		PickItem(command);
+	}
+	else if (command == "pick candy" || command == "pick c"){
+		PickItem(command);
+	}
+	else if (command == "pick kleenex" || command == "pick k"){
+		PickItem( command);
+	}
+	else if (command == "pick camera" || command == "pick cam"){
+		PickItem( command);
+	}
+	else if (command == "pick" || command == "Pick" || command == "PICK" || command == "p"){
+		printf("What?\n");//if the player only writes Close, the programm asks the direction and puts it in second
+		gets_s(second);
+		command2 = second;
+
+		if (command2 == "folder" || command2 == "Folder" || command2 == "FOLDER" || command2 == "f"){
+			PickItem( command2);
 		}
-		if (pointer->compare(second, "Folder") == 0 || pointer->compare(second, "folder") == 0 || pointer->compare(second, "FOLDER") == 0 || pointer->compare(second, "f") == 0){
-			player->TakeItem(this, "Folder");
+		else if (command2 == "candy" || command2 == "Candy" || command2 == "CANDY" || command2 == "c"){
+			PickItem(command2);
 		}
-		if (pointer->compare(second, "Candy") == 0 || pointer->compare(second, "Candy") == 0 || pointer->compare(second, "CANDY") == 0 || pointer->compare(second, "c") == 0){
-			player->TakeItem(this, "Candy");
+		else if (command2 == "kleenex" || command2 == "Kleenex" || command2 == "KLEENEX" || command2 == "k"){
+			PickItem(command2);
 		}
-		if (pointer->compare(second, "Kleenex") == 0 || pointer->compare(second, "kleenex") == 0 || pointer->compare(second, "KLEENEX") == 0 || pointer->compare(second, "k") == 0){
-			player->TakeItem(this, "Kleenex");
+		else if (command2 == "camera" || command2 == "Camera" || command2 == "CAMERA" || command2 == "cam"){
+			PickItem( command2);
 		}
-		if (pointer->compare(second, "Camera") == 0 || pointer->compare(second, "camera") == 0 || pointer->compare(second, "CAMERA") == 0 || pointer->compare(second, "C") == 0){
-			player->TakeItem(this, "Kleenex");
+	}
+	//DROP
+	else if (command == "drop folder" || command == "drop f"){
+		DropItem( command);
+	}
+	else if (command == "drop candy" || command == "drop c"){
+		DropItem( command);
+	}
+	else if (command == "drop kleenex" || command == "drop k"){
+		DropItem(command);
+	}
+	else if (command == "drop camera" || command == "drop cam"){
+		DropItem( command);
+	}
+
+	else if (command == "drop" || command == "Drop" || command == "DROP" || command == "d"){
+		printf("What?\n");//if the player only writes Close, the programm asks the direction and puts it in second
+		gets_s(second);
+		command2 = second;
+
+		if (command2 == "folder" || command2 == "Folder" || command2 == "FOLDER" || command2 == "f"){
+			DropItem( command2);
 		}
-		//COMMAND DROP ITEM
-		/*else if (pointer->compare(first, "drop") == 0 || pointer->compare(first, "Drop") == 0 || pointer->compare(first, "DROP") == 0 || pointer->compare(first, "d") == 0){
-			if (pointer->compare(second, "void") == 0){
-			printf("What?\n");//if the player only writes Close, the programm asks the direction and puts it in second
-			gets_s(second);
-			}
-			if (pointer->compare(second, "Folder") == 0 || pointer->compare(second, "folder") == 0 || pointer->compare(second, "FOLDER") == 0 || pointer->compare(second, "f") == 0){
-			player->DropeItem(this, "Folder");
-			}
-			if (pointer->compare(second, "Candy") == 0 || pointer->compare(second, "Candy") == 0 || pointer->compare(second, "CANDY") == 0 || pointer->compare(second, "c") == 0){
-			player->DropeItem(this, "Candy");
-			}
-			if (pointer->compare(second, "Kleenex") == 0 || pointer->compare(second, "kleenex") == 0 || pointer->compare(second, "KLEENEX") == 0 || pointer->compare(second, "k") == 0){
-			player->DropeItem(this, "Kleenex");
-			}
-			if (pointer->compare(second, "Camera") == 0 || pointer->compare(second, "camera") == 0 || pointer->compare(second, "CAMERA") == 0 || pointer->compare(second, "C") == 0){
-			player->DropeItem(this, "Kleenex");
-			}*/
+		else if (command2 == "candy" || command2 == "Candy" || command2 == "CANDY" || command2 == "c"){
+			DropItem(command2);
+		}
+		else if (command2 == "kleenex" || command2 == "Kleenex" || command2 == "KLEENEX" || command2 == "k"){
+			DropItem(command2);
+		}
+		else if (command2 == "camera" || command2 == "Camera" || command2 == "CAMERA" || command2 == "cam"){
+			DropItem(command2);
+		}
+	}
+	
+
+	
 
 		player->enter = true;//complets the loop to continue recieving commands
 		return true;
 	}
-}
+	void World::MovePosition(dir direction){
+		if (player->enter == true){
+			for (int i = 0; i < 18; i++){
+				if (exit[i]->origin == player->position){//Checking if the position of the player is the same of the exit origin
+					if (exit[i]->direction == direction){//Checking if the direction iss the same of the exit direction
+						if (exit[i]->open == true){//Checking if the door to enter the room is closed
+							player->position = exit[i]->destination;//Now the player position is the destination of the exit
+							printf("%s\n%s\n", exit[i]->destination->name.c_str(),exit[i]->destination->description.c_str());
+							player->enter = false;
+							break;
+						}
+						else{
+							printf("The door is closed!\n");
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	void World::Look(dir watch){
+		if (player->enter == true){
+			for (int i = 0; i < 18; i++){
+				if (exit[i]->origin == player->position){//Checking if the position of the player is the same of the exit origin
+					if (exit[i]->direction == watch){//Checking if the direction iss the same of the exit direction
+						printf("%s\n",exit[i]->description.c_str());
+						player->enter = false;
+						break;
+					}
+				}
+			}
+		}
+	}
+	
+	
+
+	void World::LookRoom(){
+		printf("%s", player->position->name.c_str());
+	}
+
+	void World::OpenDoor(dir door){
+		if (player->enter == true){
+			for (int i = 0; i < 18; i++){
+				if (exit[i]->origin == player->position){//Checking if the position of the player is the same of the exit origin
+					if (exit[i]->direction == door){//Checking if the direction iss the same of the exit direction
+						if (exit[i]->open == false){//Checking if the door to enter the room is closed
+							printf("The door is oppened\n");
+							exit[i]->open = true;
+							player->enter = false;
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+	void World::CloseDoor(dir door){
+		if (player->enter == true){
+			for (int i = 0; i < 18; i++){
+				if (exit[i]->origin == player->position){//Checking if the position of the player is the same of the exit origin
+					if (exit[i]->direction == door){//Checking if the direction iss the same of the exit direction
+						if (exit[i]->open == true){//Checking if the door to enter the room is opened
+							printf("You closed the door\n");
+							exit[i]->open = false;
+							player->enter = false;
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	void World::PickItem(String& name)const{
+		int tmp=0;
+		for (int j = 0; j < 4; j++){
+			if (player->position == item[j]->localitzation && item[j]->name == name){
+				printf("You picked the %s", item[j]->name.c_str());
+				tmp = 1;
+
+			}
+		}
+		if (tmp!=0)
+			printf("This object is not here");
+		}
+	
+	
+	void World::DropItem(String& name)const{
+			int tmp = 0;
+			for (int j = 0; j < 4; j++){
+				if (player->position == item[j]->localitzation && item[j]->name == name){
+					printf("You Droped the %s", item[j]->name.c_str());
+					item[j]->localitzation =player->position;
+				}
+
+			}
+			if (tmp != 0)
+				printf("This object is not here");
+		}
+
+
+	

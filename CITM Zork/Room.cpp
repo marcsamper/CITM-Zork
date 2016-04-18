@@ -6,9 +6,7 @@ Room::Room(const char* name, const char* description) :  Entity(name, descriptio
 
 
 }
-Room::Room(){
-	Entity*point;
-}
+
 Room::~Room(){
-	delete[] point;
+	
 }

@@ -134,14 +134,14 @@ public:
 	
 	TYPE operator[](unsigned int num)const{
 
-		assert( num < num_elements);//make sure... if not jump to error
+		assert( num < 20);//make sure... if not jump to error
 		return buffer[num];
 
 	}
 
 	TYPE& operator[](unsigned int num){//para poder escribir data[5]=3
 
-		assert( num < num_elements);//make sure... if not jump to error
+		assert( num < 20);//make sure... if not jump to error
 		return buffer[num];
 
 	}

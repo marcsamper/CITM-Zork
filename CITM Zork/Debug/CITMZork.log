@@ -1,7 +1,28 @@
-﻿Build started 17/04/2016 18:40:26.
-     1>Project "C:\Users\Marc Samper\Desktop\CITM-Zork\CITM Zork\CITMZork.vcxproj" on node 2 (Build target(s)).
-     1>Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Marc Samper\Desktop\CITM-Zork\Debug\CITMZork.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Marc Samper\Desktop\CITM-Zork\Debug\CITMZork.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Marc Samper\Desktop\CITM-Zork\Debug\CITMZork.lib" /MACHINE:X86 Debug\Entity.obj
+﻿Compilación iniciada a las 18/04/2016 16:07:48.
+     1>Proyecto "D:\Users\marcst4\Desktop\CITM-Zork\CITM Zork\CITMZork.vcxproj" en el nodo 2 (Build destinos).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Player.cpp World.cpp
+         World.cpp
+     1>d:\users\marcst4\desktop\citm-zork\citm zork\exits.h(27): warning C4114: el mismo calificador de tipo se ha utilizado más de una vez
+     1>d:\users\marcst4\desktop\citm-zork\citm zork\world.cpp(21): warning C4101: 'entrance' : variable local sin referencia
+     1>d:\users\marcst4\desktop\citm-zork\citm zork\world.cpp(76): warning C4101: 'phrase' : variable local sin referencia
+     1>d:\users\marcst4\desktop\citm-zork\citm zork\vector.h(48): warning C4018: '<' : no coinciden signed/unsigned
+                 d:\users\marcst4\desktop\citm-zork\citm zork\vector.h(41) : durante la compilación de la función miembro de plantilla de clase 'void Vector<Room *>::push_back(const TYPE)'
+                 with
+                 [
+                     TYPE=Room *
+                 ]
+                 d:\users\marcst4\desktop\citm-zork\citm zork\world.cpp(24) : vea la referencia a la creación de instancias de plantilla de función 'void Vector<Room *>::push_back(const TYPE)' que se está compilando
+                 with
+                 [
+                     TYPE=Room *
+                 ]
+                 d:\users\marcst4\desktop\citm-zork\citm zork\world.h(13) : vea la referencia a la creación de instancias de plantilla de clase 'Vector<Room *>' que se está compilando
+         Player.cpp
+     1>d:\users\marcst4\desktop\citm-zork\citm zork\exits.h(27): warning C4114: el mismo calificador de tipo se ha utilizado más de una vez
+         Generando código...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Users\marcst4\Desktop\CITM-Zork\Debug\CITMZork.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Users\marcst4\Desktop\CITM-Zork\Debug\CITMZork.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Users\marcst4\Desktop\CITM-Zork\Debug\CITMZork.lib" /MACHINE:X86 Debug\Entity.obj
          Debug\Exit.obj
          Debug\Item.obj
          Debug\Main.obj
@@ -9,9 +30,9 @@
          Debug\Room.obj
          Debug\String.obj
          Debug\World.obj
-         CITMZork.vcxproj -> C:\Users\Marc Samper\Desktop\CITM-Zork\Debug\CITMZork.exe
-     1>Done Building Project "C:\Users\Marc Samper\Desktop\CITM-Zork\CITM Zork\CITMZork.vcxproj" (Build target(s)).
+         CITMZork.vcxproj -> D:\Users\marcst4\Desktop\CITM-Zork\Debug\CITMZork.exe
+     1>Compilación del proyecto terminada "D:\Users\marcst4\Desktop\CITM-Zork\CITM Zork\CITMZork.vcxproj" (Build destinos).
 
-Build succeeded.
+Compilación correcta.
 
-Time Elapsed 00:00:00.34
+Tiempo transcurrido 00:00:00.68

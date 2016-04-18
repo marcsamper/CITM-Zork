@@ -7,13 +7,20 @@
 int main(){
 
 	bool start = true;//To make a Loop to check all the time the inputs
-	World world;
-	world.CreateWorld();
+	World* world=new World;
+	world->CreateWorld();
 	printf("Welcome to the CIMT's Zork, an adventure of a boy that has to find where is the thug boy who has stolen him an important homework\n");
-	printf("%s\n%s\nWhat do you want to do?\n", world.roomer[0]->name, world.roomer[0]->description);
+	printf("%s\n%s\nWhat do you want to do?\n", world->roomer[0]->name.c_str(), world->roomer[0]->description.c_str());
+	char command[30];
+	String input;
+	
+
 	//Loop to chek inputs:
 	while (start == true){
-		start = world.Inpunts();
+		gets_s(command);
+		input = command;
+		start = world->Inpunts(input);
+
 	}
 
 	return 0;

@@ -9,11 +9,8 @@ Exit::Exit(const char* name, const char* description, bool open, Room* origin, R
 	
 }
 Exit::Exit(){
-	origin = new Room;
-	destination = new Room;
+	
 }
 Exit::~Exit(){
-	delete[] origin;
-	delete[] destination;
-	delete[] point;
+	
 }

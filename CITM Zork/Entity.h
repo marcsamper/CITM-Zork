@@ -5,7 +5,7 @@
 #include "Vector.h"
 
 
-class String;
+
 
 class Entity{
 public:
@@ -18,7 +18,7 @@ public:
 
 public:
 	Entity(const char* name, const char* description);
-	Entity(const char* name, const char* description, bool in);
+
 	Entity();
 	~Entity();
 

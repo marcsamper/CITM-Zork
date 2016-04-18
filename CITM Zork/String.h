@@ -4,11 +4,8 @@
 class String{
 	private:
 		char* buffer = nullptr;
-		
 		unsigned int reserved_memory;
-		unsigned int reserved_memory2;
-	
-		
+				
 	public://constructors and destructors
 		String();
 		String(const char* str);

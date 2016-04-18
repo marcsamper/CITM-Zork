@@ -1,16 +1,18 @@
 #ifndef Item_H
 #define Item_H
+#include "Room.h"
+#include "String.h"
 #include "Entity.h"
-class Entity;
+
+
 
 class Item: public Entity{
 
 public:
-	Entity* item=nullptr;
-	bool inventory;
+	Room* localitzation;
+	//Entity* item = nullptr;
 public:
-	Item(const char* name, const char* description, bool in);
-	Item();
+	Item(const char*, const char*, Room*);
 	~Item();
 };
 #endif

@@ -2,14 +2,13 @@
 #include "Item.h"
 #include "Room.h"
 
-Item::Item(const char* name, const char*description, bool in) : Entity(name, description, in){
+Item::Item(const char* name, const char*description, Room* localitzation) : Entity(name, description),localitzation(localitzation) {
 
 	
 }
 
-Item::Item(){
-	item = new Entity;
-}
+
 Item::~Item(){
-	delete[] item;
+	
 }
+	
