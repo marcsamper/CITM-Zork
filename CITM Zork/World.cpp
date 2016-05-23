@@ -24,7 +24,7 @@ void World::CreateWorld(){
 	roomer.push_back((new Room("Entrance", "You are now in the entrance of the CITM.The's a box on the floor where you can put objects")));//room 0
 	roomer.push_back((new Room("Secretary's Room", "You are now in the Secretary's Room. Seems nobody is here.There are some papers about the students on the table.Ther's a folder on the table.Go West to exit the room")));//room 1
 	roomer.push_back((new Room("Photography set", "You are now in the Photography set, a big room equiped with a lot of technology.In the center of the set you can see a camera on the floor next to a red\nbackpack.Go East to exit the room")));//room 2
-	roomer.push_back((new Room("Floor 1", "You are now in the Floor 1, you can see some students talking next to a drinkingfountain.")));//room 3
+	roomer.push_back((new Room("Floor 1", "You are now in the Floor 1, you can see Dani next to a drinkingfountain.")));//room 3
 	roomer.push_back((new Room("Toilets", "You are now in the toilets, the floor is a little wet but the smell is not that bad.There are three toilets and a big mirror.In front of the mirror there's a boy crying.Go South to exit the room")));//room 4
 	roomer.push_back((new Room("Art Room", "You are now in the Art Room, you see a lot of tables and a huge amount of pencils.You also see a boy, his name is Pep, he is the bully who has stolen your homework.Go North to exit the room East")));//room 5
 	roomer.push_back((new Room("Neg Floor", "You are in the floor -1. It's a little cold.")));//room 6
@@ -69,66 +69,70 @@ void World::CreateWorld(){
 	roomer[7]->drive.push_back(item[3]);
 	roomer[8]->drive.push_back(item[4]);
 
+	//ADD NPC:
+	npc.push_back(new Npc("Dani", "Dani is your friend", roomer[3]));
+	roomer[3]->drive.push_back(npc[0]);
+
 	
 
 
 }
 //Chequing the commands the playar writes:
 bool World::Inpunts(){
-	
-	
+
+
 	char second[30];
 	char *phrase;
 	String string;
 	Vector<String*> command;
 	gets_s(second);
-	
+
 	string = second;
 	if (string == "\0"){
 		return true;
 	}
 	string.Token_ize(command);
 
-	
-	
+
+
 	//Copying the first word to first
-	
+
 	//Comand Quit to exit the game
 	if (command.buffer[0]->copier() == "Quit" || command.buffer[0]->copier() == "quit" || command.buffer[0]->copier() == "q" || command.buffer[0]->copier() == "QUIT"){
 		printf("You exit the game");
 		return false;//here we stop the loop and stops execution the function Inputs on main.cpp
 	}
 	//Command Go:
-	
+
 	else if (command.buffer[0]->copier() == "Go" || command.buffer[0]->copier() == "go" || command.buffer[0]->copier() == "GO" || command.buffer[0]->copier() == "g"){
 		if (command.size() == 1){
 			printf("Where?\n");
 			gets_s(second);
 			command.push_back(new String(second));
 
-			}
-			
-			//East:
-		if (command.buffer[1]->copier() == "east" || command.buffer[1]->copier() == "East" || command.buffer[1]->copier() == "EAST" || command.buffer[1]->copier() == "e"){
-				MovePosition( EAST);
-			}
-
-			//South
-		else if (command.buffer[1]->copier() == "south" || command.buffer[1]->copier() == "South" || command.buffer[1]->copier() == "SOUTH" || command.buffer[1]->copier() == "S"){
-				MovePosition( SOUTH);
-			}
-			//West
-		else if (command.buffer[1]->copier() == "west" || command.buffer[1]->copier() == "West" || command.buffer[1]->copier() == "WEST" || command.buffer[1]->copier() == "w"){
-				MovePosition( WEST);
-			}
-			//North
-		else if (command.buffer[1]->copier() == "north" || command.buffer[1]->copier() == "North" || command.buffer[1]->copier() == "NORTH" || command.buffer[1]->copier() == "n"){
-				MovePosition( NORTH);
-
-			}
 		}
-	
-	
+
+		//East:
+		if (command.buffer[1]->copier() == "east" || command.buffer[1]->copier() == "East" || command.buffer[1]->copier() == "EAST" || command.buffer[1]->copier() == "e"){
+			MovePosition(EAST);
+		}
+
+		//South
+		else if (command.buffer[1]->copier() == "south" || command.buffer[1]->copier() == "South" || command.buffer[1]->copier() == "SOUTH" || command.buffer[1]->copier() == "S"){
+			MovePosition(SOUTH);
+		}
+		//West
+		else if (command.buffer[1]->copier() == "west" || command.buffer[1]->copier() == "West" || command.buffer[1]->copier() == "WEST" || command.buffer[1]->copier() == "w"){
+			MovePosition(WEST);
+		}
+		//North
+		else if (command.buffer[1]->copier() == "north" || command.buffer[1]->copier() == "North" || command.buffer[1]->copier() == "NORTH" || command.buffer[1]->copier() == "n"){
+			MovePosition(NORTH);
+
+		}
+	}
+
+
 
 	//Moving without using the command go:
 	else if (command.buffer[0]->copier() == "east" || command.buffer[0]->copier() == "East" || command.buffer[0]->copier() == "EAST" || command.buffer[0]->copier() == "e"){
@@ -180,8 +184,8 @@ bool World::Inpunts(){
 
 		}
 	}
-		
-	
+
+
 	//Command help to explain how all the commands work
 	else if (command.buffer[0]->copier() == "help" || command.buffer[0]->copier() == "Help" || command.buffer[0]->copier() == "HELP" || command.buffer[0]->copier() == "h"){
 		printf("TO MOVE THROUGH THE ROOMS USE THE COMAND GO, go, Go, 'g' PLUS THE DIRECTION YOU WANT (NORTH, north,North, 'n', SOUTH, south, South,'s', EAST, east, East,'e', WEST,west, West, 'w').YOU CAN ALSO MOVE BY ONLY WRITING (NORTH, north,North, 'n', SOUTH, south, South,'s', EAST, east, East,'e', WEST,west, West, 'w').TOO LOOK ALL THE POSIBLE EXITS USE THE COMMAND LOOK, look, Look, 'l' PLUS THE  DIRECTION YOU WANT.\nUSE THE COMPAND OPEN/CLOSE, open/close, Open/close, 'o'/'c' TO OPEN/CLOSE DOORS. IF YOU WANT TO EXIT WRITE QUIT, 'q'.\n ");
@@ -215,9 +219,9 @@ bool World::Inpunts(){
 			OpenDoor(NORTH);
 
 		}
-		
+
 	}
-	
+
 	//CLOSE:
 	else if (command.buffer[0]->copier() == "Close" || command.buffer[0]->copier() == "close" || command.buffer[0]->copier() == "CLOSE" || command.buffer[0]->copier() == "c"){
 		if (command.size() == 1){
@@ -247,7 +251,7 @@ bool World::Inpunts(){
 		}
 
 	}
-	
+
 	//COMMAND PICK ITEM
 	else if (command.buffer[0]->copier() == "Pick" || command.buffer[0]->copier() == "pick" || command.buffer[0]->copier() == "PICK" || command.buffer[0]->copier() == "p"){
 		if (command.size() == 1){
@@ -259,8 +263,8 @@ bool World::Inpunts(){
 
 		//East:
 		if (command.buffer[1]->copier() == "Folder" || command.buffer[1]->copier() == "folder" || command.buffer[1]->copier() == "FOLDER" || command.buffer[1]->copier() == "f"){
-			
-			PickItem( String("folder"));
+
+			PickItem(String("folder"));
 		}
 
 		//South
@@ -322,13 +326,26 @@ bool World::Inpunts(){
 	else if (command.buffer[0]->copier() == "stats"){
 		printf("Attack: 100\n Life: 300\n");
 	}
-	
 
-	
+	//Npc descriptions:
+	else if (command.buffer[0]->copier() == "description" || command.buffer[0]->copier() == "Description"){
+		if (command.size() == 1){
+			printf("Which npc?\n");
+			gets_s(second);
+			command.push_back(new String(second));
+
+		}
+		if (command.buffer[1]->copier() == "Dani" || command.buffer[1]->copier() == "dani"){
+			Description(command.buffer[1]->copier());
+		}
+
+
+	}	
 
 		player->enter = true;//complets the loop to continue recieving commands
 		return true;
 	}
+
 	void World::MovePosition(dir direction){
 		if (player->enter == true){
 			for (int i = 0; i < 18; i++){
@@ -467,8 +484,7 @@ bool World::Inpunts(){
 			}
 		}
 	}
-	void World::GetItem( const String items)
-	{
+	void World::GetItem( const String items){
 		if (player->position == roomer[0]){
 			if (player->trans.size() < 5){//inventory size
 				for (unsigned int i = 0; item[0]->transp.size() > i; i++)
@@ -487,6 +503,18 @@ bool World::Inpunts(){
 			}
 		}
 
+	}
+	void World::Description(const String name){ 
+
+		int tmp = 0;
+		for (int j = 0; j < 2; j++){
+			if (npc[j]->name == name){
+				printf("Name: %s Description: %s Localitzation: %s\n", npc[j]->name.c_str(), npc[j]->description.c_str(), npc[j]->location->name.c_str());
+				return;
+			}
+
+		}
+		printf("This npc is not in this game\n");
 	}
 
 

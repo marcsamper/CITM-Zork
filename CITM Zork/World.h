@@ -13,6 +13,7 @@ public:
 	Vector<Room*> roomer;
 	Vector<Exit*> exit;
 	Vector<Item*> item;
+	Vector<Npc*> npc;
 	
 	
 	Player* player;
@@ -32,6 +33,7 @@ public:
 	bool Inpunts();
 	void PutItem(const String item);
 	void GetItem(const String item);
+	void Description(const String name);
 
 	World();//builder
 	~World();//destroyer

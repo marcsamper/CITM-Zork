@@ -5,7 +5,7 @@
 #include "Vector.h"
 
 
-Exit::Exit(const char* name, const char* description, bool open, Room* origin, Room* destination, dir direction) : Entity(name, description), open(open), origin(origin), destination(destination), direction(direction){
+Exit::Exit(const char* name, const char* description, bool open, Room* origin, Room* destination, dir direction) : Entity(name, description, EXIT), open(open), origin(origin), destination(destination), direction(direction){
 	
 }
 Exit::Exit(){

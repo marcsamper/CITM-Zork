@@ -12,7 +12,6 @@ int main(){
 	printf("Welcome to the CIMT's Zork, an adventure of a boy that has to find where is the thug boy who has stolen him an important homework\n");
 	printf("%s\n%s\nWhat do you want to do?\n", world->roomer[0]->name.c_str(), world->roomer[0]->description.c_str());
 	
-	
 
 	//Loop to chek inputs:
 	while (start == true){
