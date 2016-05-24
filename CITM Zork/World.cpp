@@ -72,6 +72,8 @@ void World::CreateWorld(){
 	//ADD NPC:
 	npc.push_back(new Npc("Dani", "Dani is your friend", roomer[3]));
 	roomer[3]->drive.push_back(npc[0]);
+	npc.push_back(new Npc("Pepe", "Pepe moves arround the CITM all the time, if he catches you, you lost", roomer[1]));
+	roomer[1]->drive.push_back(npc[1]); // later this Npc will be moving by hiself for the rooms
 
 	
 
@@ -81,7 +83,7 @@ void World::CreateWorld(){
 bool World::Inpunts(){
 
 
-	char second[30];
+	char second[50];
 	char *phrase;
 	String string;
 	Vector<String*> command;
@@ -106,7 +108,7 @@ bool World::Inpunts(){
 
 	else if (command.buffer[0]->copier() == "Go" || command.buffer[0]->copier() == "go" || command.buffer[0]->copier() == "GO" || command.buffer[0]->copier() == "g"){
 		if (command.size() == 1){
-			printf("Where?\n");
+			printf("\t\tWhere?\n\n");
 			gets_s(second);
 			command.push_back(new String(second));
 
@@ -118,7 +120,7 @@ bool World::Inpunts(){
 		}
 
 		//South
-		else if (command.buffer[1]->copier() == "south" || command.buffer[1]->copier() == "South" || command.buffer[1]->copier() == "SOUTH" || command.buffer[1]->copier() == "S"){
+		else if (command.buffer[1]->copier() == "south" || command.buffer[1]->copier() == "South" || command.buffer[1]->copier() == "SOUTH" || command.buffer[1]->copier() == "s"){
 			MovePosition(SOUTH);
 		}
 		//West
@@ -129,6 +131,9 @@ bool World::Inpunts(){
 		else if (command.buffer[1]->copier() == "north" || command.buffer[1]->copier() == "North" || command.buffer[1]->copier() == "NORTH" || command.buffer[1]->copier() == "n"){
 			MovePosition(NORTH);
 
+		}
+		else{
+			printf("\t\tI don't understand, repeat please\n\n");
 		}
 	}
 
@@ -155,7 +160,7 @@ bool World::Inpunts(){
 	//Command Look:
 	else if (command.buffer[0]->copier() == "Look" || command.buffer[0]->copier() == "look" || command.buffer[0]->copier() == "LOOK" || command.buffer[0]->copier() == "l"){
 		if (command.size() == 1){
-			printf("Where?\n");
+			printf("\t\tWhere?\n\n");
 			gets_s(second);
 			command.push_back(new String(second));
 
@@ -167,7 +172,7 @@ bool World::Inpunts(){
 		}
 
 		//South
-		else if (command.buffer[1]->copier() == "south" || command.buffer[1]->copier() == "South" || command.buffer[1]->copier() == "SOUTH" || command.buffer[1]->copier() == "S"){
+		else if (command.buffer[1]->copier() == "south" || command.buffer[1]->copier() == "South" || command.buffer[1]->copier() == "SOUTH" || command.buffer[1]->copier() == "s"){
 			Look(SOUTH);
 		}
 		//West
@@ -183,19 +188,22 @@ bool World::Inpunts(){
 			LookRoom();
 
 		}
+		else{
+			printf("\t\tI don't understand, repeat please\n\n");
+		}
 	}
 
 
 	//Command help to explain how all the commands work
 	else if (command.buffer[0]->copier() == "help" || command.buffer[0]->copier() == "Help" || command.buffer[0]->copier() == "HELP" || command.buffer[0]->copier() == "h"){
-		printf("TO MOVE THROUGH THE ROOMS USE THE COMAND GO, go, Go, 'g' PLUS THE DIRECTION YOU WANT (NORTH, north,North, 'n', SOUTH, south, South,'s', EAST, east, East,'e', WEST,west, West, 'w').YOU CAN ALSO MOVE BY ONLY WRITING (NORTH, north,North, 'n', SOUTH, south, South,'s', EAST, east, East,'e', WEST,west, West, 'w').TOO LOOK ALL THE POSIBLE EXITS USE THE COMMAND LOOK, look, Look, 'l' PLUS THE  DIRECTION YOU WANT.\nUSE THE COMPAND OPEN/CLOSE, open/close, Open/close, 'o'/'c' TO OPEN/CLOSE DOORS. IF YOU WANT TO EXIT WRITE QUIT, 'q'.\n ");
+		printf("TO MOVE THROUGH THE ROOMS USE THE COMAND GO, go, Go, 'g' PLUS THE DIRECTION YOU WANT (NORTH, north,North, 'n', SOUTH, south, South,'s', EAST, east, East,'e', WEST,west, West, 'w').YOU CAN ALSO MOVE BY ONLY WRITING (NORTH, north,North, 'n', SOUTH, south, South,'s', EAST, east, East,'e', WEST,west, West, 'w').TOO LOOK ALL THE POSIBLE EXITS USE THE COMMAND LOOK, look, Look, 'l' PLUS THE  DIRECTION YOU WANT.\nUSE THE COMPAND OPEN/CLOSE, open/close, Open/close, 'o'/'c' TO OPEN/CLOSE DOORS. IF YOU WANT TO EXIT WRITE QUIT, 'q'.\n\n\n");
 	}
 
 	//Commands to open/close the doors:
 	//OPEN:
 	else if (command.buffer[0]->copier() == "Open" || command.buffer[0]->copier() == "open" || command.buffer[0]->copier() == "OPEN" || command.buffer[0]->copier() == "o"){
 		if (command.size() == 1){
-			printf("Where?\n");
+			printf("\t\tWhere?\n\n");
 			gets_s(second);
 			command.push_back(new String(second));
 
@@ -219,13 +227,16 @@ bool World::Inpunts(){
 			OpenDoor(NORTH);
 
 		}
+		else{
+			printf("\t\tI don't understand, repeat please\n\n");
+		}
 
 	}
 
 	//CLOSE:
 	else if (command.buffer[0]->copier() == "Close" || command.buffer[0]->copier() == "close" || command.buffer[0]->copier() == "CLOSE" || command.buffer[0]->copier() == "c"){
 		if (command.size() == 1){
-			printf("Where?\n");
+			printf("\t\tWhere?\n\n");
 			gets_s(second);
 			command.push_back(new String(second));
 
@@ -249,13 +260,16 @@ bool World::Inpunts(){
 			CloseDoor(NORTH);
 
 		}
+		else{
+			printf("\t\tI don't understand, repeat please\n\n");
+		}
 
 	}
 
 	//COMMAND PICK ITEM
 	else if (command.buffer[0]->copier() == "Pick" || command.buffer[0]->copier() == "pick" || command.buffer[0]->copier() == "PICK" || command.buffer[0]->copier() == "p"){
 		if (command.size() == 1){
-			printf("What?\n");
+			printf("\t\tWhat?\n\n");
 			gets_s(second);
 			command.push_back(new String(second));
 
@@ -280,12 +294,15 @@ bool World::Inpunts(){
 			PickItem(command.buffer[1]->copier());
 
 		}
+		else{
+			printf("This item doesn't exists\n\n");
+		}
 
 	}
 	//DROP
 	else if (command.buffer[0]->copier() == "Drop" || command.buffer[0]->copier() == "drop" || command.buffer[0]->copier() == "DROP" || command.buffer[0]->copier() == "d"){
 		if (command.size() == 1){
-			printf("What?\n");
+			printf("\t\tWhat?\n\n");
 			gets_s(second);
 			command.push_back(new String(second));
 
@@ -309,6 +326,9 @@ bool World::Inpunts(){
 			DropItem(command.buffer[1]->copier());
 
 		}
+		else{
+			printf("\t\tThis item doesn't exists\n\n");
+		}
 
 	}
 	//inventory
@@ -330,15 +350,20 @@ bool World::Inpunts(){
 	//Npc descriptions:
 	else if (command.buffer[0]->copier() == "description" || command.buffer[0]->copier() == "Description"){
 		if (command.size() == 1){
-			printf("Which npc?\n");
+			printf("\t\tWhich npc?\n\n");
 			gets_s(second);
 			command.push_back(new String(second));
 
 		}
-		if (command.buffer[1]->copier() == "Dani" || command.buffer[1]->copier() == "dani"){
+		if (command.buffer[1]->copier() == "Dani"){
 			Description(command.buffer[1]->copier());
 		}
-
+		else if (command.buffer[1]->copier() == "Pepe"){
+			Description(command.buffer[1]->copier());
+		}
+		else{
+			printf("\t\tThis npc doesn't exists\n\n");
+		}
 
 	}	
 
@@ -347,36 +372,51 @@ bool World::Inpunts(){
 	}
 
 	void World::MovePosition(dir direction){
+		int tmp = 0;
 		if (player->enter == true){
 			for (int i = 0; i < 18; i++){
 				if (exit[i]->origin == player->position){//Checking if the position of the player is the same of the exit origin
 					if (exit[i]->direction == direction){//Checking if the direction iss the same of the exit direction
 						if (exit[i]->open == true){//Checking if the door to enter the room is closed
 							player->position = exit[i]->destination;//Now the player position is the destination of the exit
-							printf("%s\n%s\n", exit[i]->destination->name.c_str(),exit[i]->destination->description.c_str());
+							printf("\t\t\t\t%s\n%s\n\n", exit[i]->destination->name.c_str(),exit[i]->destination->description.c_str());
 							player->enter = false;
+							tmp = 1;
 							break;
 						}
 						else{
-							printf("The door is closed!\n");
+							printf("\t\t\tThe door is closed!\n\n");
+							tmp = 1;
 							break;
 						}
 					}
+				
 				}
+				
+			}
+			if (tmp == 0){
+				printf("\t\t\tThere's nothing there\n\n");
 			}
 		}
 	}
 
 	void World::Look(dir watch){
+		int tmp = 0;
 		if (player->enter == true){
 			for (int i = 0; i < 18; i++){
 				if (exit[i]->origin == player->position){//Checking if the position of the player is the same of the exit origin
 					if (exit[i]->direction == watch){//Checking if the direction iss the same of the exit direction
-						printf("%s\n",exit[i]->description.c_str());
+						printf("%s\n\n",exit[i]->description.c_str());
 						player->enter = false;
+						tmp = 1;
 						break;
 					}
+					
 				}
+				
+			}
+			if (tmp == 0){
+				printf("\t\t\tThere's nothing there\n\n");
 			}
 		}
 	}
@@ -384,7 +424,7 @@ bool World::Inpunts(){
 	
 
 	void World::LookRoom(){
-		printf("%s\n%s", player->position->name.c_str(), player->position->description.c_str());
+		printf("\t\t\t\t%s\n%s\n\n", player->position->name.c_str(), player->position->description.c_str());
 	}
 
 	void World::OpenDoor(dir door){
@@ -393,7 +433,7 @@ bool World::Inpunts(){
 				if (exit[i]->origin == player->position){//Checking if the position of the player is the same of the exit origin
 					if (exit[i]->direction == door){//Checking if the direction iss the same of the exit direction
 						if (exit[i]->open == false){//Checking if the door to enter the room is closed
-							printf("The door is oppened\n");
+							printf("\t\t\tThe door is oppened\n\n");
 							exit[i]->open = true;
 							player->enter = false;
 							break;
@@ -409,7 +449,7 @@ bool World::Inpunts(){
 				if (exit[i]->origin == player->position){//Checking if the position of the player is the same of the exit origin
 					if (exit[i]->direction == door){//Checking if the direction iss the same of the exit direction
 						if (exit[i]->open == true){//Checking if the door to enter the room is opened
-							printf("You closed the door\n");
+							printf("\t\t\tYou closed the door\n\n");
 							exit[i]->open = false;
 							player->enter = false;
 							break;
@@ -426,7 +466,7 @@ bool World::Inpunts(){
 			for (int j = 0; j < item.size(); j++){
 				if ((item[j]->localitzation)==(player->position) ){
 					if (name == item[j]->name.copier()){
-					printf("You picked the %s", item[j]->name.c_str());
+					printf("\t\t\tYou picked the %s\n\n", item[j]->name.c_str());
 					tmp = 1;
 					player->trans.push_back(item[j]);
 					player->position->drive.cleaner(j);
@@ -439,7 +479,7 @@ bool World::Inpunts(){
 			
 
 
-				printf("This object is not here");
+				printf("\t\t\tThis object is not here\n\n");
 			}
 		}
 	
@@ -452,9 +492,9 @@ bool World::Inpunts(){
 	
 	void World::DropItem(const String name){
 			int tmp = 0;
-			for (int j = 0; j < 5; j++){
+			for (int j = 0; j < 5; j++)	{
 				if (item[j]->name == name){
-					printf("You Droped the %s", item[j]->name.c_str());
+					printf("\t\t\tYou Droped the %s\n\n", item[j]->name.c_str());
 					item[j]->localitzation =player->position;
 					player->position->drive.push_back(item[j]);
 					player->trans.cleaner(j);
@@ -463,7 +503,7 @@ bool World::Inpunts(){
 
 			}
 			if (tmp != 0)
-				printf("This object is not here");
+				printf("\t\t\tThis object is not here\n\n");
 		}
 	void World::PutItem(const String items){
 		if (player->position == roomer[0]){
@@ -472,15 +512,15 @@ bool World::Inpunts(){
 				{
 					if (items == player->trans[i]->name){
 						item[0]->transp.push_back(player->trans[i]);
-						printf("You put the %s inside the box",player->trans[i]->name.c_str());
+						printf("\t\tYou put the %s inside the box\n\n",player->trans[i]->name.c_str());
 						player->trans.cleaner(i);
 						return;
 					}
 				}
-				printf("You don't have that item in the box.");
+				printf("\t\tYou don't have that item in the box.\n\n");
 			}
 			else{
-				printf("Your box is empty");
+				printf("\t\t\tYour box is empty\n\n");
 			}
 		}
 	}
@@ -491,30 +531,39 @@ bool World::Inpunts(){
 				{
 					if (items == item[0]->transp[i]->name){
 						player->trans.push_back(item[0]->transp[i]);
-						printf("You got the %s from the box", item[0]->transp[i]->name.c_str());
+						printf("\t\tYou got the %s from the box\n\n", item[0]->transp[i]->name.c_str());
 						item[0]->transp.cleaner(i);
 						return;
 					}
 				}
-				printf("This object is not here");
+				printf("\t\t\tThis object is not here\n\n");
 			}
 			else{
-				printf("You have too much stuff in your inventory");
+				printf("\t\tYou have too much stuff in your inventory\n\n");
 			}
 		}
 
 	}
 	void World::Description(const String name){ 
-
 		int tmp = 0;
 		for (int j = 0; j < 2; j++){
 			if (npc[j]->name == name){
-				printf("Name: %s Description: %s Localitzation: %s\n", npc[j]->name.c_str(), npc[j]->description.c_str(), npc[j]->location->name.c_str());
-				return;
+				if (player->position == npc[j]->location){
+					printf("\t\t\tName:%s\n        \t\tDescription: %s\n\n", npc[j]->name.c_str(), npc[j]->description.c_str());
+					tmp = 1;
+					return;
+				}
+				printf("\t\t\tThis npc is not in this room\n\n");
+				tmp = 1;
+				break;
 			}
-
+			
+			
 		}
-		printf("This npc is not in this game\n");
+		if (tmp == 0){
+			printf("\t\t\tThis npc doesn't exist\n\n");
+		}
+		
 	}
 
 
