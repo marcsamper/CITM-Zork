@@ -33,8 +33,8 @@ public:
 	bool Inpunts();
 	void PutItem(const String item);
 	void GetItem(const String item);
-	void Description(const String name);
-
+	void Description(const String name)const;
+	void Map();
 	World();//builder
 	~World();//destroyer
 

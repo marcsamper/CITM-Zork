@@ -17,6 +17,7 @@ int main(){
 	while (start == true){
 		
 		start = world->Inpunts();
+		fflush(stdin);
 		printf("\t\t\tWhat do you want to do?\n");
 
 	}
