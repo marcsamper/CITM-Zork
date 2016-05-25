@@ -18,6 +18,8 @@ public:
 	
 	Player* player;
 	String* pointer=nullptr;
+	Npc* npcs=nullptr;
+	World* go = nullptr;
 	
 	
 
@@ -35,6 +37,8 @@ public:
 	void GetItem(const String item);
 	void Description(const String name)const;
 	void Map();
+	void talk(const String names)const;
+	void talkidle(const String names)const;
 	World();//builder
 	~World();//destroyer
 

@@ -62,6 +62,7 @@ void World::CreateWorld(){
 	item.push_back(new Item("camera", "A new shinny camera with some stickers", roomer[2]));
 	item.push_back(new Item("candy", "Seems somebody loves this candy", roomer[7]));
 	item.push_back(new Item("kleenex", "They have a strawberry smell, probably someone needs them", roomer[8]));
+	item.push_back(new Item("map", "A map of the University where you can see all the rooms", npc[0]));
 
 	roomer[0]->drive.push_back(item[0]);
 	roomer[1]->drive.push_back(item[1]);
@@ -72,6 +73,7 @@ void World::CreateWorld(){
 	//ADD NPC:
 	npc.push_back(new Npc("Dani", "Dani is your friend", roomer[3]));
 	roomer[3]->drive.push_back(npc[0]);
+	npc[0]->give.push_back(item[5]);
 	npc.push_back(new Npc("Pepe", "Pepe moves arround the CITM all the time, if he catches you, you lost", roomer[1]));
 	roomer[1]->drive.push_back(npc[1]); // later this Npc will be moving by hiself for the rooms
 
@@ -82,7 +84,7 @@ void World::CreateWorld(){
 //Chequing the commands the playar writes:
 bool World::Inpunts(){
 
-
+	int tmp = 0;
 	char second[50];
 	char *phrase;
 	String string;
@@ -364,11 +366,35 @@ bool World::Inpunts(){
 		else{
 			printf("\t\tThis npc doesn't exists\n\n");
 		}
-
+	//MAP CHECKING
 	}
 	else if (command.buffer[0]->copier() == "m" || command.buffer[0]->copier() == "map"){
 
 		Map();
+	}
+	//FUNCTION TALK
+	else if (command.buffer[0]->copier() == "talk" || command.buffer[0]->copier() == "Talk"){
+		if(command.size() == 1){
+			printf("\t\tWith who?\n\n");
+			gets_s(second);
+			command.push_back(new String(second));
+		}
+		if (tmp == 0){
+			if (command.buffer[1]->copier() == "Dani"){
+				talk(command.buffer[1]->copier());
+				tmp = 1;
+			}
+		}
+		else if (tmp != 0){
+			if (command.buffer[1]->copier() == "Dani"){
+				talkidle(command.buffer[1]->copier());
+				
+			}
+		}
+		else{
+			printf("\t\tThis npc doesn't exists\n\n");
+		}
+		
 	}
 
 		player->enter = true;//complets the loop to continue recieving commands
@@ -627,7 +653,7 @@ bool World::Inpunts(){
 			map[12][25] = '*';
 		}
 		
-
+		system("cls");
 		for (int i = 0; i < 20; i++){
 			for (int j = 0; j < 40; j++){
 				printf("%c", map[i][j]);
@@ -639,6 +665,59 @@ bool World::Inpunts(){
 		
 
 	}
+	
+	
+	void World::talk(const String names)const{
+		int options = 0, option2 = 0;			
+		if (names=="Dani"){
+				printf("\t\tDani:Hello Marc, how are you?\n\n");
+				printf("\t\tYou: 1- Not really well, someone has stolen my homework...\n\t\t2-Good, what are you doing here Dani?\n\n");
+				scanf_s("%i", &options);
+
+				switch (options){
+
+				case 1:
+					
+						
+						printf("\t\tDani: Oh, what a bad notice, i think i have something that can help you...\n\n");
+						printf("\t\tYou:1-Really? and what is this thing?\n\n");
+						scanf_s("%i", &option2);
+						if (option2 != 1){
+							printf("I don't understand\n");
+							scanf_s("%i", &option2);
+						}
+						else if (option2 == 1){
+							printf("\t\tDani: It's a map of the University. With the map you will be able to see all the rooms. Take it\n\n");
+							printf("\t\t\t***You recieved a map***\n\n");
+
+							player->trans.push_back(item[5]);
+							npc[0]->give.cleaner(0);
+						}
+					
+					break;
+				case 2:
+					printf("\t\tDani: I had a meeting with my tutor. And what about you? clases finished 3 hours ago... ");
+					printf("\t\tYou:1-Okay I will tell you, someone has stolen my homework and i can't find him\n");
+					//scanf_s("%i", &option2);
+								
+						
+					break;
+				}
+
+			}
+		
+		
+		
+	}
+	void World::talkidle(const String names)const{
+
+		if (names == "Dani"){
+			printf("Good luck on your way to find your homework\n\n");
+		}
+	}
+
+	
+
 
 
 	

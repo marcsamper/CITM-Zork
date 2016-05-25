@@ -8,13 +8,14 @@
 class Npc : public Creature{
 public:
 	Vector<Entity*> give;
+	Vector<Npc*> npc;
 
 public:
 
 	Npc(char* name, char* description, Room* origin);
 	~Npc();
 	
-
+	
 
 
 };
