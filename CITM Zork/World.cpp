@@ -63,6 +63,7 @@ void World::CreateWorld(){
 	item.push_back(new Item("candy", "Seems somebody loves this candy", roomer[7]));
 	item.push_back(new Item("kleenex", "They have a strawberry smell, probably someone needs them", roomer[8]));
 	item.push_back(new Item("map", "A map of the University where you can see all the rooms", npc[0]));
+	item.push_back(new Item("coin", "Coint that you can use to buy things", npc[2]));
 
 	roomer[0]->drive.push_back(item[0]);
 	roomer[1]->drive.push_back(item[1]);
@@ -76,7 +77,8 @@ void World::CreateWorld(){
 	npc[0]->give.push_back(item[5]);
 	npc.push_back(new Npc("Pepe", "Pepe moves arround the CITM all the time, if he catches you, you lost", roomer[1]));
 	roomer[1]->drive.push_back(npc[1]); // later this Npc will be moving by hiself for the rooms
-
+	npc.push_back(new Npc("Carlos", "Carlos is a very emotional boy", roomer[4]));
+	roomer[4]->drive.push_back(npc[2]);
 	
 
 
@@ -369,33 +371,55 @@ bool World::Inpunts(){
 	//MAP CHECKING
 	}
 	else if (command.buffer[0]->copier() == "m" || command.buffer[0]->copier() == "map"){
+		for (int i = 0; i < player->trans.size(); i++){
+			if (player->trans[i]->name == "map"){
+				Map();
+				break;
+			}
+		}
+		printf("You don't have the map\n\n");
+	
 
-		Map();
 	}
 	//FUNCTION TALK
 	else if (command.buffer[0]->copier() == "talk" || command.buffer[0]->copier() == "Talk"){
-		if(command.size() == 1){
+		int tmp = 0;
+		if (command.size() == 1){
 			printf("\t\tWith who?\n\n");
 			gets_s(second);
 			command.push_back(new String(second));
 		}
-		if (tmp == 0){
+		if (player->trans.size() == 0){//if player hasn't any item, he would be able to talk to Dani to recieve the map
 			if (command.buffer[1]->copier() == "Dani"){
 				talk(command.buffer[1]->copier());
-				tmp = 1;
 			}
 		}
-		else if (tmp != 0){
-			if (command.buffer[1]->copier() == "Dani"){
-				talkidle(command.buffer[1]->copier());
-				
+		else if (player->trans.size() != 0){//if the player has some items in the inventory
+			
+			for (int i = 0; i < player->trans.size(); i++){
+				if (command.buffer[1]->copier() == "Dani"){//we check with who is he talking
+					if (player->trans[i]->name == "map"){//we check if he has the map already
+						talkidle(command.buffer[1]->copier());
+						tmp = 1;
+						break;
+					}				
+				}				
+			}
+		
+			
+		if (tmp==0){
+				talk(command.buffer[1]->copier());
 			}
 		}
+
 		else{
 			printf("\t\tThis npc doesn't exists\n\n");
-		}
 		
+		}
 	}
+		
+		
+	
 
 		player->enter = true;//complets the loop to continue recieving commands
 		return true;
@@ -676,35 +700,36 @@ bool World::Inpunts(){
 
 				switch (options){
 
-				case 1:
-					
-						
-						printf("\t\tDani: Oh, what a bad notice, i think i have something that can help you...\n\n");
+				case 1:						
+						printf("\t\tDani: Oh, what a bad notice, i think i have something that can  \t\thelp you...\n\n");
 						printf("\t\tYou:1-Really? and what is this thing?\n\n");
 						scanf_s("%i", &option2);
 						if (option2 != 1){
-							printf("I don't understand\n");
-							scanf_s("%i", &option2);
+							printf("I don't understand start again\n");
+							scanf_s("%i", &option2); 
 						}
 						else if (option2 == 1){
 							printf("\t\tDani: It's a map of the University. With the map you will be able to see all the rooms. Take it\n\n");
 							printf("\t\t\t***You recieved a map***\n\n");
-
 							player->trans.push_back(item[5]);
-							npc[0]->give.cleaner(0);
-						}
-					
+							npc[0]->give.cleaner(5);							
+						}					
 					break;
 				case 2:
-					printf("\t\tDani: I had a meeting with my tutor. And what about you? clases finished 3 hours ago... ");
-					printf("\t\tYou:1-Okay I will tell you, someone has stolen my homework and i can't find him\n");
-					//scanf_s("%i", &option2);
-								
+					printf("\t\tDani: I had a meeting with my tutor. And what about you? clases finished 3 hours ago...\n");
+					printf("\t\tYou:1-Okay I will tell you, someone has stolen my homework and i can't find him\n");			
 						
 					break;
+				default:
+					printf("I don't understand, start again\n");
+					break;
 				}
+				
 
 			}
+		else{
+			printf("pam");
+		}
 		
 		
 		
