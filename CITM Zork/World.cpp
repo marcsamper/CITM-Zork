@@ -44,7 +44,7 @@ void World::CreateWorld(){
 	exit.push_back((new Exit("E-F", "You see the upstairs that go to the floor 1", true, roomer[0], roomer[3], NORTH)));//Entrance exit to floor 1 by upstairs
 	exit.push_back((new Exit("F-E", "You see the downstairs that go to the entrance", true, roomer[3], roomer[0], SOUTH)));//Floor 1 exit to Entrance by Downstairs
 	exit.push_back((new Exit("F-T", "You see the toilets, there's a tears trail", true, roomer[3], roomer[4], NORTH)));//Floor 1 exit to Toilets
-	exit.push_back((new Exit("T-F", "You see the whole Floor 1, the sun iluminates all the floor", true, roomer[4], roomer[3], WEST)));//Toilet exit to the Floor 1
+	exit.push_back((new Exit("T-F", "You see the whole Floor 1, the sun iluminates all the floor", true, roomer[4], roomer[3], SOUTH)));//Toilet exit to the Floor 1
 	exit.push_back((new Exit("F-A", "You see the Art Room, there are some pencils on the entrance", true, roomer[3], roomer[5], WEST)));//Floor 1 exit to the art Room
 	exit.push_back((new Exit("A-F", "You see the whole Floor 1, the sun iluminates all the floor 1", true, roomer[5], roomer[3], EAST)));//Art Room exit to the Floor 1
 	exit.push_back((new Exit("E-N", "You see the downstairs that go to the floor -1", true, roomer[0], roomer[6], SOUTH)));//Entrance exit to floor -1 by downstairs
@@ -64,6 +64,9 @@ void World::CreateWorld(){
 	item.push_back(new Item("kleenex", "They have a strawberry smell, probably someone needs them", roomer[8]));
 	item.push_back(new Item("map", "A map of the University where you can see all the rooms", npc[0]));
 	item.push_back(new Item("coin", "Coint that you can use to buy things", npc[2]));
+	item.push_back(new Item("KitKat", "A delicious chocolate snack", npc[3]));
+	item.push_back(new Item("M&M's", "A delicious chocolate snack", npc[3]));
+	item.push_back(new Item("Crunch", "A delicious chocolate snack", npc[3]));
 
 	roomer[0]->drive.push_back(item[0]);
 	roomer[1]->drive.push_back(item[1]);
@@ -75,10 +78,14 @@ void World::CreateWorld(){
 	npc.push_back(new Npc("Dani", "Dani is your friend", roomer[3]));
 	roomer[3]->drive.push_back(npc[0]);
 	npc[0]->give.push_back(item[5]);
-	npc.push_back(new Npc("Pepe", "Pepe moves arround the CITM all the time, if he catches you, you lost", roomer[1]));
+	npc.push_back(new Npc("Pepe", "Pepe moves arround the CITM all the time, if he catches you, you lost\n", roomer[1]));
 	roomer[1]->drive.push_back(npc[1]); // later this Npc will be moving by hiself for the rooms
-	npc.push_back(new Npc("Carlos", "Carlos is a very emotional boy", roomer[4]));
+	npc.push_back(new Npc("boy", "He is a very emotional boy", roomer[4]));
 	roomer[4]->drive.push_back(npc[2]);
+	npc.push_back(new Npc("machine", "A spending machine where you can buy:\n\t·M&M's\n\t·KitKat\n\t·Crunch", roomer[7]));
+	roomer[7]->drive.push_back(npc[3]);
+	
+	
 	
 
 
@@ -362,13 +369,13 @@ bool World::Inpunts(){
 		if (command.buffer[1]->copier() == "Dani"){
 			Description(command.buffer[1]->copier());
 		}
-		else if (command.buffer[1]->copier() == "Pepe"){
+		else if (command.buffer[1]->copier() == "boy"){
 			Description(command.buffer[1]->copier());
 		}
 		else{
 			printf("\t\tThis npc doesn't exists\n\n");
 		}
-	//MAP CHECKING
+		//MAP CHECKING
 	}
 	else if (command.buffer[0]->copier() == "m" || command.buffer[0]->copier() == "map"){
 		for (int i = 0; i < player->trans.size(); i++){
@@ -378,9 +385,8 @@ bool World::Inpunts(){
 			}
 		}
 		printf("You don't have the map\n\n");
-	
-
 	}
+
 	//FUNCTION TALK
 	else if (command.buffer[0]->copier() == "talk" || command.buffer[0]->copier() == "Talk"){
 		int tmp = 0;
@@ -391,35 +397,96 @@ bool World::Inpunts(){
 		}
 		if (player->trans.size() == 0){//if player hasn't any item, he would be able to talk to Dani to recieve the map
 			if (command.buffer[1]->copier() == "Dani"){
-				talk(command.buffer[1]->copier());
+				if (player->position == npc[0]->location){
+					talk(command.buffer[1]->copier());
+				}
+				else{
+					printf("This Npc is not in this Room\n");
+				}
+			}
+			else if (command.buffer[1]->copier() == "boy"){
+				if (player->position == npc[2]->location){
+					talk(command.buffer[1]->copier());
+				}
+				else{
+					printf("This Npc is not in this Room\n");
+				}
 			}
 		}
-		else if (player->trans.size() != 0){//if the player has some items in the inventory
-			
+		else if (player->trans.size() != 0){//if the player has some items in the inventory			
 			for (int i = 0; i < player->trans.size(); i++){
 				if (command.buffer[1]->copier() == "Dani"){//we check with who is he talking
-					if (player->trans[i]->name == "map"){//we check if he has the map already
-						talkidle(command.buffer[1]->copier());
-						tmp = 1;
-						break;
-					}				
-				}				
+					if (player->position == npc[0]->location){
+						if (player->trans[i]->name == "map"){//we check if he has the map already
+							talkidle(command.buffer[1]->copier());
+							tmp = 1;
+							break;
+						}
+					}
+					else{
+						printf("This Npc is not in this Room\n");
+					}
+				}
+				else if (command.buffer[1]->copier() == "boy"){//we check with who is he talking
+					if (player->position == npc[2]->location){
+						if (player->trans[i]->name == "coin"){//we check if he has the map already
+							talkidle(command.buffer[1]->copier());
+							tmp = 1;
+							break;
+						}
+						else if (player->trans[i]->name == "camera"){//we check if he has the map already
+							talkidle2(command.buffer[1]->copier());
+							tmp = 1;
+							break;
+						}
+					}
+
+					else{
+						printf("This Npc is not in this Room\n");
+					}
+
+				}
+				else{
+					printf("This Npc doesn't exists\n");
+					break;
+				}
 			}
-		
-			
-		if (tmp==0){
-				talk(command.buffer[1]->copier());
+
+			if (tmp == 0){
+				if (command.buffer[1]->copier() == "Dani"){
+					if (player->position == npc[0]->location){
+						talk(command.buffer[1]->copier());
+					}
+				}
+				else if (command.buffer[1]->copier() == "boy"){
+					if (player->position == npc[2]->location){
+						talk(command.buffer[1]->copier());
+					}
+				}
 			}
+
 		}
 
-		else{
-			printf("\t\tThis npc doesn't exists\n\n");
-		
+	}
+
+	//Buy Npc:
+	else if (command.buffer[0]->copier() == "buy" || command.buffer[0]->copier() == "buy"){
+		if (command.size() == 1){
+			printf("\t\tWhich npc?\n\n");
+			gets_s(second);
+			command.push_back(new String(second));
+
+		}
+		if (command.buffer[1]->copier() == "machine"){
+			if (player->position == npc[3]->location){
+				buy(command.buffer[1]->copier());
+			}
+			printf("This Npc is not here\n");
 		}
 	}
-		
-		
-	
+
+
+
 
 		player->enter = true;//complets the loop to continue recieving commands
 		return true;
@@ -433,7 +500,7 @@ bool World::Inpunts(){
 					if (exit[i]->direction == direction){//Checking if the direction iss the same of the exit direction
 						if (exit[i]->open == true){//Checking if the door to enter the room is closed
 							player->position = exit[i]->destination;//Now the player position is the destination of the exit
-							printf("\t\t\t\t%s\n%s\n\n", exit[i]->destination->name.c_str(),exit[i]->destination->description.c_str());
+							printf("\t\t\t\t%s\n%s\n\n", exit[i]->destination->name.c_str(), exit[i]->destination->description.c_str());
 							player->enter = false;
 							tmp = 1;
 							break;
@@ -444,9 +511,9 @@ bool World::Inpunts(){
 							break;
 						}
 					}
-				
+
 				}
-				
+
 			}
 			if (tmp == 0){
 				printf("\t\t\tThere's nothing there\n\n");
@@ -460,22 +527,22 @@ bool World::Inpunts(){
 			for (int i = 0; i < 18; i++){
 				if (exit[i]->origin == player->position){//Checking if the position of the player is the same of the exit origin
 					if (exit[i]->direction == watch){//Checking if the direction iss the same of the exit direction
-						printf("%s\n\n",exit[i]->description.c_str());
+						printf("%s\n\n", exit[i]->description.c_str());
 						player->enter = false;
 						tmp = 1;
 						break;
 					}
-					
+
 				}
-				
+
 			}
 			if (tmp == 0){
 				printf("\t\t\tThere's nothing there\n\n");
 			}
 		}
 	}
-	
-	
+
+
 
 	void World::LookRoom(){
 		printf("\t\t\t\t%s\n%s\n\n", player->position->name.c_str(), player->position->description.c_str());
@@ -518,47 +585,47 @@ bool World::Inpunts(){
 		int tmp = 0;
 		if (player->position->drive.size() < 5){
 			for (int j = 0; j < item.size(); j++){
-				if ((item[j]->localitzation)==(player->position) ){
+				if ((item[j]->localitzation) == (player->position)){
 					if (name == item[j]->name.copier()){
-					printf("\t\t\tYou picked the %s\n\n", item[j]->name.c_str());
-					tmp = 1;
-					player->trans.push_back(item[j]);
-					player->position->drive.cleaner(j);
-					item[j]->localitzation = nullptr;
-					return;
+						printf("\t\t\tYou picked the %s\n\n", item[j]->name.c_str());
+						tmp = 1;
+						player->trans.push_back(item[j]);
+						player->position->drive.cleaner(j);
+						item[j]->localitzation = nullptr;
+						return;
+					}
 				}
-				}
-				}
-
-			
-
-
-				printf("\t\t\tThis object is not here\n\n");
 			}
+
+
+
+
+			printf("\t\t\tThis object is not here\n\n");
 		}
-	
-	
-	
+	}
 
 
-	
-	
-	
+
+
+
+
+
+
 	void World::DropItem(const String name){
-			int tmp = 0;
-			for (int j = 0; j < 5; j++)	{
-				if (item[j]->name == name){
-					printf("\t\t\tYou Droped the %s\n\n", item[j]->name.c_str());
-					item[j]->localitzation =player->position;
-					player->position->drive.push_back(item[j]);
-					player->trans.cleaner(j);
-					
-				}
+		int tmp = 0;
+		for (int j = 0; j < 5; j++)	{
+			if (item[j]->name == name){
+				printf("\t\t\tYou Droped the %s\n\n", item[j]->name.c_str());
+				item[j]->localitzation = player->position;
+				player->position->drive.push_back(item[j]);
+				player->trans.cleaner(j);
 
 			}
-			if (tmp != 0)
-				printf("\t\t\tThis object is not here\n\n");
+
 		}
+		if (tmp != 0)
+			printf("\t\t\tThis object is not here\n\n");
+	}
 	void World::PutItem(const String items){
 		if (player->position == roomer[0]){
 			if (player->trans.size() > 0){
@@ -566,7 +633,7 @@ bool World::Inpunts(){
 				{
 					if (items == player->trans[i]->name){
 						item[0]->transp.push_back(player->trans[i]);
-						printf("\t\tYou put the %s inside the box\n\n",player->trans[i]->name.c_str());
+						printf("\t\tYou put the %s inside the box\n\n", player->trans[i]->name.c_str());
 						player->trans.cleaner(i);
 						return;
 					}
@@ -578,10 +645,10 @@ bool World::Inpunts(){
 			}
 		}
 	}
-	void World::GetItem( const String items){
+	void World::GetItem(const String items){
 		if (player->position == roomer[0]){
 			if (player->trans.size() < 5){//inventory size
-				for (unsigned int i = 0; item[0]->transp.size() > i; i++)
+				for(unsigned int i = 0; item[0]->transp.size() > i; i++)
 				{
 					if (items == item[0]->transp[i]->name){
 						player->trans.push_back(item[0]->transp[i]);
@@ -598,7 +665,7 @@ bool World::Inpunts(){
 		}
 
 	}
-	void World::Description(const String name)const{ 
+	void World::Description(const String name)const{
 		int tmp = 0;
 		for (int j = 0; j < 2; j++){
 			if (npc[j]->name == name){
@@ -611,16 +678,17 @@ bool World::Inpunts(){
 				tmp = 1;
 				break;
 			}
-			
-			
+
+
 		}
 		if (tmp == 0){
 			printf("\t\t\tThis npc doesn't exist\n\n");
 		}
-		
+
 	}
+
 	//SPECIAL FEATURE MAP
-	void World::Map(){
+	void World::Map()const{
 
 		char map[20][40]{
 
@@ -676,7 +744,7 @@ bool World::Inpunts(){
 		else if (player->position == roomer[9]){//Programming
 			map[12][25] = '*';
 		}
-		
+
 		system("cls");
 		for (int i = 0; i < 20; i++){
 			for (int j = 0; j < 40; j++){
@@ -686,13 +754,14 @@ bool World::Inpunts(){
 
 		}
 		printf("\n");
-		
+
 
 	}
+
 	
 	
 	void World::talk(const String names)const{
-		int options = 0, option2 = 0;			
+		int options = 0, option2 = 0, option3 = 0, option4 = 0;
 		if (names=="Dani"){
 				printf("\t\tDani:Hello Marc, how are you?\n\n");
 				printf("\t\tYou: 1- Not really well, someone has stolen my homework...\n\t\t2-Good, what are you doing here Dani?\n\n");
@@ -701,7 +770,7 @@ bool World::Inpunts(){
 				switch (options){
 
 				case 1:						
-						printf("\t\tDani: Oh, what a bad notice, i think i have something that can  \t\thelp you...\n\n");
+						printf("\t\tDani: Oh, what a bad notice, i think i have something that can help you...\n\n");
 						printf("\t\tYou:1-Really? and what is this thing?\n\n");
 						scanf_s("%i", &option2);
 						if (option2 != 1){
@@ -714,10 +783,24 @@ bool World::Inpunts(){
 							player->trans.push_back(item[5]);
 							npc[0]->give.cleaner(5);							
 						}					
-					break;
+						break;
 				case 2:
 					printf("\t\tDani: I had a meeting with my tutor. And what about you? clases finished 3 hours ago...\n");
-					printf("\t\tYou:1-Okay I will tell you, someone has stolen my homework and i can't find him\n");			
+					printf("\t\tYou:1-Okay I will tell you, someone has stolen my homework and i can't find him\n");
+					scanf_s("%i", &option2);
+					printf("\t\tDani: Oh, what a bad notice, i think i have something that can help you...\n\n");
+					printf("\t\tYou:1-Really? and what is this thing?\n\n");
+					scanf_s("%i", &option2);
+					if (option2 != 1){
+						printf("I don't understand start again\n");
+						scanf_s("%i", &option2);
+					}
+					else if (option2 == 1){
+						printf("\t\tDani: It's a map of the University. With the map you will be able to see all the rooms. Take it\n\n");
+						printf("\t\t\t***You recieved a map***\n\n");
+						player->trans.push_back(item[5]);
+						npc[0]->give.cleaner(5);
+					}
 						
 					break;
 				default:
@@ -727,11 +810,40 @@ bool World::Inpunts(){
 				
 
 			}
-		else{
-			printf("pam");
+		else if (names == "boy"){
+			printf("\t\tBoy: Oh, hello Marc...snif\n ");
+			printf("\t\tYou: 1-Why are you crying?\n\n");
+			scanf_s("%i", &options);
+			switch (options){
+
+			case 1:
+				printf("\t\tBoy:Yesterday i bought i new camera and now i have lost it...snif\n\n");
+				printf("\t\tYou:1-Don't worry boy, sure it's here in the CITM, you will find it don't cry anymore\n\n");
+				scanf_s("%i", &option2);
+				if (option2 != 1){
+					printf("I don't understand start again\n");
+					scanf_s("%i", &option2);
+				}
+				else if (option2 == 1){
+					printf("\t\tBoy: Please Marc, can you find it for me please?\n\n");
+					printf("\t\tYou: 1-I have more important problems to solve than looking for a camera.\n     2-Okey, do you remember when you use it the last time?\n");
+					scanf_s("%i", &option3);
+					if (option3 == 1){
+						printf("\t\tBoy: Pleasee...snif, i need it, i will give you 1 coin\n\n");
+						printf("You:1- Mmmm, okey I will do it, do you remember when you use it the last time?\n\n");
+						scanf_s("%i", &option4);
+						printf("\t\tBoy: Oh...snif, thanks Marc..snif\n\n");					
+					}
+					else if (option3 == 2){
+						printf("\t\tBoy: Oh...snif, thanks Marc..snif\n\n");
+						break;					
+					}
+					
+
+				}
+			}
 		}
-		
-		
+			
 		
 	}
 	void World::talkidle(const String names)const{
@@ -739,7 +851,58 @@ bool World::Inpunts(){
 		if (names == "Dani"){
 			printf("Good luck on your way to find your homework\n\n");
 		}
+		if (names == "boy"){
+			printf("\t\tThanks Marc!\n\n");
+		}
 	}
+	void World::talkidle2(const String names)const{
+		printf("\t\tBoy:Really thenks Marc, my cameraa...snif\n\n");
+		printf("\t\tHere you have\n\t\t\t**You Recieved a coin**\n\n");
+		player->trans.push_back(item[6]);
+		npc[2]->give.cleaner(0);
+		for (int i = 0; i < player->trans.size(); i++){
+			if (player->trans[i]->name == "camera"){
+				player->trans.cleaner(i);
+			}
+
+		}
+		
+		
+
+	}
+	void World::buy(const String names)const{
+		int option = 0;
+		if (names == "machine"){
+			printf("\t\tAll products cost 1 coin\n\t\t1KitKat\n\t\t2M&M's\n\t\t3Crunch\n\t\tChoose what do you whant\n");
+			scanf_s("%i", &option);
+			for (int i = 0; i < player->trans.size(); i++){
+				if (player->trans[i]->name == "coin"){
+					switch (option){
+
+					case 1:
+						printf("\t\t\t\t**You Recieved a KitKat\n\n");
+						player->trans.push_back(item[7]);
+						break;
+					case 2:
+						printf("\t\t\t\t**You Recieved M&M's\n\n");
+						player->trans.push_back(item[8]);
+						break;
+					case 3:
+						printf("\t\t\t\t**You Recieved a Crunch\n\n");
+						player->trans.push_back(item[9]);
+						break;
+
+					}
+
+				}
+			}
+			printf("You don't have enough coins to buy this\n");
+
+		}
+	
+	
+	}
+
 
 	
 

@@ -36,9 +36,11 @@ public:
 	void PutItem(const String item);
 	void GetItem(const String item);
 	void Description(const String name)const;
-	void Map();
+	void Map()const;
 	void talk(const String names)const;
 	void talkidle(const String names)const;
+	void talkidle2(const String names)const;
+	void buy(const String names)const;
 	World();//builder
 	~World();//destroyer
 
