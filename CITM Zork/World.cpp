@@ -18,72 +18,72 @@ World::~World(){
 }
 
 void World::CreateWorld(){
-	Room* entrance;
+	
 	
 	//NAMES AND DESCRIPTIONS FOR EVERY ROOM 
-	roomer.push_back((new Room("Entrance", "You are now in the entrance of the CITM.The's a box on the floor where you can put objects")));//room 0
-	roomer.push_back((new Room("Secretary's Room", "You are now in the Secretary's Room. Seems nobody is here.There are some papers about the students on the table.Ther's a folder on the table.Go West to exit the room")));//room 1
-	roomer.push_back((new Room("Photography set", "You are now in the Photography set, a big room equiped with a lot of technology.In the center of the set you can see a camera on the floor next to a red\nbackpack.Go East to exit the room")));//room 2
-	roomer.push_back((new Room("Floor 1", "You are now in the Floor 1, you can see Dani next to a drinkingfountain.")));//room 3
-	roomer.push_back((new Room("Toilets", "You are now in the toilets, the floor is a little wet but the smell is not that bad.There are three toilets and a big mirror.In front of the mirror there's a boy crying.Go South to exit the room")));//room 4
-	roomer.push_back((new Room("Art Room", "You are now in the Art Room, you see a lot of tables and a huge amount of pencils.You also see a boy, his name is Pep, he is the bully who has stolen your homework.Go North to exit the room East")));//room 5
-	roomer.push_back((new Room("Neg Floor", "You are in the floor -1. It's a little cold.")));//room 6
-	roomer.push_back((new Room("Vending Machine", "You are in front of the vending machine, there are a los of snacks, but you don't have money. You are lucky, ther's a Candy on the bottom of the machine. Go East to exit the room")));//room 7
-	roomer.push_back((new Room("Dining Room", "You are in the dining room. You can see 3 big tables and two microwaves.On the top of one of them there are some kleenex.There are few people on the last table having lunch.Go West to exit the room")));//room 8
-	roomer.push_back((new Room("Programming Room", "You have entered teh Programming Room.You are alone with the teacher. He looks very angry.But if you have your homework you will not have any problem...Go North to exit the room")));//room 9
+	entity.push_back((new Room("Entrance", "You are now in the entrance of the CITM.The's a box on the floor where you can put objects")));//room 0
+	entity.push_back((new Room("Secretary's Room", "You are now in the Secretary's Room. Seems nobody is here.There are some papers about the students on the table.Ther's a folder on the table.Go West to exit the room")));//room 1
+	entity.push_back((new Room("Photography set", "You are now in the Photography set, a big room equiped with a lot of technology.In the center of the set you can see a camera on the floor next to a red\nbackpack.Go East to exit the room")));//room 2
+	entity.push_back((new Room("Floor 1", "You are now in the Floor 1, you can see Dani next to a drinkingfountain.")));//room 3
+	entity.push_back((new Room("Toilets", "You are now in the toilets, the floor is a little wet but the smell is not that bad.There are three toilets and a big mirror.In front of the mirror there's a boy crying.Go South to exit the room")));//room 4
+	entity.push_back((new Room("Art Room", "You are now in the Art Room, you see a lot of tables and a huge amount of pencils.You also see a boy, his name is Pep, he is the bully who has stolen your homework.Go North to exit the room East")));//room 5
+	entity.push_back((new Room("Neg Floor", "You are in the floor -1. It's a little cold.")));//room 6
+	entity.push_back((new Room("Vending Machine", "You are in front of the vending machine, there are a los of snacks, but you don't have money. You are lucky, ther's a Candy on the bottom of the machine. Go East to exit the room")));//room 7
+	entity.push_back((new Room("Dining Room", "You are in the dining room. You can see 3 big tables and two microwaves.On the top of one of them there are some kleenex.There are few people on the last table having lunch.Go West to exit the room")));//room 8
+	entity.push_back((new Room("Programming Room", "You have entered teh Programming Room.You are alone with the teacher. He looks very angry.But if you have your homework you will not have any problem...Go North to exit the room")));//room 9
 	
 	//SETTING THE PLAYER NAME AND POSITION:
-	player->position = roomer[0];
+	player->position = (Room*)entity[0];
 	
 	//SETTING UP EXITS: NAME, DESCRIPTION, ORIGIN, DESTINATION, DIRECTION AND OPEN:
 	
-	exit.push_back((new Exit("E-S", "You see the Secretary's Room, but nobody is inside", true, roomer[0], roomer[1], EAST)));//Entrance exit to Secretary's Room
-	exit.push_back((new Exit("S-E", "You see the entrance, there's a lot of silence", true, roomer[1], roomer[0], WEST)));//Secretary's Room exit to Entrance
-	exit.push_back((new Exit("E-S", "You see the photograpy set, but seems the door is closed",false, roomer[0], roomer[2], WEST)));//Entrance exit to Photography set
-	exit.push_back((new Exit("P-E", "You see the entrance, there's a lot of silence", true, roomer[2], roomer[0], EAST)));//Photography set exit to Entrance
-	exit.push_back((new Exit("E-F", "You see the upstairs that go to the floor 1", true, roomer[0], roomer[3], NORTH)));//Entrance exit to floor 1 by upstairs
-	exit.push_back((new Exit("F-E", "You see the downstairs that go to the entrance", true, roomer[3], roomer[0], SOUTH)));//Floor 1 exit to Entrance by Downstairs
-	exit.push_back((new Exit("F-T", "You see the toilets, there's a tears trail", true, roomer[3], roomer[4], NORTH)));//Floor 1 exit to Toilets
-	exit.push_back((new Exit("T-F", "You see the whole Floor 1, the sun iluminates all the floor", true, roomer[4], roomer[3], SOUTH)));//Toilet exit to the Floor 1
-	exit.push_back((new Exit("F-A", "You see the Art Room, there are some pencils on the entrance", true, roomer[3], roomer[5], WEST)));//Floor 1 exit to the art Room
-	exit.push_back((new Exit("A-F", "You see the whole Floor 1, the sun iluminates all the floor 1", true, roomer[5], roomer[3], EAST)));//Art Room exit to the Floor 1
-	exit.push_back((new Exit("E-N", "You see the downstairs that go to the floor -1", true, roomer[0], roomer[6], SOUTH)));//Entrance exit to floor -1 by downstairs
-	exit.push_back((new Exit("N-E", "You see the upstairs that go to the Entrance", true, roomer[6], roomer[0], NORTH)));//Floor -1 exit to the entrance by Upstairs
-	exit.push_back((new Exit("N-V", "You see the Vending Machine, it has a lot of snacks", true, roomer[6], roomer[7], WEST)));//Floor-1 exit to the Vending Machine:
-	exit.push_back((new Exit("V-N", "You can see the whole floor -1, it's a little bit cold", true, roomer[7], roomer[6], EAST)));//Vending Machine exit to the Floor -1
-	exit.push_back((new Exit("N-D", "You see the entrance of the dining room, and you hear some noises inside", true, roomer[6], roomer[8], EAST)));//Floor -1 exit to the dining rooom
-	exit.push_back((new Exit("D-N", "You can see the whole floor -1, it's a little bit cold", true, roomer[8], roomer[6], WEST)));	//Dining Room exit to the floor -1
-	exit.push_back((new Exit("N-P", "You see the programming room.In this class you have to deliver your homework. It's a bad idea if you enter without the homework.", true, roomer[6], roomer[9], SOUTH)));//Floor -1 exit to the programming room
-	exit.push_back((new Exit("P-N", "You can see the whole floor -1, it's a little bit cold", true, roomer[9], roomer[6], NORTH)));	//Programming room exit to the floor - 1
+	entity.push_back((new Exit("E-S", "You see the Secretary's Room, but nobody is inside", true, (Room*)entity[0], (Room*)entity[1], EAST)));//Entrance exit to Secretary's Room
+	entity.push_back((new Exit("S-E", "You see the entrance, there's a lot of silence", true, (Room*)entity[1], (Room*)entity[0], WEST)));//Secretary's Room exit to Entrance
+	entity.push_back((new Exit("E-S", "You see the photograpy set, but seems the door is closed", false, (Room*)entity[0], (Room*)entity[2], WEST)));//Entrance exit to Photography set
+	entity.push_back((new Exit("P-E", "You see the entrance, there's a lot of silence", true, (Room*)entity[2], (Room*)entity[0], EAST)));//Photography set exit to Entrance
+	entity.push_back((new Exit("E-F", "You see the upstairs that go to the floor 1", true, (Room*)entity[0], (Room*)entity[3], NORTH)));//Entrance exit to floor 1 by upstairs
+	entity.push_back((new Exit("F-E", "You see the downstairs that go to the entrance", true, (Room*)entity[3], (Room*)entity[0], SOUTH)));//Floor 1 exit to Entrance by Downstairs
+	entity.push_back((new Exit("F-T", "You see the toilets, there's a tears trail", true, (Room*)entity[3], (Room*)entity[4], NORTH)));//Floor 1 exit to Toilets
+	entity.push_back((new Exit("T-F", "You see the whole Floor 1, the sun iluminates all the floor", true, (Room*)entity[4], (Room*)entity[3], SOUTH)));//Toilet exit to the Floor 1
+	entity.push_back((new Exit("F-A", "You see the Art Room, there are some pencils on the entrance", true, (Room*)entity[3], (Room*)entity[5], WEST)));//Floor 1 exit to the art Room
+	entity.push_back((new Exit("A-F", "You see the whole Floor 1, the sun iluminates all the floor 1", true, (Room*)entity[5], (Room*)entity[3], EAST)));//Art Room exit to the Floor 1
+	entity.push_back((new Exit("E-N", "You see the downstairs that go to the floor -1", true, (Room*)entity[0], (Room*)entity[6], SOUTH)));//Entrance exit to floor -1 by downstairs
+	entity.push_back((new Exit("N-E", "You see the upstairs that go to the Entrance", true, (Room*)entity[6], (Room*)entity[0], NORTH)));//Floor -1 exit to the entrance by Upstairs
+	entity.push_back((new Exit("N-V", "You see the Vending Machine, it has a lot of snacks", true, (Room*)entity[6], (Room*)entity[7], WEST)));//Floor-1 exit to the Vending Machine:
+	entity.push_back((new Exit("V-N", "You can see the whole floor -1, it's a little bit cold", true, (Room*)entity[7], (Room*)entity[6], EAST)));//Vending Machine exit to the Floor -1
+	entity.push_back((new Exit("N-D", "You see the entrance of the dining room, and you hear some noises inside", true, (Room*)entity[6], (Room*)entity[8], EAST)));//Floor -1 exit to the dining rooom
+	entity.push_back((new Exit("D-N", "You can see the whole floor -1, it's a little bit cold", true, (Room*)entity[8], (Room*)entity[6], WEST)));	//Dining Room exit to the floor -1
+	entity.push_back((new Exit("N-P", "You see the programming room.In this class you have to deliver your homework. It's a bad idea if you enter without the homework.", true, (Room*)entity[6], (Room*)entity[9], SOUTH)));//Floor -1 exit to the programming room
+	entity.push_back((new Exit("P-N", "You can see the whole floor -1, it's a little bit cold", true, (Room*)entity[9], (Room*)entity[6], NORTH)));	//Programming room exit to the floor - 1
 	
 	//ADD EVERY ITEM IN EACH ROOM:
-	item.push_back(new Item("box", "A box were you can put objects", roomer[0]));
-	item.push_back(new Item("folder", "A folder with all the information of some students", roomer[1]));
-	item.push_back(new Item("camera", "A new shinny camera with some stickers", roomer[2]));
-	item.push_back(new Item("candy", "Seems somebody loves this candy", roomer[7]));
-	item.push_back(new Item("kleenex", "They have a strawberry smell, probably someone needs them", roomer[8]));
-	item.push_back(new Item("map", "A map of the University where you can see all the rooms", npc[0]));
-	item.push_back(new Item("coin", "Coint that you can use to buy things", npc[2]));
-	item.push_back(new Item("KitKat", "A delicious chocolate snack", npc[3]));
-	item.push_back(new Item("M&M's", "A delicious chocolate snack", npc[3]));
-	item.push_back(new Item("Crunch", "A delicious chocolate snack", npc[3]));
+	entity.push_back(new Item("box", "A box were you can put objects", (Room*)entity[0]));
+	entity.push_back(new Item("folder", "A folder with all the information of some students", (Room*)entity[1]));
+	entity.push_back(new Item("camera", "A new shinny camera with some stickers", (Room*)entity[2]));
+	entity.push_back(new Item("candy", "Seems somebody loves this candy", (Room*)entity[7]));
+	entity.push_back(new Item("kleenex", "They have a strawberry smell, probably someone needs them", (Room*)entity[8]));
+	entity.push_back(new Item("map", "A map of the University where you can see all the rooms", (Npc*)entity[38]));
+	entity.push_back(new Item("coin", "Coint that you can use to buy things", (Npc*)entity[40]));
+	entity.push_back(new Item("KitKat", "A delicious chocolate snack", (Npc*)entity[41]));
+	entity.push_back(new Item("M&M's", "A delicious chocolate snack", (Npc*)entity[41]));
+	entity.push_back(new Item("Crunch", "A delicious chocolate snack", (Npc*)entity[41]));
 
-	roomer[0]->drive.push_back(item[0]);
-	roomer[1]->drive.push_back(item[1]);
-	roomer[2]->drive.push_back(item[2]);
-	roomer[7]->drive.push_back(item[3]);
-	roomer[8]->drive.push_back(item[4]);
+	entity[0]->drive.push_back(entity[28]);
+	entity[1]->drive.push_back(entity[29]);
+	entity[2]->drive.push_back(entity[30]);
+	entity[7]->drive.push_back(entity[31]);
+	entity[8]->drive.push_back(entity[32]);
 
 	//ADD NPC:
-	npc.push_back(new Npc("Dani", "Dani is your friend", roomer[3]));
-	roomer[3]->drive.push_back(npc[0]);
-	npc[0]->give.push_back(item[5]);
-	npc.push_back(new Npc("Pepe", "Pepe moves arround the CITM all the time, if he catches you, you lost\n", roomer[1]));
-	roomer[1]->drive.push_back(npc[1]); // later this Npc will be moving by hiself for the rooms
-	npc.push_back(new Npc("boy", "He is a very emotional boy", roomer[4]));
-	roomer[4]->drive.push_back(npc[2]);
-	npc.push_back(new Npc("machine", "A spending machine where you can buy:\n\t·M&M's\n\t·KitKat\n\t·Crunch", roomer[7]));
-	roomer[7]->drive.push_back(npc[3]);
+	entity.push_back(new Npc("Dani", "Dani is your friend", (Room*)entity[3]));
+	entity[3]->drive.push_back(entity[38]);
+	//((Npc*)entity[38])->give.push_back(item[5]);
+	entity.push_back(new Npc("Pepe", "Pepe moves arround the CITM all the time, if he catches you, you lost\n", (Room*)entity[1]));
+	entity[1]->drive.push_back(entity[39]); // later this Npc will be moving by hiself for the rooms
+	entity.push_back(new Npc("boy", "He is a very emotional boy", (Room*)entity[4]));
+	entity[4]->drive.push_back(entity[40]);
+	entity.push_back(new Npc("machine", "A spending machine where you can buy:\n\t·M&M's\n\t·KitKat\n\t·Crunch", (Room*)entity[7]));
+	entity[7]->drive.push_back(entity[41]);
 	
 	
 	
@@ -397,7 +397,7 @@ bool World::Inpunts(){
 		}
 		if (player->trans.size() == 0){//if player hasn't any item, he would be able to talk to Dani to recieve the map
 			if (command.buffer[1]->copier() == "Dani"){
-				if (player->position == npc[0]->location){
+				if (player->position == ((Npc*)entity[38])->location){
 					talk(command.buffer[1]->copier());
 				}
 				else{
@@ -405,7 +405,7 @@ bool World::Inpunts(){
 				}
 			}
 			else if (command.buffer[1]->copier() == "boy"){
-				if (player->position == npc[2]->location){
+				if (player->position == ((Npc*)entity[40])->location){
 					talk(command.buffer[1]->copier());
 				}
 				else{
@@ -416,7 +416,7 @@ bool World::Inpunts(){
 		else if (player->trans.size() != 0){//if the player has some items in the inventory			
 			for (int i = 0; i < player->trans.size(); i++){
 				if (command.buffer[1]->copier() == "Dani"){//we check with who is he talking
-					if (player->position == npc[0]->location){
+					if (player->position == ((Npc*)entity[38])->location){
 						if (player->trans[i]->name == "map"){//we check if he has the map already
 							talkidle(command.buffer[1]->copier());
 							tmp = 1;
@@ -428,7 +428,7 @@ bool World::Inpunts(){
 					}
 				}
 				else if (command.buffer[1]->copier() == "boy"){//we check with who is he talking
-					if (player->position == npc[2]->location){
+					if (player->position == ((Npc*)entity[40])->location){
 						if (player->trans[i]->name == "coin"){//we check if he has the map already
 							talkidle(command.buffer[1]->copier());
 							tmp = 1;
@@ -454,12 +454,12 @@ bool World::Inpunts(){
 
 			if (tmp == 0){
 				if (command.buffer[1]->copier() == "Dani"){
-					if (player->position == npc[0]->location){
+					if (player->position == ((Npc*)entity[38])->location){
 						talk(command.buffer[1]->copier());
 					}
 				}
 				else if (command.buffer[1]->copier() == "boy"){
-					if (player->position == npc[2]->location){
+					if (player->position == ((Npc*)entity[40])->location){
 						talk(command.buffer[1]->copier());
 					}
 				}
@@ -478,7 +478,7 @@ bool World::Inpunts(){
 
 		}
 		if (command.buffer[1]->copier() == "machine"){
-			if (player->position == npc[3]->location){
+			if (player->position == ((Npc*)entity[41])->location){
 				buy(command.buffer[1]->copier());
 			}
 			printf("This Npc is not here\n");
@@ -495,12 +495,12 @@ bool World::Inpunts(){
 	void World::MovePosition(dir direction){
 		int tmp = 0;
 		if (player->enter == true){
-			for (int i = 0; i < 18; i++){
-				if (exit[i]->origin == player->position){//Checking if the position of the player is the same of the exit origin
-					if (exit[i]->direction == direction){//Checking if the direction iss the same of the exit direction
-						if (exit[i]->open == true){//Checking if the door to enter the room is closed
-							player->position = exit[i]->destination;//Now the player position is the destination of the exit
-							printf("\t\t\t\t%s\n%s\n\n", exit[i]->destination->name.c_str(), exit[i]->destination->description.c_str());
+			for (int i = 10; i < 28; i++){
+				if (((Exit*)entity[i])->origin == player->position){//Checking if the position of the player is the same of the exit origin
+					if (((Exit*)entity[i])->direction == direction){//Checking if the direction iss the same of the exit direction
+						if (((Exit*)entity[i])->open == true){//Checking if the door to enter the room is closed
+							player->position = ((Exit*)entity[i])->destination;//Now the player position is the destination of the exit
+							printf("\t\t\t\t%s\n%s\n\n", ((Exit*)entity[i])->destination->name.c_str(), ((Exit*)entity[i])->destination->description.c_str());
 							player->enter = false;
 							tmp = 1;
 							break;
@@ -524,10 +524,10 @@ bool World::Inpunts(){
 	void World::Look(dir watch){
 		int tmp = 0;
 		if (player->enter == true){
-			for (int i = 0; i < 18; i++){
-				if (exit[i]->origin == player->position){//Checking if the position of the player is the same of the exit origin
-					if (exit[i]->direction == watch){//Checking if the direction iss the same of the exit direction
-						printf("%s\n\n", exit[i]->description.c_str());
+			for (int i = 10; i < 28; i++){
+				if (((Exit*)entity[i])->origin == player->position){//Checking if the position of the player is the same of the exit origin
+					if (((Exit*)entity[i])->direction == watch){//Checking if the direction iss the same of the exit direction
+						printf("%s\n\n", entity[i]->description.c_str());
 						player->enter = false;
 						tmp = 1;
 						break;
@@ -550,12 +550,12 @@ bool World::Inpunts(){
 
 	void World::OpenDoor(dir door){
 		if (player->enter == true){
-			for (int i = 0; i < 18; i++){
-				if (exit[i]->origin == player->position){//Checking if the position of the player is the same of the exit origin
-					if (exit[i]->direction == door){//Checking if the direction iss the same of the exit direction
-						if (exit[i]->open == false){//Checking if the door to enter the room is closed
+			for (int i = 10; i < 28; i++){
+				if (((Exit*)entity[i])->origin == player->position){//Checking if the position of the player is the same of the exit origin
+					if (((Exit*)entity[i])->direction == door){//Checking if the direction iss the same of the exit direction
+						if (((Exit*)entity[i])->open == false){//Checking if the door to enter the room is closed
 							printf("\t\t\tThe door is oppened\n\n");
-							exit[i]->open = true;
+							((Exit*)entity[i])->open = true;
 							player->enter = false;
 							break;
 						}
@@ -566,12 +566,12 @@ bool World::Inpunts(){
 	}
 	void World::CloseDoor(dir door){
 		if (player->enter == true){
-			for (int i = 0; i < 18; i++){
-				if (exit[i]->origin == player->position){//Checking if the position of the player is the same of the exit origin
-					if (exit[i]->direction == door){//Checking if the direction iss the same of the exit direction
-						if (exit[i]->open == true){//Checking if the door to enter the room is opened
+			for (int i =10; i < 28; i++){
+				if (((Exit*)entity[i])->origin == player->position){//Checking if the position of the player is the same of the exit origin
+					if (((Exit*)entity[i])->direction == door){//Checking if the direction iss the same of the exit direction
+						if (((Exit*)entity[i])->open == true){//Checking if the door to enter the room is opened
 							printf("\t\t\tYou closed the door\n\n");
-							exit[i]->open = false;
+							((Exit*)entity[i])->open = false;
 							player->enter = false;
 							break;
 						}
@@ -584,14 +584,14 @@ bool World::Inpunts(){
 	void World::PickItem(String name){
 		int tmp = 0;
 		if (player->position->drive.size() < 5){
-			for (int j = 0; j < item.size(); j++){
-				if ((item[j]->localitzation) == (player->position)){
-					if (name == item[j]->name.copier()){
-						printf("\t\t\tYou picked the %s\n\n", item[j]->name.c_str());
+			for (int j = 28; j <38; j++){
+				if ((((Item*)entity[j])->localitzation) == (player->position)){
+					if (name == ((Item*)entity[j])->name.copier()){
+						printf("\t\t\tYou picked the %s\n\n", ((Item*)entity[j])->name.c_str());
 						tmp = 1;
-						player->trans.push_back(item[j]);
+						player->trans.push_back(entity[j]);
 						player->position->drive.cleaner(j);
-						item[j]->localitzation = nullptr;
+						((Item*)entity[j])->localitzation = nullptr;
 						return;
 					}
 				}
@@ -613,11 +613,11 @@ bool World::Inpunts(){
 
 	void World::DropItem(const String name){
 		int tmp = 0;
-		for (int j = 0; j < 5; j++)	{
-			if (item[j]->name == name){
-				printf("\t\t\tYou Droped the %s\n\n", item[j]->name.c_str());
-				item[j]->localitzation = player->position;
-				player->position->drive.push_back(item[j]);
+		for (int j = 28; j < 38; j++)	{
+			if (((Item*)entity[j])->name == name){
+				printf("\t\t\tYou Droped the %s\n\n", ((Item*)entity[j])->name.c_str());
+				((Item*)entity[j])->localitzation = player->position;
+				player->position->drive.push_back(((Item*)entity[j]));
 				player->trans.cleaner(j);
 
 			}
@@ -627,12 +627,12 @@ bool World::Inpunts(){
 			printf("\t\t\tThis object is not here\n\n");
 	}
 	void World::PutItem(const String items){
-		if (player->position == roomer[0]){
+		if (player->position == entity[0]){
 			if (player->trans.size() > 0){
 				for (unsigned int i = 0; player->trans.size() > i; i++)
 				{
 					if (items == player->trans[i]->name){
-						item[0]->transp.push_back(player->trans[i]);
+						((Item*)entity[28])->transp.push_back(player->trans[i]);
 						printf("\t\tYou put the %s inside the box\n\n", player->trans[i]->name.c_str());
 						player->trans.cleaner(i);
 						return;
@@ -646,14 +646,14 @@ bool World::Inpunts(){
 		}
 	}
 	void World::GetItem(const String items){
-		if (player->position == roomer[0]){
+		if (player->position == entity[0]){
 			if (player->trans.size() < 5){//inventory size
-				for(unsigned int i = 0; item[0]->transp.size() > i; i++)
+				for (unsigned int i = 0; ((Item*)entity[28])->transp.size() > i; i++)
 				{
-					if (items == item[0]->transp[i]->name){
-						player->trans.push_back(item[0]->transp[i]);
-						printf("\t\tYou got the %s from the box\n\n", item[0]->transp[i]->name.c_str());
-						item[0]->transp.cleaner(i);
+					if (items == ((Item*)entity[28])->transp[i]->name){
+						player->trans.push_back(((Item*)entity[28])->transp[i]);
+						printf("\t\tYou got the %s from the box\n\n", ((Item*)entity[28])->transp[i]->name.c_str());
+						((Item*)entity[28])->transp.cleaner(i);
 						return;
 					}
 				}
@@ -667,10 +667,10 @@ bool World::Inpunts(){
 	}
 	void World::Description(const String name)const{
 		int tmp = 0;
-		for (int j = 0; j < 2; j++){
-			if (npc[j]->name == name){
-				if (player->position == npc[j]->location){
-					printf("\t\t\tName:%s\n        \t\tDescription: %s\n\n", npc[j]->name.c_str(), npc[j]->description.c_str());
+		for (int j = 38; j < 42; j++){
+			if (entity[j]->name == name){
+				if (player->position == ((Npc*)entity[j])->location){
+					printf("\t\t\tName:%s\n        \t\tDescription: %s\n\n", entity[j]->name.c_str(), entity[j]->description.c_str());
 					tmp = 1;
 					return;
 				}
@@ -686,6 +686,8 @@ bool World::Inpunts(){
 		}
 
 	}
+
+
 
 	//SPECIAL FEATURE MAP
 	void World::Map()const{
@@ -714,34 +716,34 @@ bool World::Inpunts(){
 			{ '|', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '|' }
 		};
 
-		if (player->position == roomer[0]){//f0
+		if (player->position == entity[0]){//f0
 			map[14][11] = '*';
 		}
-		else if (player->position == roomer[1]){//secretary
+		else if (player->position == entity[1]){//secretary
 			map[14][18] = '*';
 		}
-		else if (player->position == roomer[2]){//set
+		else if (player->position == entity[2]){//set
 			map[14][6] = '*';
 		}
-		else if (player->position == roomer[3]){//f1
+		else if (player->position == entity[3]){//f1
 			map[7][11] = '*';
 		}
-		else if (player->position == roomer[4]){//toilets
+		else if (player->position == entity[4]){//toilets
 			map[4][11] = '*';
 		}
-		else if (player->position == roomer[5]){//art
+		else if (player->position == entity[5]){//art
 			map[7][4] = '*';
 		}
-		else if (player->position == roomer[6]){//f-1
+		else if (player->position == entity[6]){//f-1
 			map[7][25] = '*';
 		}
-		else if (player->position == roomer[7]){//VendingMachine
+		else if (player->position == entity[7]){//VendingMachine
 			map[7][20] = '*';
 		}
-		else if (player->position == roomer[8]){//Dining
+		else if (player->position == entity[8]){//Dining
 			map[9][29] = '*';
 		}
-		else if (player->position == roomer[9]){//Programming
+		else if (player->position == entity[9]){//Programming
 			map[12][25] = '*';
 		}
 
@@ -780,8 +782,8 @@ bool World::Inpunts(){
 						else if (option2 == 1){
 							printf("\t\tDani: It's a map of the University. With the map you will be able to see all the rooms. Take it\n\n");
 							printf("\t\t\t***You recieved a map***\n\n");
-							player->trans.push_back(item[5]);
-							npc[0]->give.cleaner(5);							
+							player->trans.push_back(entity[33]);
+							//npc[0]->give.cleaner(0);							
 						}					
 						break;
 				case 2:
@@ -798,8 +800,8 @@ bool World::Inpunts(){
 					else if (option2 == 1){
 						printf("\t\tDani: It's a map of the University. With the map you will be able to see all the rooms. Take it\n\n");
 						printf("\t\t\t***You recieved a map***\n\n");
-						player->trans.push_back(item[5]);
-						npc[0]->give.cleaner(5);
+						player->trans.push_back(entity[33]);
+						//npc[0]->give.cleaner(5);
 					}
 						
 					break;
@@ -858,8 +860,8 @@ bool World::Inpunts(){
 	void World::talkidle2(const String names)const{
 		printf("\t\tBoy:Really thenks Marc, my cameraa...snif\n\n");
 		printf("\t\tHere you have\n\t\t\t**You Recieved a coin**\n\n");
-		player->trans.push_back(item[6]);
-		npc[2]->give.cleaner(0);
+		player->trans.push_back(entity[34]);
+		//npc[2]->give.cleaner(0);
 		for (int i = 0; i < player->trans.size(); i++){
 			if (player->trans[i]->name == "camera"){
 				player->trans.cleaner(i);
@@ -881,15 +883,15 @@ bool World::Inpunts(){
 
 					case 1:
 						printf("\t\t\t\t**You Recieved a KitKat\n\n");
-						player->trans.push_back(item[7]);
+						player->trans.push_back(entity[35]);
 						break;
 					case 2:
 						printf("\t\t\t\t**You Recieved M&M's\n\n");
-						player->trans.push_back(item[8]);
+						player->trans.push_back(entity[36]);
 						break;
 					case 3:
 						printf("\t\t\t\t**You Recieved a Crunch\n\n");
-						player->trans.push_back(item[9]);
+						player->trans.push_back(entity[37]);
 						break;
 
 					}

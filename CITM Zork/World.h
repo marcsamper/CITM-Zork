@@ -7,16 +7,15 @@
 #include "String.h"
 #include "Vector.h"
 #include "Item.h"
+
 class World: public Entity{
 public:
 
-	Vector<Room*> roomer;
-	Vector<Exit*> exit;
-	Vector<Item*> item;
-	Vector<Npc*> npc;
+	
+	Vector<Entity*> entity;
 	
 	
-	Player* player;
+	Player* player=nullptr;
 	String* pointer=nullptr;
 	Npc* npcs=nullptr;
 	World* go = nullptr;

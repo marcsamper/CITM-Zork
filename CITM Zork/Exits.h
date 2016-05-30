@@ -1,24 +1,18 @@
 #ifndef _EXIT_H
 #define _EXIT_H
 #include "Room.h"
-#include "String.h"
+//#include "String.h"
 #include "Entity.h"
 
-enum dir{
-	NORTH,
-	SOUTH,
-	EAST,
-	WEST
-
-};
 
 
 
+enum dir{ NORTH, SOUTH, EAST, WEST };
 class Exit:public Entity{
 public:
 	
-	Room *origin = nullptr;
-	Room *destination = nullptr;
+	Room* origin;
+	Room* destination;
 	Entity* point=nullptr;
 	dir direction;
 	bool open;

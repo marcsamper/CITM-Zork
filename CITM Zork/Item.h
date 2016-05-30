@@ -16,6 +16,7 @@ public:
 public:
 	Item(const char*, const char*, Room*);
 	Item(const char*, const char*, Npc*);
+
 	~Item();
 };
 #endif

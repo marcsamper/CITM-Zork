@@ -13,6 +13,7 @@ Item::Item(const char* name, const char*description, Npc* localitzation) : Entit
 }
 
 
+
 Item::~Item(){
 	
 }

@@ -8,7 +8,7 @@ template<class TYPE>
 class Vector{
 private:
 	
-	unsigned int capacity = 10;
+	unsigned int capacity = 100;
 	unsigned int num_elements = 0;
 
 
@@ -134,14 +134,14 @@ public:
 	
 	TYPE operator[](unsigned int num)const{
 
-		assert( num < 20);//make sure... if not jump to error
+		assert( num < 50);//make sure... if not jump to error
 		return buffer[num];
 
 	}
 
 	TYPE& operator[](unsigned int num){//para poder escribir data[5]=3
 
-		assert( num < 20);//make sure... if not jump to error
+		assert( num < 50);//make sure... if not jump to error
 		return buffer[num];
 
 	}

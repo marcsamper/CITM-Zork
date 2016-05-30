@@ -1,20 +1,23 @@
-#ifndef _ROOM_H
-#define _ROOM_H
-#include <stdio.h>
-#include "Entity.h"
 #include "String.h"
 #include "Vector.h"
+#include <stdio.h>
+#include "Entity.h"
+
+
+#ifndef _ROOM_H
+#define _ROOM_H
 
 
 
-class Room:public Entity{
-	
+class Room :public Entity{
 public:
-	Vector<Entity*> drive;
+
+
 	Room (const char* name, const char* description);
 	Room();
 	~Room();
 
 
 };
+
 #endif;
