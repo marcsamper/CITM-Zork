@@ -28,15 +28,15 @@ void World::CreateWorld(){
 	
 	//NAMES AND DESCRIPTIONS FOR EVERY ROOM 
 	entity.push_back((new Room("Entrance", "You are now in the entrance of the CITM.The's a box on the floor where you can put objects")));//room 0
-	entity.push_back((new Room("Secretary's Room", "You are now in the Secretary's Room. Seems nobody is here.There are some papers about the students on the table.Ther's a folder on the table.Go West to exit the room")));//room 1
+	entity.push_back((new Room("Secretary's Room", "You are now in the Secretary's Room. Seems nobody is here.Ther's a folder on the table.Go West to exit the room")));//room 1
 	entity.push_back((new Room("Photography set", "You are now in the Photography set, a big room equiped with a lot of technology.In the center of the set you can see a camera on the floor next to a red\nbackpack.Go East to exit the room")));//room 2
-	entity.push_back((new Room("Floor 1", "You are now in the Floor 1, you can see Dani next to a drinkingfountain.")));//room 3
+	entity.push_back((new Room("Floor 1", "You are now in the Floor 1, you can see Dani sit on a bank")));//room 3
 	entity.push_back((new Room("Toilets", "You are now in the toilets, the floor is a little wet but the smell is not that bad.There are three toilets and a big mirror.In front of the mirror there's a boy crying.Go South to exit the room")));//room 4
 	entity.push_back((new Room("Art Room", "You are now in the Art Room, you hear the voice of Pep, the boy who stole your homework, are you sure you want to enter without nothing to give to Pepe?.Go North to exit the room East")));//room 5
 	entity.push_back((new Room("Neg Floor", "You are in the floor -1. It's a little cold.")));//room 6
 	entity.push_back((new Room("Vending Machine", "You are in front of the vending machine, there are a los of snacks, but you don't have money. You are lucky, ther's a Candy on the bottom of the machine. Go East to exit the room")));//room 7
 	entity.push_back((new Room("Dining Room", "You are in the dining room. You can see 3 big tables and two microwaves.On the top of one of them there are some kleenex.There are few people on the last table having lunch.Go West to exit the room")));//room 8
-	entity.push_back((new Room("Programming Room", "You have entered teh Programming Room.You are alone with the teacher. He looks very angry.But if you have your homework you will not have any problem...Go North to exit the room")));//room 9
+	entity.push_back((new Room("Programming Room", "You have entered teh Programming Room.Go North to exit the room")));//room 9
 	
 	//SETTING THE PLAYER NAME AND POSITION:
 	player->position = (Room*)entity[0];
@@ -57,16 +57,16 @@ void World::CreateWorld(){
 	entity.push_back((new Exit("N-E", "You see the upstairs that go to the Entrance", true, (Room*)entity[6], (Room*)entity[0], NORTH)));//Floor -1 exit to the entrance by Upstairs
 	entity.push_back((new Exit("N-V", "You see the Vending Machine, it has a lot of snacks", true, (Room*)entity[6], (Room*)entity[7], WEST)));//Floor-1 exit to the Vending Machine:
 	entity.push_back((new Exit("V-N", "You can see the whole floor -1, it's a little bit cold", true, (Room*)entity[7], (Room*)entity[6], EAST)));//Vending Machine exit to the Floor -1
-	entity.push_back((new Exit("N-D", "You see the entrance of the dining room, and you hear some noises inside", true, (Room*)entity[6], (Room*)entity[8], EAST)));//Floor -1 exit to the dining rooom
+	entity.push_back((new Exit("N-D", "You see the entrance of the dining room, smells well", true, (Room*)entity[6], (Room*)entity[8], EAST)));//Floor -1 exit to the dining rooom
 	entity.push_back((new Exit("D-N", "You can see the whole floor -1, it's a little bit cold", true, (Room*)entity[8], (Room*)entity[6], WEST)));	//Dining Room exit to the floor -1
-	entity.push_back((new Exit("N-P", "You see the programming room.In this class you have to deliver your homework. It's a bad idea if you enter without the homework.", true, (Room*)entity[6], (Room*)entity[9], SOUTH)));//Floor -1 exit to the programming room
+	entity.push_back((new Exit("N-P", "You see the programming room", true, (Room*)entity[6], (Room*)entity[9], SOUTH)));//Floor -1 exit to the programming room
 	entity.push_back((new Exit("P-N", "You can see the whole floor -1, it's a little bit cold", true, (Room*)entity[9], (Room*)entity[6], NORTH)));	//Programming room exit to the floor - 1
 	
 	//ADD EVERY ITEM IN EACH ROOM:
 	entity.push_back(new Item("box", "A box were you can put objects", (Room*)entity[0]));
 	entity.push_back(new Item("folder", "A folder with all the information of some students", (Room*)entity[1]));
 	entity.push_back(new Item("camera", "A new shinny camera with some stickers", (Room*)entity[2]));
-	entity.push_back(new Item("candy", "Seems somebody loves this candy", (Room*)entity[7]));
+	entity.push_back(new Item("candy", "A normal Candy", (Room*)entity[7]));
 	entity.push_back(new Item("homework", "Your homework", (Npc*)entity[42]));
 	entity.push_back(new Item("map", "A map of the University where you can see all the rooms", (Npc*)entity[38]));
 	entity.push_back(new Item("coin", "Coint that you can use to buy things", (Npc*)entity[40]));
@@ -81,14 +81,14 @@ void World::CreateWorld(){
 	//entity[8]->drive.push_back(entity[32]);
 
 	//ADD NPC:
-	entity.push_back(new Npc("Dani", "Dani is your friend", (Room*)entity[3]));
+	entity.push_back(new Npc("Dani", "Dani is your friend and maybe he can help you find", (Room*)entity[3]));
 	entity[3]->drive.push_back(entity[38]);
 	//((Npc*)entity[38])->give.push_back(item[5]);
 	entity.push_back(new Npc("Guardian", "Guardian moves arround the CITM all the time, if he catches you, he steals your map\n", (Room*)entity[8]));
 	entity[8]->drive.push_back(entity[39]); // later this Npc will be moving by hiself for the rooms
-	entity.push_back(new Npc("boy", "He is a very emotional boy", (Room*)entity[4]));
+	entity.push_back(new Npc("boy", "He is a very emotional boy, he lost his new Camera", (Room*)entity[4]));
 	entity[4]->drive.push_back(entity[40]);
-	entity.push_back(new Npc("machine", "A spending machine where you can buy:\n\t·M&M's\n\t·KitKat\n\t·Crunch", (Room*)entity[7]));
+	entity.push_back(new Npc("machine", "A spending machine where you can buy:\n\t·KitKat\n\t·Chips\n\t·CocaCola", (Room*)entity[7]));
 	entity[7]->drive.push_back(entity[41]);	
 	entity.push_back(new Npc("Pep", "Pep is the boy who stole your homework, he is strong and loves chocolate", (Room*)entity[5]));
 	entity[5]->drive.push_back(entity[42]);
@@ -154,7 +154,7 @@ bool World::Inpunts(){
 
 		//Comand Quit to exit the game
 		if (command.buffer[0]->copier() == "Quit" || command.buffer[0]->copier() == "quit" || command.buffer[0]->copier() == "q" || command.buffer[0]->copier() == "QUIT"){
-			printf("You exit the game");
+			printf("You exit the game\N");
 			return false;//here we stop the loop and stops execution the function Inputs on main.cpp
 		}
 		//Command Go:
@@ -186,7 +186,7 @@ bool World::Inpunts(){
 
 			}
 			else{
-				printf("\t\tI don't understand, repeat please\n\n");
+				printf("I don't understand, repeat please\n");
 			}
 		}
 
@@ -198,7 +198,7 @@ bool World::Inpunts(){
 		}
 
 		//South
-		else if (command.buffer[0]->copier() == "south" || command.buffer[0]->copier() == "South" || command.buffer[0]->copier() == "SOUTH" || command.buffer[0]->copier() == "S"){
+		else if (command.buffer[0]->copier() == "south" || command.buffer[0]->copier() == "South" || command.buffer[0]->copier() == "SOUTH" || command.buffer[0]->copier() == "s"){
 			MovePosition(SOUTH);
 		}
 		//West
@@ -242,14 +242,15 @@ bool World::Inpunts(){
 
 			}
 			else{
-				printf("\t\tI don't understand, repeat please\n\n");
+				printf("I don't understand, repeat please\N");
 			}
 		}
 
 
 		//Command help to explain how all the commands work
 		else if (command.buffer[0]->copier() == "help" || command.buffer[0]->copier() == "Help" || command.buffer[0]->copier() == "HELP" || command.buffer[0]->copier() == "h"){
-			printf("TO MOVE THROUGH THE ROOMS USE THE COMAND GO, go, Go, 'g' PLUS THE DIRECTION YOU WANT (NORTH, north,North, 'n', SOUTH, south, South,'s', EAST, east, East,'e', WEST,west, West, 'w').YOU CAN ALSO MOVE BY ONLY WRITING (NORTH, north,North, 'n', SOUTH, south, South,'s', EAST, east, East,'e', WEST,west, West, 'w').TOO LOOK ALL THE POSIBLE EXITS USE THE COMMAND LOOK, look, Look, 'l' PLUS THE  DIRECTION YOU WANT.\nUSE THE COMPAND OPEN/CLOSE, open/close, Open/close, 'o'/'c' TO OPEN/CLOSE DOORS. IF YOU WANT TO EXIT WRITE QUIT, 'q'.\n\n\n");
+			printf("TO MOVE THROUGH THE ROOMS USE THE COMMAND GO, go, Go, 'g'\nPLUS THE DIRECTION YOU WANT (NORTH, north,North, 'n', SOUTH, south, South,'s', EAST, east, East,'e', WEST,west, West, 'w')\nYOU CAN ALSO MOVE BY ONLY WRITING:\n(NORTH, north,North, 'n', SOUTH, south, South,'s', EAST, east, East,'e', WEST,west, West, 'w')\nTOO LOOK ALL THE POSIBLE EXITS USE THE COMMAND LOOK, look, Look, 'l'\nPLUS THE  DIRECTION YOU WANT.\nUSE THE COMMAND OPEN/CLOSE, open/close, Open/close, 'o'/'c'\nTO OPEN/CLOSE DOORS. IF YOU WANT TO EXIT WRITE QUIT, 'q'.\n");
+			printf("YOU CAN PICK/DROP ITEMS WITH PICK/DROP + ITEM NAME\nYOU CAN ALSO PUT THIS ITEMS IN A BOX WITH PUT+ ITEM NAME + IN + BOX\nYOU CAN SEE THE DESCRIPTION OF ANY NPC WITH DESCRIPTION + NPC NAME\nYOU CAN ALSO TALK WITH THEM USING TALK + NPC NAME\nALSO YOU CAN BUY ITEMS BY USING COMMAND BUY + NPC NAME\nIF YOU WRITE WRONG ANY COMMAND YOU HAVE TO PRESS ENTER AND WRITE IT ANOTHER TIME\n");
 		}
 
 		//Commands to open/close the doors:
@@ -268,7 +269,7 @@ bool World::Inpunts(){
 			}
 
 			//South
-			else if (command.buffer[1]->copier() == "south" || command.buffer[1]->copier() == "South" || command.buffer[1]->copier() == "SOUTH" || command.buffer[1]->copier() == "S"){
+			else if (command.buffer[1]->copier() == "south" || command.buffer[1]->copier() == "South" || command.buffer[1]->copier() == "SOUTH" || command.buffer[1]->copier() == "s"){
 				OpenDoor(SOUTH);
 			}
 			//West
@@ -301,7 +302,7 @@ bool World::Inpunts(){
 			}
 
 			//South
-			else if (command.buffer[1]->copier() == "south" || command.buffer[1]->copier() == "South" || command.buffer[1]->copier() == "SOUTH" || command.buffer[1]->copier() == "S"){
+			else if (command.buffer[1]->copier() == "south" || command.buffer[1]->copier() == "South" || command.buffer[1]->copier() == "SOUTH" || command.buffer[1]->copier() == "s"){
 				CloseDoor(SOUTH);
 			}
 			//West
@@ -339,9 +340,9 @@ bool World::Inpunts(){
 				PickItem(command.buffer[1]->copier());
 			}
 			//West
-			else if (command.buffer[1]->copier() == "kleenex" || command.buffer[1]->copier() == "Kleenex" || command.buffer[1]->copier() == "KLEENEX" || command.buffer[1]->copier() == "k"){
+			/*else if (command.buffer[1]->copier() == "kleenex" || command.buffer[1]->copier() == "Kleenex" || command.buffer[1]->copier() == "KLEENEX" || command.buffer[1]->copier() == "k"){
 				PickItem(command.buffer[1]->copier());
-			}
+			}*/
 			//North
 			else if (command.buffer[1]->copier() == "candy" || command.buffer[1]->copier() == "Candy" || command.buffer[1]->copier() == "CANDY" || command.buffer[1]->copier() == "c"){
 				PickItem(command.buffer[1]->copier());
@@ -371,9 +372,9 @@ bool World::Inpunts(){
 				DropItem(command.buffer[1]->copier());
 			}
 			//West
-			else if (command.buffer[1]->copier() == "kleenex" || command.buffer[1]->copier() == "Kleenex" || command.buffer[1]->copier() == "KLEENEX" || command.buffer[1]->copier() == "k"){
+			/*else if (command.buffer[1]->copier() == "kleenex" || command.buffer[1]->copier() == "Kleenex" || command.buffer[1]->copier() == "KLEENEX" || command.buffer[1]->copier() == "k"){
 				DropItem(command.buffer[1]->copier());
-			}
+			}*/
 			//North
 			else if (command.buffer[1]->copier() == "candy" || command.buffer[1]->copier() == "Candy" || command.buffer[1]->copier() == "CANDY" || command.buffer[1]->copier() == "c"){
 				DropItem(command.buffer[1]->copier());
@@ -826,7 +827,7 @@ bool World::Inpunts(){
 				switch (options){
 
 				case 1:						
-						printf("Dani: Oh, what a bad notice, i think i have something that can help you...\n");
+						printf("Dani: Oh, what a bad notice, I think I have something that can help you...\n");
 						printf("You:1-Really? and what is this thing?\n");
 						scanf_s("%i", &option2);
 						if (option2 != 1){
@@ -844,7 +845,7 @@ bool World::Inpunts(){
 					printf("Dani: I had a meeting with my tutor. And what about you? clases finished 3 hours ago...\n");
 					printf("You:1-Okay I will tell you, someone has stolen my homework and i can't find him\n");
 					scanf_s("%i", &option2);
-					printf("Dani: Oh, what a bad notice, i think i have something that can help you...\n");
+					printf("Dani: Oh, what a bad notice, I think I have something that can help you...\n");
 					printf("You:1-Really? and what is this thing?\n");
 					scanf_s("%i", &option2);
 					if (option2 != 1){
@@ -873,7 +874,7 @@ bool World::Inpunts(){
 			switch (options){
 
 			case 1:
-				printf("Boy:Yesterday i bought i new camera and now i have lost it...snif.\n");
+				printf("Boy:Yesterday I bought I new camera and now I have lost it...snif.\n");
 				printf("You:1-Don't worry boy, sure it's here in the CITM, you will find it don't cry anymore.\n");
 				scanf_s("%i", &option2);
 				if (option2 != 1){
@@ -885,13 +886,14 @@ bool World::Inpunts(){
 					printf("You: 1-I have more important problems to solve than looking for a camera.\nYou: 2-Okey, do you remember when you use it the last time?\n");
 					scanf_s("%i", &option3);
 					if (option3 == 1){
-						printf("Boy: Pleasee...snif, i need it, i will give you 1 coin\n");
+						printf("Boy: Pleasee...snif, I need it, I will give you 1 coin\n");
 						printf("You:1-Mmmm, okey I will do it, do you remember when you use it the last time?\n");
 						scanf_s("%i", &option4);
-						printf("Boy: Oh...snif, thanks Marc..snif\n");					
+						printf("Boy: Last time I had it was in the Set, thanks Marc..snif\n");					
 					}
 					else if (option3 == 2){
-						printf("Boy: Oh...snif, thanks Marc..snif\n");
+						
+						printf("Boy: Last time I had it was in the Set, thanks Marc..snif\n");
 						break;					
 					}
 					
@@ -906,18 +908,18 @@ bool World::Inpunts(){
 
 			switch (options){
 			case 1:
-				printf("Pep: What? Don't you see I can kick you, i won't give you your homework\n");
+				printf("Pep: What? Don't you see I can kick you, T won't give you your homework\n");
 				for (int i = 0; i < player->trans.size(); i++){
 					if (player->trans[i]->name == "KitKat"){
-						printf("You: 1-Wait, let's calm down, I can offer you someting\nYou: 2-It's my homework, i made it, its mine, GIVE IT TO ME!\n");
+						printf("You: 1-Wait, let's calm down, I can offer you someting\nYou: 2-It's my homework, I made it, its mine, GIVE IT TO ME!\n");
 						scanf_s("%i", &option2);
 						switch (option2){
 						case 1:
 							printf("Pep: Now I like more, you are learning little boy, what can you offer me?\n");
-							printf("You: 1- I know you love chocolate and i have one KitKat\n");
+							printf("You: 1- I know you love chocolate and I have one KitKat\n");
 							scanf_s("%i", &option3);
 
-							printf("Pep: Oh, i love KitKat, take your stupid homework and give me that delicous candy\n");
+							printf("Pep: Oh, I love KitKat, take your stupid homework and give me that delicous candy\n");
 							printf("You: 1-Here you have...\n");
 							scanf_s("%i", &option4);
 							printf("\t\t\t***You gave Pep the KitKat***\n");
@@ -929,16 +931,16 @@ bool World::Inpunts(){
 							player->trans.push_back(entity[32]);
 							printf("\t\t\t***Finally you have you homework***\n\n");
 
-							printf("Thanks for playing, hope you enjoyed the game,press q to finish game\n");
+							printf("Thanks for playing, hope you enjoyed the game,press q or Quit to finish game\n");
 							break;
 
 						case 2:
 							printf("Pep: I advised you once, you are a dead little boy\n");
 							printf("You: 1-No sorry, don't hit me\n");
 							scanf_s("%i", &option3);
-							printf("***Pepe hit you so hard that you have to go to the hospital, you are not able to deliver you homework.");
-							printf("t\t\tGAME OVER \n\n\n");
-							printf("Thanks for playing, hope you enjoyed the game,press q to finish game\n");
+							printf("***Pepe hit you so hard that you have to go to the hospital, you are not able to deliver you homework***\n");
+							printf("t\t\t**GAME OVER**\n\n\n");
+							printf("Thanks for playing, hope you enjoyed the game,press q or Quit to finish game\n");
 							break;
 
 
@@ -960,12 +962,12 @@ bool World::Inpunts(){
 			printf("Good luck on your way to find your homework\n\n");
 		}
 		if (names == "boy"){
-			printf("\t\tThanks Marc!\n\n");
+			printf("Thanks!\n\n");
 		}
 	}
 	void World::talkidle2(const String names)const{
-		printf("\t\tBoy:Really thenks Marc, my cameraa...snif\n\n");
-		printf("\t\tHere you have\n\t\t\t**You Recieved a coin**\n\n");
+		printf("Boy:Really thanks, my cameraa...snif\n\n");
+		printf("Boy:Here you have your coin\n\t\t\t**You Recieved a coin**\n\n");
 		player->trans.push_back(entity[34]);
 		//npc[2]->give.cleaner(0);
 		for (int i = 0; i < player->trans.size(); i++){
@@ -982,24 +984,24 @@ bool World::Inpunts(){
 		int option = 0;
 		int tmp = 0;
 		if (names == "machine"){
-			printf("\t\tAll products cost 1 coin\n\t\t1KitKat\n\t\t2Chips\n\t\t3CocaCola\n\t\tChoose what do you whant\n");
+			printf("All products cost 1 coin\n\t\t1_KitKat\n\t\t2_Chips\n\t\t3_CocaCola\n\t\tChoose what do you whant\n");
 			scanf_s("%i", &option);
 			for (int i = 0; i < player->trans.size(); i++){
 				if (player->trans[i]->name == "coin"){
 					switch (option){
 
 					case 1:
-						printf("\t\t\t\t**You Recieved a KitKat\n\n");
+						printf("\t\t\t\t**You Recieved a KitKat**\n\n");
 						player->trans.push_back(entity[35]);
 						tmp = 1;
 						break;
 					case 2:
-						printf("\t\t\t\t**You Recieved Chips\n\n");
+						printf("\t\t\t\t**You Recieved Chips**\n\n");
 						player->trans.push_back(entity[36]);
 						tmp = 1;
 						break;
 					case 3:
-						printf("\t\t\t\t**You Recieved a CocaCola\n\n");
+						printf("\t\t\t\t**You Recieved a CocaCola**\n\n");
 						player->trans.push_back(entity[37]);
 						tmp = 1;
 						break;
@@ -1007,7 +1009,9 @@ bool World::Inpunts(){
 					}
 
 				}
-			}if (tmp == 0){
+
+			}
+			if (tmp == 0){
 				printf("You don't have enough coins to buy this\n");
 			}
 
@@ -1027,7 +1031,7 @@ bool World::Inpunts(){
 					if (((Exit*)entity[i])->direction == NORTH){//Checking if the direction iss the same of the exit direction
 						if (((Exit*)entity[i])->open == true){//Checking if the door to enter the room is closed
 							((Npc*)entity[39])->location = ((Exit*)entity[i])->destination;//Now the player position is the destination of the exit
-							printf("Someone moved %s\n", ((Exit*)entity[i])->destination->name.c_str());
+							//printf("Someone moved %s\n", ((Exit*)entity[i])->destination->name.c_str());
 							if (((Npc*)entity[39])->location == player->position){
 								for (int i = 0; i < player->trans.size(); i++){
 									if (player->trans[i]->name == "map"){
@@ -1045,95 +1049,92 @@ bool World::Inpunts(){
 					}
 				}
 			}
-			printf("Remaining\n");
+			//printf("Remaining\n");
 			break;
 		case 1://SOUTH
-			
-				for (int i = 10; i < 28; i++){
-					if (((Exit*)entity[i])->origin == ((Npc*)entity[39])->location){//Checking if the position of the player is the same of the exit origin
-						if (((Exit*)entity[i])->direction == SOUTH){//Checking if the direction iss the same of the exit direction
-							if (((Exit*)entity[i])->open == true){//Checking if the door to enter the room is closed
-								((Npc*)entity[39])->location = ((Exit*)entity[i])->destination;//Now the player position is the destination of the exit
-								printf("Someone moved %s\n", ((Exit*)entity[i])->destination->name.c_str());
-								if (((Npc*)entity[39])->location == player->position){
-									for (int i = 0; i < player->trans.size(); i++){
-										if (player->trans[i]->name == "map"){
-											printf("Guardian: What are you doing with that map, you can't have this, give it to me\n\n");
-											printf("\t\t\t\t**The Guardian took your map**\n\n");
-											player->trans.cleaner(i);
-										}
+
+			for (int i = 10; i < 28; i++){
+				if (((Exit*)entity[i])->origin == ((Npc*)entity[39])->location){//Checking if the position of the player is the same of the exit origin
+					if (((Exit*)entity[i])->direction == SOUTH){//Checking if the direction iss the same of the exit direction
+						if (((Exit*)entity[i])->open == true){//Checking if the door to enter the room is closed
+							((Npc*)entity[39])->location = ((Exit*)entity[i])->destination;//Now the player position is the destination of the exit
+							//printf("Someone moved %s\n", ((Exit*)entity[i])->destination->name.c_str());
+							if (((Npc*)entity[39])->location == player->position){
+								for (int i = 0; i < player->trans.size(); i++){
+									if (player->trans[i]->name == "map"){
+										printf("Guardian: What are you doing with that map, you can't have this, give it to me\n\n");
+										printf("\t\t\t\t**The Guardian took your map**\n\n");
+										player->trans.cleaner(i);
 									}
-									printf("\t\t\t\tBe carefull on what you do boy\n\n");
-
-
 								}
-								break;
+								printf("\t\t\t\tBe carefull on what you do boy\n\n");
+
+
 							}
+							break;
 						}
 					}
 				}
-				printf("Remaining\n");
-				break;
-			
-		case 2://EAST
-			
-				for (int i = 10; i < 28; i++){
-					if (((Exit*)entity[i])->origin == ((Npc*)entity[39])->location){//Checking if the position of the player is the same of the exit origin
-						if (((Exit*)entity[i])->direction == EAST){//Checking if the direction iss the same of the exit direction
-							if (((Exit*)entity[i])->open == true){//Checking if the door to enter the room is closed
-								((Npc*)entity[39])->location = ((Exit*)entity[i])->destination;//Now the player position is the destination of the exit
-								printf("Someone moved %s\n", ((Exit*)entity[i])->destination->name.c_str());
-								if (((Npc*)entity[39])->location == player->position){
-									for (int i = 0; i < player->trans.size(); i++){
-										if (player->trans[i]->name == "map"){
-											printf("Guardian: What are you doing with that map, you can't have this, give it to me\n\n");
-											printf("\t\t\t\t**The Guardian took your map**\n\n");
-											player->trans.cleaner(i);
-										}
-									}
-									printf("\t\t\t\tBe carefull on what you do boy\n\n");
-
-
-								}
-								break;
-							}
-						}
-					}
-				}
-				printf("Remaining\n");
-				break;
-			
-		case 3://WEST
-	
-				for (int i = 10; i < 28; i++){
-					if (((Exit*)entity[i])->origin == ((Npc*)entity[39])->location){//Checking if the position of the player is the same of the exit origin
-						if (((Exit*)entity[i])->direction == WEST){//Checking if the direction iss the same of the exit direction
-							if (((Exit*)entity[i])->open == true){//Checking if the door to enter the room is closed
-								((Npc*)entity[39])->location = ((Exit*)entity[i])->destination;//Now the player position is the destination of the exit
-								//printf("Someone moved %s\n", ((Exit*)entity[i])->destination->name.c_str());
-								if (((Npc*)entity[39])->location == player->position){
-									for (int i = 0; i < player->trans.size(); i++){
-										if (player->trans[i]->name == "map"){
-											printf("Guardian: What are you doing with that map, you can't have this, give it to me\n\n");
-											printf("\t\t\t\t**The Guardian took your map**\n\n");
-											player->trans.cleaner(i);
-										}
-									}
-									printf("\t\t\t\tBe carefull on what you do boy\n\n");
-
-
-								}
-								break;
-							}
-						}
-					}
-				}
-			//	printf("Remaining\n");
-				break;
-			
-		default:
-			printf("Remaining\n");
+			}
+			//printf("Remaining\n");
 			break;
+
+		case 2://EAST
+
+			for (int i = 10; i < 28; i++){
+				if (((Exit*)entity[i])->origin == ((Npc*)entity[39])->location){//Checking if the position of the player is the same of the exit origin
+					if (((Exit*)entity[i])->direction == EAST){//Checking if the direction iss the same of the exit direction
+						if (((Exit*)entity[i])->open == true){//Checking if the door to enter the room is closed
+							((Npc*)entity[39])->location = ((Exit*)entity[i])->destination;//Now the player position is the destination of the exit
+							//printf("Someone moved %s\n", ((Exit*)entity[i])->destination->name.c_str());
+							if (((Npc*)entity[39])->location == player->position){
+								for (int i = 0; i < player->trans.size(); i++){
+									if (player->trans[i]->name == "map"){
+										printf("Guardian: What are you doing with that map, you can't have this, give it to me\n\n");
+										printf("\t\t\t\t**The Guardian took your map**\n\n");
+										player->trans.cleaner(i);
+									}
+								}
+								printf("\t\t\t\tBe carefull on what you do boy\n\n");
+
+
+							}
+							break;
+						}
+					}
+				}
+			}
+			//printf("Remaining\n");
+			break;
+
+		case 3://WEST
+
+			for (int i = 10; i < 28; i++){
+				if (((Exit*)entity[i])->origin == ((Npc*)entity[39])->location){//Checking if the position of the player is the same of the exit origin
+					if (((Exit*)entity[i])->direction == WEST){//Checking if the direction iss the same of the exit direction
+						if (((Exit*)entity[i])->open == true){//Checking if the door to enter the room is closed
+							((Npc*)entity[39])->location = ((Exit*)entity[i])->destination;//Now the player position is the destination of the exit
+							//printf("Someone moved %s\n", ((Exit*)entity[i])->destination->name.c_str());
+							if (((Npc*)entity[39])->location == player->position){
+								for (int i = 0; i < player->trans.size(); i++){
+									if (player->trans[i]->name == "map"){
+										printf("Guardian: What are you doing with that map, you can't have this, give it to me\n\n");
+										printf("\t\t\t\t**The Guardian took your map**\n\n");
+										player->trans.cleaner(i);
+									}
+								}
+								printf("\t\t\t\tBe carefull on what you do boy\n\n");
+
+
+							}
+							break;
+						}
+					}
+				}
+			}
+			//	printf("Remaining\n");
+			break;
+
 		}
 
 		
