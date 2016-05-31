@@ -67,12 +67,12 @@ void World::CreateWorld(){
 	entity.push_back(new Item("folder", "A folder with all the information of some students", (Room*)entity[1]));
 	entity.push_back(new Item("camera", "A new shinny camera with some stickers", (Room*)entity[2]));
 	entity.push_back(new Item("candy", "Seems somebody loves this candy", (Room*)entity[7]));
-	entity.push_back(new Item("homework", "Your homework", (Room*)entity[8]));
+	entity.push_back(new Item("homework", "Your homework", (Npc*)entity[42]));
 	entity.push_back(new Item("map", "A map of the University where you can see all the rooms", (Npc*)entity[38]));
 	entity.push_back(new Item("coin", "Coint that you can use to buy things", (Npc*)entity[40]));
 	entity.push_back(new Item("KitKat", "A delicious chocolate snack", (Npc*)entity[41]));
-	entity.push_back(new Item("M&M's", "A delicious chocolate snack", (Npc*)entity[41]));
-	entity.push_back(new Item("Crunch", "A delicious chocolate snack", (Npc*)entity[41]));
+	entity.push_back(new Item("Chips", "A bag full of chips", (Npc*)entity[41]));
+	entity.push_back(new Item("CocaCola", "The most sold drink in the world", (Npc*)entity[41]));
 
 	entity[0]->drive.push_back(entity[28]);
 	entity[1]->drive.push_back(entity[29]);
@@ -89,10 +89,9 @@ void World::CreateWorld(){
 	entity.push_back(new Npc("boy", "He is a very emotional boy", (Room*)entity[4]));
 	entity[4]->drive.push_back(entity[40]);
 	entity.push_back(new Npc("machine", "A spending machine where you can buy:\n\t·M&M's\n\t·KitKat\n\t·Crunch", (Room*)entity[7]));
-	entity[7]->drive.push_back(entity[41]);
-	
-	entity.push_back(new Npc("Pep", "Pepe is the boy who stole your homework, he is strong and loves chocolate", (Room*)entity[8]));
-	
+	entity[7]->drive.push_back(entity[41]);	
+	entity.push_back(new Npc("Pep", "Pep is the boy who stole your homework, he is strong and loves chocolate", (Room*)entity[5]));
+	entity[5]->drive.push_back(entity[42]);
 
 
 }
@@ -456,6 +455,15 @@ bool World::Inpunts(){
 						printf("This Npc is not in this Room\n");
 					}
 				}
+				
+			}
+			else if (command.buffer[1]->copier() == "Pep"){
+				if (player->position == ((Npc*)entity[42])->location){
+					talk(command.buffer[1]->copier());
+				}
+				else{
+					printf("This Npc is not in this Room\n");
+				}
 			}
 			else if (player->trans.size() != 0){//if the player has some items in the inventory			
 				for (int i = 0; i < player->trans.size(); i++){
@@ -713,7 +721,7 @@ bool World::Inpunts(){
 	}
 	void World::Description(const String name)const{
 		int tmp = 0;
-		for (int j = 38; j < 42; j++){
+		for (int j = 38; j < 43; j++){
 			if (entity[j]->name == name){
 				if (player->position == ((Npc*)entity[j])->location){
 					printf("\t\t\tName:%s\n        \t\tDescription: %s\n\n", entity[j]->name.c_str(), entity[j]->description.c_str());
@@ -811,41 +819,41 @@ bool World::Inpunts(){
 	void World::talk(const String names)const{
 		int options = 0, option2 = 0, option3 = 0, option4 = 0;
 		if (names=="Dani"){
-				printf("\t\tDani:Hello Marc, how are you?\n\n");
-				printf("\t\tYou: 1- Not really well, someone has stolen my homework...\n\t\t2-Good, what are you doing here Dani?\n\n");
+				printf("Dani:Hello Marc, how are you?\n");
+				printf("You: 1- Not really well, someone has stolen my homework...\nYou: 2-Good, what are you doing here Dani?\n");
 				scanf_s("%i", &options);
 
 				switch (options){
 
 				case 1:						
-						printf("\t\tDani: Oh, what a bad notice, i think i have something that can help you...\n\n");
-						printf("\t\tYou:1-Really? and what is this thing?\n\n");
+						printf("Dani: Oh, what a bad notice, i think i have something that can help you...\n");
+						printf("You:1-Really? and what is this thing?\n");
 						scanf_s("%i", &option2);
 						if (option2 != 1){
 							printf("I don't understand start again\n");
 							scanf_s("%i", &option2); 
 						}
 						else if (option2 == 1){
-							printf("\t\tDani: It's a map of the University. With the map you will be able to see all the rooms. Take it\n\n");
+							printf("Dani: It's a map of the University. With the map you will be able to see all the rooms. Take it\n");
 							printf("\t\t\t***You recieved a map***\n\n");
 							player->trans.push_back(entity[33]);
 							//npc[0]->give.cleaner(0);							
 						}					
 						break;
 				case 2:
-					printf("\t\tDani: I had a meeting with my tutor. And what about you? clases finished 3 hours ago...\n");
-					printf("\t\tYou:1-Okay I will tell you, someone has stolen my homework and i can't find him\n");
+					printf("Dani: I had a meeting with my tutor. And what about you? clases finished 3 hours ago...\n");
+					printf("You:1-Okay I will tell you, someone has stolen my homework and i can't find him\n");
 					scanf_s("%i", &option2);
-					printf("\t\tDani: Oh, what a bad notice, i think i have something that can help you...\n\n");
-					printf("\t\tYou:1-Really? and what is this thing?\n\n");
+					printf("Dani: Oh, what a bad notice, i think i have something that can help you...\n");
+					printf("You:1-Really? and what is this thing?\n");
 					scanf_s("%i", &option2);
 					if (option2 != 1){
 						printf("I don't understand start again\n");
 						scanf_s("%i", &option2);
 					}
 					else if (option2 == 1){
-						printf("\t\tDani: It's a map of the University. With the map you will be able to see all the rooms. Take it\n\n");
-						printf("\t\t\t***You recieved a map***\n\n");
+						printf("Dani: It's a map of the University. With the map you will be able to see all the rooms. Take it\n");
+						printf("\t\t\t***You recieved a map***\n");
 						player->trans.push_back(entity[33]);
 						//npc[0]->give.cleaner(5);
 					}
@@ -859,37 +867,89 @@ bool World::Inpunts(){
 
 			}
 		else if (names == "boy"){
-			printf("\t\tBoy: Oh, hello Marc...snif\n ");
-			printf("\t\tYou: 1-Why are you crying?\n\n");
+			printf("Boy: Oh, hello Marc...snif\n");
+			printf("You: 1-Why are you crying?\n");
 			scanf_s("%i", &options);
 			switch (options){
 
 			case 1:
-				printf("\t\tBoy:Yesterday i bought i new camera and now i have lost it...snif\n\n");
-				printf("\t\tYou:1-Don't worry boy, sure it's here in the CITM, you will find it don't cry anymore\n\n");
+				printf("Boy:Yesterday i bought i new camera and now i have lost it...snif.\n");
+				printf("You:1-Don't worry boy, sure it's here in the CITM, you will find it don't cry anymore.\n");
 				scanf_s("%i", &option2);
 				if (option2 != 1){
 					printf("I don't understand start again\n");
 					scanf_s("%i", &option2);
 				}
 				else if (option2 == 1){
-					printf("\t\tBoy: Please Marc, can you find it for me please?\n\n");
-					printf("\t\tYou: 1-I have more important problems to solve than looking for a camera.\n     2-Okey, do you remember when you use it the last time?\n");
+					printf("Boy: Please Marc, can you find it for me please?\n");
+					printf("You: 1-I have more important problems to solve than looking for a camera.\nYou: 2-Okey, do you remember when you use it the last time?\n");
 					scanf_s("%i", &option3);
 					if (option3 == 1){
-						printf("\t\tBoy: Pleasee...snif, i need it, i will give you 1 coin\n\n");
-						printf("You:1- Mmmm, okey I will do it, do you remember when you use it the last time?\n\n");
+						printf("Boy: Pleasee...snif, i need it, i will give you 1 coin\n");
+						printf("You:1-Mmmm, okey I will do it, do you remember when you use it the last time?\n");
 						scanf_s("%i", &option4);
-						printf("\t\tBoy: Oh...snif, thanks Marc..snif\n\n");					
+						printf("Boy: Oh...snif, thanks Marc..snif\n");					
 					}
 					else if (option3 == 2){
-						printf("\t\tBoy: Oh...snif, thanks Marc..snif\n\n");
+						printf("Boy: Oh...snif, thanks Marc..snif\n");
 						break;					
 					}
 					
 
 				}
 			}
+		}
+		if (names == "Pep"){
+			printf("Pep: Hello little boy, are you loking for someting?\n");
+			printf("You: 1-Stop, I know you have my homework, Give it to me\n");
+			scanf_s("%i", &options);
+
+			switch (options){
+			case 1:
+				printf("Pep: What? Don't you see I can kick you, i won't give you your homework\n");
+				for (int i = 0; i < player->trans.size(); i++){
+					if (player->trans[i]->name == "KitKat"){
+						printf("You: 1-Wait, let's calm down, I can offer you someting\nYou: 2-It's my homework, i made it, its mine, GIVE IT TO ME!\n");
+						scanf_s("%i", &option2);
+						switch (option2){
+						case 1:
+							printf("Pep: Now I like more, you are learning little boy, what can you offer me?\n");
+							printf("You: 1- I know you love chocolate and i have one KitKat\n");
+							scanf_s("%i", &option3);
+
+							printf("Pep: Oh, i love KitKat, take your stupid homework and give me that delicous candy\n");
+							printf("You: 1-Here you have...\n");
+							scanf_s("%i", &option4);
+							printf("\t\t\t***You gave Pep the KitKat***\n");
+							for (int i = 0; i < player->trans.size(); i++){
+								if (player->trans[i]->name == "KitKat"){
+									player->trans.cleaner(i);
+								}
+							}
+							player->trans.push_back(entity[32]);
+							printf("\t\t\t***Finally you have you homework***\n\n");
+
+							printf("Thanks for playing, hope you enjoyed the game,press q to finish game\n");
+							break;
+
+						case 2:
+							printf("Pep: I advised you once, you are a dead little boy\n");
+							printf("You: 1-No sorry, don't hit me\n");
+							scanf_s("%i", &option3);
+							printf("***Pepe hit you so hard that you have to go to the hospital, you are not able to deliver you homework.");
+							printf("t\t\tGAME OVER \n\n\n");
+							printf("Thanks for playing, hope you enjoyed the game,press q to finish game\n");
+							break;
+
+
+							
+						}
+					}
+				}
+				
+
+			}
+		
 		}
 			
 		
@@ -922,7 +982,7 @@ bool World::Inpunts(){
 		int option = 0;
 		int tmp = 0;
 		if (names == "machine"){
-			printf("\t\tAll products cost 1 coin\n\t\t1KitKat\n\t\t2M&M's\n\t\t3Crunch\n\t\tChoose what do you whant\n");
+			printf("\t\tAll products cost 1 coin\n\t\t1KitKat\n\t\t2Chips\n\t\t3CocaCola\n\t\tChoose what do you whant\n");
 			scanf_s("%i", &option);
 			for (int i = 0; i < player->trans.size(); i++){
 				if (player->trans[i]->name == "coin"){
@@ -934,12 +994,12 @@ bool World::Inpunts(){
 						tmp = 1;
 						break;
 					case 2:
-						printf("\t\t\t\t**You Recieved M&M's\n\n");
+						printf("\t\t\t\t**You Recieved Chips\n\n");
 						player->trans.push_back(entity[36]);
 						tmp = 1;
 						break;
 					case 3:
-						printf("\t\t\t\t**You Recieved a Crunch\n\n");
+						printf("\t\t\t\t**You Recieved a CocaCola\n\n");
 						player->trans.push_back(entity[37]);
 						tmp = 1;
 						break;
@@ -1050,7 +1110,7 @@ bool World::Inpunts(){
 						if (((Exit*)entity[i])->direction == WEST){//Checking if the direction iss the same of the exit direction
 							if (((Exit*)entity[i])->open == true){//Checking if the door to enter the room is closed
 								((Npc*)entity[39])->location = ((Exit*)entity[i])->destination;//Now the player position is the destination of the exit
-								printf("Someone moved %s\n", ((Exit*)entity[i])->destination->name.c_str());
+								//printf("Someone moved %s\n", ((Exit*)entity[i])->destination->name.c_str());
 								if (((Npc*)entity[39])->location == player->position){
 									for (int i = 0; i < player->trans.size(); i++){
 										if (player->trans[i]->name == "map"){
@@ -1068,7 +1128,7 @@ bool World::Inpunts(){
 						}
 					}
 				}
-				printf("Remaining\n");
+			//	printf("Remaining\n");
 				break;
 			
 		default:
