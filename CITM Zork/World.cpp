@@ -10,7 +10,7 @@
 #include "conio.h"
 #include <Windows.h>
 
-#define DELAY 5000
+#define DELAY 7500
 #define COMMANDBUFFER 50
 
 
@@ -101,7 +101,7 @@ bool World::Inpunts(){
 
 	int tmp = 0;
 	char second[50];
-	char *phrase;
+	//char *phrase;
 	String string;
 	
 	unsigned int currenttime = 0;
@@ -110,6 +110,7 @@ bool World::Inpunts(){
 	//timeGetTime()
 	initialtime = GetTickCount();
 	printf("\t\t\tWhat do you want to do?\n");
+	Vector<String*> command;
 	while (1){
 	
 		player->enter = true;
@@ -141,7 +142,7 @@ bool World::Inpunts(){
 			}
 		}
 
-		Vector<String*> command;
+		
 		//string = second;
 		if (string.c_str() != nullptr){
 			if (string == "\0"){
@@ -919,6 +920,7 @@ bool World::Inpunts(){
 	}
 	void World::buy(const String names)const{
 		int option = 0;
+		int tmp = 0;
 		if (names == "machine"){
 			printf("\t\tAll products cost 1 coin\n\t\t1KitKat\n\t\t2M&M's\n\t\t3Crunch\n\t\tChoose what do you whant\n");
 			scanf_s("%i", &option);
@@ -929,21 +931,25 @@ bool World::Inpunts(){
 					case 1:
 						printf("\t\t\t\t**You Recieved a KitKat\n\n");
 						player->trans.push_back(entity[35]);
+						tmp = 1;
 						break;
 					case 2:
 						printf("\t\t\t\t**You Recieved M&M's\n\n");
 						player->trans.push_back(entity[36]);
+						tmp = 1;
 						break;
 					case 3:
 						printf("\t\t\t\t**You Recieved a Crunch\n\n");
 						player->trans.push_back(entity[37]);
+						tmp = 1;
 						break;
 
 					}
 
 				}
+			}if (tmp == 0){
+				printf("You don't have enough coins to buy this\n");
 			}
-			printf("You don't have enough coins to buy this\n");
 
 		}
 	
@@ -952,7 +958,7 @@ bool World::Inpunts(){
 
 	void World::Npcmove() const{
 		srand(time(NULL));
-		unsigned int option;
+		int option;
 		option = rand() % 4;
 		switch (option){
 		case 0://NORTH
