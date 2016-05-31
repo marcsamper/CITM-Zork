@@ -6,6 +6,12 @@
 #include "Entity.h"
 #include "Vector.h"
 #include "Item.h"
+#include "time.h"
+#include "conio.h"
+#include <Windows.h>
+
+#define DELAY 5000
+#define COMMANDBUFFER 50
 
 
 
@@ -26,7 +32,7 @@ void World::CreateWorld(){
 	entity.push_back((new Room("Photography set", "You are now in the Photography set, a big room equiped with a lot of technology.In the center of the set you can see a camera on the floor next to a red\nbackpack.Go East to exit the room")));//room 2
 	entity.push_back((new Room("Floor 1", "You are now in the Floor 1, you can see Dani next to a drinkingfountain.")));//room 3
 	entity.push_back((new Room("Toilets", "You are now in the toilets, the floor is a little wet but the smell is not that bad.There are three toilets and a big mirror.In front of the mirror there's a boy crying.Go South to exit the room")));//room 4
-	entity.push_back((new Room("Art Room", "You are now in the Art Room, you see a lot of tables and a huge amount of pencils.You also see a boy, his name is Pep, he is the bully who has stolen your homework.Go North to exit the room East")));//room 5
+	entity.push_back((new Room("Art Room", "You are now in the Art Room, you hear the voice of Pep, the boy who stole your homework, are you sure you want to enter without nothing to give to Pepe?.Go North to exit the room East")));//room 5
 	entity.push_back((new Room("Neg Floor", "You are in the floor -1. It's a little cold.")));//room 6
 	entity.push_back((new Room("Vending Machine", "You are in front of the vending machine, there are a los of snacks, but you don't have money. You are lucky, ther's a Candy on the bottom of the machine. Go East to exit the room")));//room 7
 	entity.push_back((new Room("Dining Room", "You are in the dining room. You can see 3 big tables and two microwaves.On the top of one of them there are some kleenex.There are few people on the last table having lunch.Go West to exit the room")));//room 8
@@ -61,7 +67,7 @@ void World::CreateWorld(){
 	entity.push_back(new Item("folder", "A folder with all the information of some students", (Room*)entity[1]));
 	entity.push_back(new Item("camera", "A new shinny camera with some stickers", (Room*)entity[2]));
 	entity.push_back(new Item("candy", "Seems somebody loves this candy", (Room*)entity[7]));
-	entity.push_back(new Item("kleenex", "They have a strawberry smell, probably someone needs them", (Room*)entity[8]));
+	entity.push_back(new Item("homework", "Your homework", (Room*)entity[8]));
 	entity.push_back(new Item("map", "A map of the University where you can see all the rooms", (Npc*)entity[38]));
 	entity.push_back(new Item("coin", "Coint that you can use to buy things", (Npc*)entity[40]));
 	entity.push_back(new Item("KitKat", "A delicious chocolate snack", (Npc*)entity[41]));
@@ -72,20 +78,20 @@ void World::CreateWorld(){
 	entity[1]->drive.push_back(entity[29]);
 	entity[2]->drive.push_back(entity[30]);
 	entity[7]->drive.push_back(entity[31]);
-	entity[8]->drive.push_back(entity[32]);
+	//entity[8]->drive.push_back(entity[32]);
 
 	//ADD NPC:
 	entity.push_back(new Npc("Dani", "Dani is your friend", (Room*)entity[3]));
 	entity[3]->drive.push_back(entity[38]);
 	//((Npc*)entity[38])->give.push_back(item[5]);
-	entity.push_back(new Npc("Pepe", "Pepe moves arround the CITM all the time, if he catches you, you lost\n", (Room*)entity[1]));
-	entity[1]->drive.push_back(entity[39]); // later this Npc will be moving by hiself for the rooms
+	entity.push_back(new Npc("Guardian", "Guardian moves arround the CITM all the time, if he catches you, he steals your map\n", (Room*)entity[8]));
+	entity[8]->drive.push_back(entity[39]); // later this Npc will be moving by hiself for the rooms
 	entity.push_back(new Npc("boy", "He is a very emotional boy", (Room*)entity[4]));
 	entity[4]->drive.push_back(entity[40]);
 	entity.push_back(new Npc("machine", "A spending machine where you can buy:\n\t·M&M's\n\t·KitKat\n\t·Crunch", (Room*)entity[7]));
 	entity[7]->drive.push_back(entity[41]);
 	
-	
+	entity.push_back(new Npc("Pep", "Pepe is the boy who stole your homework, he is strong and loves chocolate", (Room*)entity[8]));
 	
 
 
@@ -97,393 +103,430 @@ bool World::Inpunts(){
 	char second[50];
 	char *phrase;
 	String string;
-	Vector<String*> command;
-	gets_s(second);
-
-	string = second;
-	if (string == "\0"){
-		return true;
-	}
-	string.Token_ize(command);
-
-
-
-	//Copying the first word to first
-
-	//Comand Quit to exit the game
-	if (command.buffer[0]->copier() == "Quit" || command.buffer[0]->copier() == "quit" || command.buffer[0]->copier() == "q" || command.buffer[0]->copier() == "QUIT"){
-		printf("You exit the game");
-		return false;//here we stop the loop and stops execution the function Inputs on main.cpp
-	}
-	//Command Go:
-
-	else if (command.buffer[0]->copier() == "Go" || command.buffer[0]->copier() == "go" || command.buffer[0]->copier() == "GO" || command.buffer[0]->copier() == "g"){
-		if (command.size() == 1){
-			printf("\t\tWhere?\n\n");
-			gets_s(second);
-			command.push_back(new String(second));
-
+	
+	unsigned int currenttime = 0;
+	unsigned int initialtime = 0;
+	unsigned int charcommandnum = 0;
+	//timeGetTime()
+	initialtime = GetTickCount();
+	printf("\t\t\tWhat do you want to do?\n");
+	while (1){
+	
+		player->enter = true;
+		//Executa el codi cada x milisegons (DELAY)
+		currenttime = GetTickCount();
+		if (currenttime >= (initialtime + DELAY)){//movement
+			Npcmove();
+			initialtime = currenttime;
 		}
 
-		//East:
-		if (command.buffer[1]->copier() == "east" || command.buffer[1]->copier() == "East" || command.buffer[1]->copier() == "EAST" || command.buffer[1]->copier() == "e"){
+		//kbhit test
+		if (_kbhit())
+		{
+			if (charcommandnum < (COMMANDBUFFER - 2)){
+				second[charcommandnum] = _getch();
+				second[charcommandnum + 1] = '\0';
+				printf("String: %s\n", second);//va imprimint l'estat de command
+				charcommandnum++;
+				if (second[charcommandnum - 1] == '\r'){//quant apretes enter, imprimeix el command i l'esborra
+
+					printf("Your command is: %s\n", second);
+					second[charcommandnum - 1] = '\0';
+					charcommandnum = 0;
+					string = second;
+				}
+			}
+			else{
+				second[COMMANDBUFFER - 1] = '\0';
+			}
+		}
+
+		Vector<String*> command;
+		//string = second;
+		if (string.c_str() != nullptr){
+			if (string == "\0"){
+				return true;
+			}
+			string.Token_ize(command);
+
+
+		//Copying the first word to first
+
+		//Comand Quit to exit the game
+		if (command.buffer[0]->copier() == "Quit" || command.buffer[0]->copier() == "quit" || command.buffer[0]->copier() == "q" || command.buffer[0]->copier() == "QUIT"){
+			printf("You exit the game");
+			return false;//here we stop the loop and stops execution the function Inputs on main.cpp
+		}
+		//Command Go:
+
+		else if (command.buffer[0]->copier() == "Go" || command.buffer[0]->copier() == "go" || command.buffer[0]->copier() == "GO" || command.buffer[0]->copier() == "g"){
+			if (command.size() == 1){
+				printf("\t\tWhere?\n\n");
+				gets_s(second);
+				command.push_back(new String(second));
+
+			}
+
+			//East:
+			if (command.buffer[1]->copier() == "east" || command.buffer[1]->copier() == "East" || command.buffer[1]->copier() == "EAST" || command.buffer[1]->copier() == "e"){
+				MovePosition(EAST);
+			}
+
+			//South
+			else if (command.buffer[1]->copier() == "south" || command.buffer[1]->copier() == "South" || command.buffer[1]->copier() == "SOUTH" || command.buffer[1]->copier() == "s"){
+				MovePosition(SOUTH);
+			}
+			//West
+			else if (command.buffer[1]->copier() == "west" || command.buffer[1]->copier() == "West" || command.buffer[1]->copier() == "WEST" || command.buffer[1]->copier() == "w"){
+				MovePosition(WEST);
+			}
+			//North
+			else if (command.buffer[1]->copier() == "north" || command.buffer[1]->copier() == "North" || command.buffer[1]->copier() == "NORTH" || command.buffer[1]->copier() == "n"){
+				MovePosition(NORTH);
+
+			}
+			else{
+				printf("\t\tI don't understand, repeat please\n\n");
+			}
+		}
+
+
+
+		//Moving without using the command go:
+		else if (command.buffer[0]->copier() == "east" || command.buffer[0]->copier() == "East" || command.buffer[0]->copier() == "EAST" || command.buffer[0]->copier() == "e"){
 			MovePosition(EAST);
 		}
 
 		//South
-		else if (command.buffer[1]->copier() == "south" || command.buffer[1]->copier() == "South" || command.buffer[1]->copier() == "SOUTH" || command.buffer[1]->copier() == "s"){
+		else if (command.buffer[0]->copier() == "south" || command.buffer[0]->copier() == "South" || command.buffer[0]->copier() == "SOUTH" || command.buffer[0]->copier() == "S"){
 			MovePosition(SOUTH);
 		}
 		//West
-		else if (command.buffer[1]->copier() == "west" || command.buffer[1]->copier() == "West" || command.buffer[1]->copier() == "WEST" || command.buffer[1]->copier() == "w"){
+		else if (command.buffer[0]->copier() == "west" || command.buffer[0]->copier() == "West" || command.buffer[0]->copier() == "WEST" || command.buffer[0]->copier() == "w"){
 			MovePosition(WEST);
 		}
 		//North
-		else if (command.buffer[1]->copier() == "north" || command.buffer[1]->copier() == "North" || command.buffer[1]->copier() == "NORTH" || command.buffer[1]->copier() == "n"){
+		else if (command.buffer[0]->copier() == "north" || command.buffer[0]->copier() == "North" || command.buffer[0]->copier() == "NORTH" || command.buffer[0]->copier() == "n"){
 			MovePosition(NORTH);
 
 		}
-		else{
-			printf("\t\tI don't understand, repeat please\n\n");
-		}
-	}
+		//Command Look:
+		else if (command.buffer[0]->copier() == "Look" || command.buffer[0]->copier() == "look" || command.buffer[0]->copier() == "LOOK" || command.buffer[0]->copier() == "l"){
+			if (command.size() == 1){
+				printf("\t\tWhere?\n\n");
+				gets_s(second);
+				command.push_back(new String(second));
 
+			}
 
+			//East:
+			if (command.buffer[1]->copier() == "east" || command.buffer[1]->copier() == "East" || command.buffer[1]->copier() == "EAST" || command.buffer[1]->copier() == "e"){
+				Look(EAST);
+			}
 
-	//Moving without using the command go:
-	else if (command.buffer[0]->copier() == "east" || command.buffer[0]->copier() == "East" || command.buffer[0]->copier() == "EAST" || command.buffer[0]->copier() == "e"){
-		MovePosition(EAST);
-	}
+			//South
+			else if (command.buffer[1]->copier() == "south" || command.buffer[1]->copier() == "South" || command.buffer[1]->copier() == "SOUTH" || command.buffer[1]->copier() == "s"){
+				Look(SOUTH);
+			}
+			//West
+			else if (command.buffer[1]->copier() == "west" || command.buffer[1]->copier() == "West" || command.buffer[1]->copier() == "WEST" || command.buffer[1]->copier() == "w"){
+				Look(WEST);
+			}
+			//North
+			else if (command.buffer[1]->copier() == "north" || command.buffer[1]->copier() == "North" || command.buffer[1]->copier() == "NORTH" || command.buffer[1]->copier() == "n"){
+				Look(NORTH);
 
-	//South
-	else if (command.buffer[0]->copier() == "south" || command.buffer[0]->copier() == "South" || command.buffer[0]->copier() == "SOUTH" || command.buffer[0]->copier() == "S"){
-		MovePosition(SOUTH);
-	}
-	//West
-	else if (command.buffer[0]->copier() == "west" || command.buffer[0]->copier() == "West" || command.buffer[0]->copier() == "WEST" || command.buffer[0]->copier() == "w"){
-		MovePosition(WEST);
-	}
-	//North
-	else if (command.buffer[0]->copier() == "north" || command.buffer[0]->copier() == "North" || command.buffer[0]->copier() == "NORTH" || command.buffer[0]->copier() == "n"){
-		MovePosition(NORTH);
+			}
+			else if (command.buffer[1]->copier() == "room" || command.buffer[1]->copier() == "Room" || command.buffer[1]->copier() == "ROOM" || command[1]->buffer == "r"){
+				LookRoom();
 
-	}
-	//Command Look:
-	else if (command.buffer[0]->copier() == "Look" || command.buffer[0]->copier() == "look" || command.buffer[0]->copier() == "LOOK" || command.buffer[0]->copier() == "l"){
-		if (command.size() == 1){
-			printf("\t\tWhere?\n\n");
-			gets_s(second);
-			command.push_back(new String(second));
-
-		}
-
-		//East:
-		if (command.buffer[1]->copier() == "east" || command.buffer[1]->copier() == "East" || command.buffer[1]->copier() == "EAST" || command.buffer[1]->copier() == "e"){
-			Look(EAST);
-		}
-
-		//South
-		else if (command.buffer[1]->copier() == "south" || command.buffer[1]->copier() == "South" || command.buffer[1]->copier() == "SOUTH" || command.buffer[1]->copier() == "s"){
-			Look(SOUTH);
-		}
-		//West
-		else if (command.buffer[1]->copier() == "west" || command.buffer[1]->copier() == "West" || command.buffer[1]->copier() == "WEST" || command.buffer[1]->copier() == "w"){
-			Look(WEST);
-		}
-		//North
-		else if (command.buffer[1]->copier() == "north" || command.buffer[1]->copier() == "North" || command.buffer[1]->copier() == "NORTH" || command.buffer[1]->copier() == "n"){
-			Look(NORTH);
-
-		}
-		else if (command.buffer[1]->copier() == "room" || command.buffer[1]->copier() == "Room" || command.buffer[1]->copier() == "ROOM" || command[1]->buffer == "r"){
-			LookRoom();
-
-		}
-		else{
-			printf("\t\tI don't understand, repeat please\n\n");
-		}
-	}
-
-
-	//Command help to explain how all the commands work
-	else if (command.buffer[0]->copier() == "help" || command.buffer[0]->copier() == "Help" || command.buffer[0]->copier() == "HELP" || command.buffer[0]->copier() == "h"){
-		printf("TO MOVE THROUGH THE ROOMS USE THE COMAND GO, go, Go, 'g' PLUS THE DIRECTION YOU WANT (NORTH, north,North, 'n', SOUTH, south, South,'s', EAST, east, East,'e', WEST,west, West, 'w').YOU CAN ALSO MOVE BY ONLY WRITING (NORTH, north,North, 'n', SOUTH, south, South,'s', EAST, east, East,'e', WEST,west, West, 'w').TOO LOOK ALL THE POSIBLE EXITS USE THE COMMAND LOOK, look, Look, 'l' PLUS THE  DIRECTION YOU WANT.\nUSE THE COMPAND OPEN/CLOSE, open/close, Open/close, 'o'/'c' TO OPEN/CLOSE DOORS. IF YOU WANT TO EXIT WRITE QUIT, 'q'.\n\n\n");
-	}
-
-	//Commands to open/close the doors:
-	//OPEN:
-	else if (command.buffer[0]->copier() == "Open" || command.buffer[0]->copier() == "open" || command.buffer[0]->copier() == "OPEN" || command.buffer[0]->copier() == "o"){
-		if (command.size() == 1){
-			printf("\t\tWhere?\n\n");
-			gets_s(second);
-			command.push_back(new String(second));
-
-		}
-
-		//East:
-		if (command.buffer[1]->copier() == "east" || command.buffer[1]->copier() == "East" || command.buffer[1]->copier() == "EAST" || command.buffer[1]->copier() == "e"){
-			OpenDoor(EAST);
-		}
-
-		//South
-		else if (command.buffer[1]->copier() == "south" || command.buffer[1]->copier() == "South" || command.buffer[1]->copier() == "SOUTH" || command.buffer[1]->copier() == "S"){
-			OpenDoor(SOUTH);
-		}
-		//West
-		else if (command.buffer[1]->copier() == "west" || command.buffer[1]->copier() == "West" || command.buffer[1]->copier() == "WEST" || command.buffer[1]->copier() == "w"){
-			OpenDoor(WEST);
-		}
-		//North
-		else if (command.buffer[1]->copier() == "north" || command.buffer[1]->copier() == "North" || command.buffer[1]->copier() == "NORTH" || command.buffer[1]->copier() == "n"){
-			OpenDoor(NORTH);
-
-		}
-		else{
-			printf("\t\tI don't understand, repeat please\n\n");
-		}
-
-	}
-
-	//CLOSE:
-	else if (command.buffer[0]->copier() == "Close" || command.buffer[0]->copier() == "close" || command.buffer[0]->copier() == "CLOSE" || command.buffer[0]->copier() == "c"){
-		if (command.size() == 1){
-			printf("\t\tWhere?\n\n");
-			gets_s(second);
-			command.push_back(new String(second));
-
-		}
-
-		//East:
-		if (command.buffer[1]->copier() == "east" || command.buffer[1]->copier() == "East" || command.buffer[1]->copier() == "EAST" || command.buffer[1]->copier() == "e"){
-			CloseDoor(EAST);
-		}
-
-		//South
-		else if (command.buffer[1]->copier() == "south" || command.buffer[1]->copier() == "South" || command.buffer[1]->copier() == "SOUTH" || command.buffer[1]->copier() == "S"){
-			CloseDoor(SOUTH);
-		}
-		//West
-		else if (command.buffer[1]->copier() == "west" || command.buffer[1]->copier() == "West" || command.buffer[1]->copier() == "WEST" || command.buffer[1]->copier() == "w"){
-			CloseDoor(WEST);
-		}
-		//North
-		else if (command.buffer[1]->copier() == "north" || command.buffer[1]->copier() == "North" || command.buffer[1]->copier() == "NORTH" || command.buffer[1]->copier() == "n"){
-			CloseDoor(NORTH);
-
-		}
-		else{
-			printf("\t\tI don't understand, repeat please\n\n");
-		}
-
-	}
-
-	//COMMAND PICK ITEM
-	else if (command.buffer[0]->copier() == "Pick" || command.buffer[0]->copier() == "pick" || command.buffer[0]->copier() == "PICK" || command.buffer[0]->copier() == "p"){
-		if (command.size() == 1){
-			printf("\t\tWhat?\n\n");
-			gets_s(second);
-			command.push_back(new String(second));
-
-		}
-
-		//East:
-		if (command.buffer[1]->copier() == "Folder" || command.buffer[1]->copier() == "folder" || command.buffer[1]->copier() == "FOLDER" || command.buffer[1]->copier() == "f"){
-
-			PickItem(String("folder"));
-		}
-
-		//South
-		else if (command.buffer[1]->copier() == "camera" || command.buffer[1]->copier() == "Camera" || command.buffer[1]->copier() == "CAMERA" || command.buffer[1]->copier() == "cam"){
-			PickItem(command.buffer[1]->copier());
-		}
-		//West
-		else if (command.buffer[1]->copier() == "kleenex" || command.buffer[1]->copier() == "Kleenex" || command.buffer[1]->copier() == "KLEENEX" || command.buffer[1]->copier() == "k"){
-			PickItem(command.buffer[1]->copier());
-		}
-		//North
-		else if (command.buffer[1]->copier() == "candy" || command.buffer[1]->copier() == "Candy" || command.buffer[1]->copier() == "CANDY" || command.buffer[1]->copier() == "c"){
-			PickItem(command.buffer[1]->copier());
-
-		}
-		else{
-			printf("This item doesn't exists\n\n");
-		}
-
-	}
-	//DROP
-	else if (command.buffer[0]->copier() == "Drop" || command.buffer[0]->copier() == "drop" || command.buffer[0]->copier() == "DROP" || command.buffer[0]->copier() == "d"){
-		if (command.size() == 1){
-			printf("\t\tWhat?\n\n");
-			gets_s(second);
-			command.push_back(new String(second));
-
-		}
-
-		//East:
-		if (command.buffer[1]->copier() == "Folder" || command.buffer[1]->copier() == "folder" || command.buffer[1]->copier() == "FOLDER" || command.buffer[1]->copier() == "f"){
-			DropItem(command.buffer[1]->copier());
-		}
-
-		//South
-		else if (command.buffer[1]->copier() == "camera" || command.buffer[1]->copier() == "Camera" || command.buffer[1]->copier() == "CAMERA" || command.buffer[1]->copier() == "cam"){
-			DropItem(command.buffer[1]->copier());
-		}
-		//West
-		else if (command.buffer[1]->copier() == "kleenex" || command.buffer[1]->copier() == "Kleenex" || command.buffer[1]->copier() == "KLEENEX" || command.buffer[1]->copier() == "k"){
-			DropItem(command.buffer[1]->copier());
-		}
-		//North
-		else if (command.buffer[1]->copier() == "candy" || command.buffer[1]->copier() == "Candy" || command.buffer[1]->copier() == "CANDY" || command.buffer[1]->copier() == "c"){
-			DropItem(command.buffer[1]->copier());
-
-		}
-		else{
-			printf("\t\tThis item doesn't exists\n\n");
-		}
-
-	}
-	//inventory
-	else if (command.buffer[0]->copier() == "item" || command.buffer[0]->copier() == "i"){
-		player->Inventory();
-	}
-	//put
-	else if ((command.buffer[0]->copier() == "put" || command.buffer[0]->copier() == "Put" || command.buffer[0]->copier() == "PUT" || command.buffer[0]->copier() == "p") && (command.buffer[2]->copier() == "in" || command.buffer[2]->copier() == "In") && (command.buffer[3]->copier() == "box")){
-		PutItem(command.buffer[1]->copier());
-	}
-	else if ((command.buffer[0]->copier() == "Get" || command.buffer[0]->copier() == "get") && (command.buffer[2]->copier() == "from") && (command.buffer[3]->copier() == "box")){
-		GetItem(command.buffer[1]->copier());
-	}
-	//Stats:
-	else if (command.buffer[0]->copier() == "stats"){
-		printf("Attack: 100\n Life: 300\n");
-	}
-
-	//Npc descriptions:
-	else if (command.buffer[0]->copier() == "description" || command.buffer[0]->copier() == "Description"){
-		if (command.size() == 1){
-			printf("\t\tWhich npc?\n\n");
-			gets_s(second);
-			command.push_back(new String(second));
-
-		}
-		if (command.buffer[1]->copier() == "Dani"){
-			Description(command.buffer[1]->copier());
-		}
-		else if (command.buffer[1]->copier() == "boy"){
-			Description(command.buffer[1]->copier());
-		}
-		else{
-			printf("\t\tThis npc doesn't exists\n\n");
-		}
-		//MAP CHECKING
-	}
-	else if (command.buffer[0]->copier() == "m" || command.buffer[0]->copier() == "map"){
-		for (int i = 0; i < player->trans.size(); i++){
-			if (player->trans[i]->name == "map"){
-				Map();
-				break;
+			}
+			else{
+				printf("\t\tI don't understand, repeat please\n\n");
 			}
 		}
-		printf("You don't have the map\n\n");
-	}
 
-	//FUNCTION TALK
-	else if (command.buffer[0]->copier() == "talk" || command.buffer[0]->copier() == "Talk"){
-		int tmp = 0;
-		if (command.size() == 1){
-			printf("\t\tWith who?\n\n");
-			gets_s(second);
-			command.push_back(new String(second));
+
+		//Command help to explain how all the commands work
+		else if (command.buffer[0]->copier() == "help" || command.buffer[0]->copier() == "Help" || command.buffer[0]->copier() == "HELP" || command.buffer[0]->copier() == "h"){
+			printf("TO MOVE THROUGH THE ROOMS USE THE COMAND GO, go, Go, 'g' PLUS THE DIRECTION YOU WANT (NORTH, north,North, 'n', SOUTH, south, South,'s', EAST, east, East,'e', WEST,west, West, 'w').YOU CAN ALSO MOVE BY ONLY WRITING (NORTH, north,North, 'n', SOUTH, south, South,'s', EAST, east, East,'e', WEST,west, West, 'w').TOO LOOK ALL THE POSIBLE EXITS USE THE COMMAND LOOK, look, Look, 'l' PLUS THE  DIRECTION YOU WANT.\nUSE THE COMPAND OPEN/CLOSE, open/close, Open/close, 'o'/'c' TO OPEN/CLOSE DOORS. IF YOU WANT TO EXIT WRITE QUIT, 'q'.\n\n\n");
 		}
-		if (player->trans.size() == 0){//if player hasn't any item, he would be able to talk to Dani to recieve the map
+
+		//Commands to open/close the doors:
+		//OPEN:
+		else if (command.buffer[0]->copier() == "Open" || command.buffer[0]->copier() == "open" || command.buffer[0]->copier() == "OPEN" || command.buffer[0]->copier() == "o"){
+			if (command.size() == 1){
+				printf("\t\tWhere?\n\n");
+				gets_s(second);
+				command.push_back(new String(second));
+
+			}
+
+			//East:
+			if (command.buffer[1]->copier() == "east" || command.buffer[1]->copier() == "East" || command.buffer[1]->copier() == "EAST" || command.buffer[1]->copier() == "e"){
+				OpenDoor(EAST);
+			}
+
+			//South
+			else if (command.buffer[1]->copier() == "south" || command.buffer[1]->copier() == "South" || command.buffer[1]->copier() == "SOUTH" || command.buffer[1]->copier() == "S"){
+				OpenDoor(SOUTH);
+			}
+			//West
+			else if (command.buffer[1]->copier() == "west" || command.buffer[1]->copier() == "West" || command.buffer[1]->copier() == "WEST" || command.buffer[1]->copier() == "w"){
+				OpenDoor(WEST);
+			}
+			//North
+			else if (command.buffer[1]->copier() == "north" || command.buffer[1]->copier() == "North" || command.buffer[1]->copier() == "NORTH" || command.buffer[1]->copier() == "n"){
+				OpenDoor(NORTH);
+
+			}
+			else{
+				printf("\t\tI don't understand, repeat please\n\n");
+			}
+
+		}
+
+		//CLOSE:
+		else if (command.buffer[0]->copier() == "Close" || command.buffer[0]->copier() == "close" || command.buffer[0]->copier() == "CLOSE" || command.buffer[0]->copier() == "c"){
+			if (command.size() == 1){
+				printf("\t\tWhere?\n\n");
+				gets_s(second);
+				command.push_back(new String(second));
+
+			}
+
+			//East:
+			if (command.buffer[1]->copier() == "east" || command.buffer[1]->copier() == "East" || command.buffer[1]->copier() == "EAST" || command.buffer[1]->copier() == "e"){
+				CloseDoor(EAST);
+			}
+
+			//South
+			else if (command.buffer[1]->copier() == "south" || command.buffer[1]->copier() == "South" || command.buffer[1]->copier() == "SOUTH" || command.buffer[1]->copier() == "S"){
+				CloseDoor(SOUTH);
+			}
+			//West
+			else if (command.buffer[1]->copier() == "west" || command.buffer[1]->copier() == "West" || command.buffer[1]->copier() == "WEST" || command.buffer[1]->copier() == "w"){
+				CloseDoor(WEST);
+			}
+			//North
+			else if (command.buffer[1]->copier() == "north" || command.buffer[1]->copier() == "North" || command.buffer[1]->copier() == "NORTH" || command.buffer[1]->copier() == "n"){
+				CloseDoor(NORTH);
+
+			}
+			else{
+				printf("\t\tI don't understand, repeat please\n\n");
+			}
+
+		}
+
+		//COMMAND PICK ITEM
+		else if (command.buffer[0]->copier() == "Pick" || command.buffer[0]->copier() == "pick" || command.buffer[0]->copier() == "PICK" || command.buffer[0]->copier() == "p"){
+			if (command.size() == 1){
+				printf("\t\tWhat?\n\n");
+				gets_s(second);
+				command.push_back(new String(second));
+
+			}
+
+			//East:
+			if (command.buffer[1]->copier() == "Folder" || command.buffer[1]->copier() == "folder" || command.buffer[1]->copier() == "FOLDER" || command.buffer[1]->copier() == "f"){
+
+				PickItem(String("folder"));
+			}
+
+			//South
+			else if (command.buffer[1]->copier() == "camera" || command.buffer[1]->copier() == "Camera" || command.buffer[1]->copier() == "CAMERA" || command.buffer[1]->copier() == "cam"){
+				PickItem(command.buffer[1]->copier());
+			}
+			//West
+			else if (command.buffer[1]->copier() == "kleenex" || command.buffer[1]->copier() == "Kleenex" || command.buffer[1]->copier() == "KLEENEX" || command.buffer[1]->copier() == "k"){
+				PickItem(command.buffer[1]->copier());
+			}
+			//North
+			else if (command.buffer[1]->copier() == "candy" || command.buffer[1]->copier() == "Candy" || command.buffer[1]->copier() == "CANDY" || command.buffer[1]->copier() == "c"){
+				PickItem(command.buffer[1]->copier());
+
+			}
+			else{
+				printf("This item doesn't exists\n\n");
+			}
+
+		}
+		//DROP
+		else if (command.buffer[0]->copier() == "Drop" || command.buffer[0]->copier() == "drop" || command.buffer[0]->copier() == "DROP" || command.buffer[0]->copier() == "d"){
+			if (command.size() == 1){
+				printf("\t\tWhat?\n\n");
+				gets_s(second);
+				command.push_back(new String(second));
+
+			}
+
+			//East:
+			if (command.buffer[1]->copier() == "Folder" || command.buffer[1]->copier() == "folder" || command.buffer[1]->copier() == "FOLDER" || command.buffer[1]->copier() == "f"){
+				DropItem(command.buffer[1]->copier());
+			}
+
+			//South
+			else if (command.buffer[1]->copier() == "camera" || command.buffer[1]->copier() == "Camera" || command.buffer[1]->copier() == "CAMERA" || command.buffer[1]->copier() == "cam"){
+				DropItem(command.buffer[1]->copier());
+			}
+			//West
+			else if (command.buffer[1]->copier() == "kleenex" || command.buffer[1]->copier() == "Kleenex" || command.buffer[1]->copier() == "KLEENEX" || command.buffer[1]->copier() == "k"){
+				DropItem(command.buffer[1]->copier());
+			}
+			//North
+			else if (command.buffer[1]->copier() == "candy" || command.buffer[1]->copier() == "Candy" || command.buffer[1]->copier() == "CANDY" || command.buffer[1]->copier() == "c"){
+				DropItem(command.buffer[1]->copier());
+
+			}
+			else{
+				printf("\t\tThis item doesn't exists\n\n");
+			}
+
+		}
+		//inventory
+		else if (command.buffer[0]->copier() == "item" || command.buffer[0]->copier() == "i"){
+			player->Inventory();
+			
+		}
+		//put
+		else if ((command.buffer[0]->copier() == "put" || command.buffer[0]->copier() == "Put" || command.buffer[0]->copier() == "PUT" || command.buffer[0]->copier() == "p") && (command.buffer[2]->copier() == "in" || command.buffer[2]->copier() == "In") && (command.buffer[3]->copier() == "box")){
+			PutItem(command.buffer[1]->copier());
+		}
+		else if ((command.buffer[0]->copier() == "Get" || command.buffer[0]->copier() == "get") && (command.buffer[2]->copier() == "from") && (command.buffer[3]->copier() == "box")){
+			GetItem(command.buffer[1]->copier());
+		}
+		//Stats:
+		else if (command.buffer[0]->copier() == "stats"){
+			printf("Attack: 100\n Life: 300\n");
+		}
+
+		//Npc descriptions:
+		else if (command.buffer[0]->copier() == "description" || command.buffer[0]->copier() == "Description"){
+			if (command.size() == 1){
+				printf("\t\tWhich npc?\n\n");
+				gets_s(second);
+				command.push_back(new String(second));
+
+			}
 			if (command.buffer[1]->copier() == "Dani"){
-				if (player->position == ((Npc*)entity[38])->location){
-					talk(command.buffer[1]->copier());
-				}
-				else{
-					printf("This Npc is not in this Room\n");
-				}
+				Description(command.buffer[1]->copier());
 			}
 			else if (command.buffer[1]->copier() == "boy"){
-				if (player->position == ((Npc*)entity[40])->location){
-					talk(command.buffer[1]->copier());
-				}
-				else{
-					printf("This Npc is not in this Room\n");
-				}
+				Description(command.buffer[1]->copier());
 			}
+			else{
+				printf("\t\tThis npc doesn't exists\n\n");
+			}
+			//MAP CHECKING
 		}
-		else if (player->trans.size() != 0){//if the player has some items in the inventory			
+		else if (command.buffer[0]->copier() == "m" || command.buffer[0]->copier() == "map"){
 			for (int i = 0; i < player->trans.size(); i++){
-				if (command.buffer[1]->copier() == "Dani"){//we check with who is he talking
-					if (player->position == ((Npc*)entity[38])->location){
-						if (player->trans[i]->name == "map"){//we check if he has the map already
-							talkidle(command.buffer[1]->copier());
-							tmp = 1;
-							break;
-						}
-					}
-					else{
-						printf("This Npc is not in this Room\n");
-					}
-				}
-				else if (command.buffer[1]->copier() == "boy"){//we check with who is he talking
-					if (player->position == ((Npc*)entity[40])->location){
-						if (player->trans[i]->name == "coin"){//we check if he has the map already
-							talkidle(command.buffer[1]->copier());
-							tmp = 1;
-							break;
-						}
-						else if (player->trans[i]->name == "camera"){//we check if he has the map already
-							talkidle2(command.buffer[1]->copier());
-							tmp = 1;
-							break;
-						}
-					}
-
-					else{
-						printf("This Npc is not in this Room\n");
-					}
-
-				}
-				else{
-					printf("This Npc doesn't exists\n");
+				if (player->trans[i]->name == "map"){
+					Map();
 					break;
 				}
 			}
+			printf("You don't have the map\n\n");
+		}
 
-			if (tmp == 0){
+		//FUNCTION TALK
+		else if (command.buffer[0]->copier() == "talk" || command.buffer[0]->copier() == "Talk"){
+			int tmp = 0;
+			if (command.size() == 1){
+				printf("\t\tWith who?\n\n");
+				gets_s(second);
+				command.push_back(new String(second));
+			}
+			if (player->trans.size() == 0){//if player hasn't any item, he would be able to talk to Dani to recieve the map
 				if (command.buffer[1]->copier() == "Dani"){
 					if (player->position == ((Npc*)entity[38])->location){
 						talk(command.buffer[1]->copier());
+					}
+					else{
+						printf("This Npc is not in this Room\n");
 					}
 				}
 				else if (command.buffer[1]->copier() == "boy"){
 					if (player->position == ((Npc*)entity[40])->location){
 						talk(command.buffer[1]->copier());
 					}
+					else{
+						printf("This Npc is not in this Room\n");
+					}
 				}
 			}
+			else if (player->trans.size() != 0){//if the player has some items in the inventory			
+				for (int i = 0; i < player->trans.size(); i++){
+					if (command.buffer[1]->copier() == "Dani"){//we check with who is he talking
+						if (player->position == ((Npc*)entity[38])->location){
+							if (player->trans[i]->name == "map"){//we check if he has the map already
+								talkidle(command.buffer[1]->copier());
+								tmp = 1;
+								break;
+							}
+						}
+						else{
+							printf("This Npc is not in this Room\n");
+						}
+					}
+					else if (command.buffer[1]->copier() == "boy"){//we check with who is he talking
+						if (player->position == ((Npc*)entity[40])->location){
+							if (player->trans[i]->name == "coin"){//we check if he has the map already
+								talkidle(command.buffer[1]->copier());
+								tmp = 1;
+								break;
+							}
+							else if (player->trans[i]->name == "camera"){//we check if he has the map already
+								talkidle2(command.buffer[1]->copier());
+								tmp = 1;
+								break;
+							}
+						}
 
-		}
+						else{
+							printf("This Npc is not in this Room\n");
+						}
 
-	}
+					}
+					else{
+						printf("This Npc doesn't exists\n");
+						break;
+					}
+				}
 
-	//Buy Npc:
-	else if (command.buffer[0]->copier() == "buy" || command.buffer[0]->copier() == "buy"){
-		if (command.size() == 1){
-			printf("\t\tWhich npc?\n\n");
-			gets_s(second);
-			command.push_back(new String(second));
+				if (tmp == 0){
+					if (command.buffer[1]->copier() == "Dani"){
+						if (player->position == ((Npc*)entity[38])->location){
+							talk(command.buffer[1]->copier());
+						}
+					}
+					else if (command.buffer[1]->copier() == "boy"){
+						if (player->position == ((Npc*)entity[40])->location){
+							talk(command.buffer[1]->copier());
+						}
+					}
+				}
 
-		}
-		if (command.buffer[1]->copier() == "machine"){
-			if (player->position == ((Npc*)entity[41])->location){
-				buy(command.buffer[1]->copier());
 			}
-			printf("This Npc is not here\n");
+
 		}
-	}
+
+		//Buy Npc:
+		else if (command.buffer[0]->copier() == "buy" || command.buffer[0]->copier() == "buy"){
+			if (command.size() == 1){
+				printf("\t\tWhich npc?\n\n");
+				gets_s(second);
+				command.push_back(new String(second));
+
+			}
+			if (command.buffer[1]->copier() == "machine"){
+				if (player->position == ((Npc*)entity[41])->location){
+					buy(command.buffer[1]->copier());
+				}
+				printf("This Npc is not here\n");
+			}
+		}
 
 
 
@@ -491,8 +534,10 @@ bool World::Inpunts(){
 		player->enter = true;//complets the loop to continue recieving commands
 		return true;
 	}
+}
+}
 
-	void World::MovePosition(dir direction){
+	void World::MovePosition(dir direction)const{
 		int tmp = 0;
 		if (player->enter == true){
 			for (int i = 10; i < 28; i++){
@@ -521,7 +566,7 @@ bool World::Inpunts(){
 		}
 	}
 
-	void World::Look(dir watch){
+	void World::Look(dir watch)const{
 		int tmp = 0;
 		if (player->enter == true){
 			for (int i = 10; i < 28; i++){
@@ -903,6 +948,130 @@ bool World::Inpunts(){
 		}
 	
 	
+	}
+
+	void World::Npcmove() const{
+		srand(time(NULL));
+		unsigned int option;
+		option = rand() % 4;
+		switch (option){
+		case 0://NORTH
+			for (int i = 10; i < 28; i++){
+				if (((Exit*)entity[i])->origin == ((Npc*)entity[39])->location){//Checking if the position of the player is the same of the exit origin
+					if (((Exit*)entity[i])->direction == NORTH){//Checking if the direction iss the same of the exit direction
+						if (((Exit*)entity[i])->open == true){//Checking if the door to enter the room is closed
+							((Npc*)entity[39])->location = ((Exit*)entity[i])->destination;//Now the player position is the destination of the exit
+							printf("Someone moved %s\n", ((Exit*)entity[i])->destination->name.c_str());
+							if (((Npc*)entity[39])->location == player->position){
+								for (int i = 0; i < player->trans.size(); i++){
+									if (player->trans[i]->name == "map"){
+										printf("Guardian: What are you doing with that map, you can't have this, give it to me\n\n");
+										printf("\t\t\t\t**The Guardian took your map**\n\n");
+										player->trans.cleaner(i);
+									}
+								}
+								printf("\t\t\tGuardian:Be carefull on what you do boy, i am always looking\n\n");
+
+
+							}
+							break;
+						}
+					}
+				}
+			}
+			printf("Remaining\n");
+			break;
+		case 1://SOUTH
+			
+				for (int i = 10; i < 28; i++){
+					if (((Exit*)entity[i])->origin == ((Npc*)entity[39])->location){//Checking if the position of the player is the same of the exit origin
+						if (((Exit*)entity[i])->direction == SOUTH){//Checking if the direction iss the same of the exit direction
+							if (((Exit*)entity[i])->open == true){//Checking if the door to enter the room is closed
+								((Npc*)entity[39])->location = ((Exit*)entity[i])->destination;//Now the player position is the destination of the exit
+								printf("Someone moved %s\n", ((Exit*)entity[i])->destination->name.c_str());
+								if (((Npc*)entity[39])->location == player->position){
+									for (int i = 0; i < player->trans.size(); i++){
+										if (player->trans[i]->name == "map"){
+											printf("Guardian: What are you doing with that map, you can't have this, give it to me\n\n");
+											printf("\t\t\t\t**The Guardian took your map**\n\n");
+											player->trans.cleaner(i);
+										}
+									}
+									printf("\t\t\t\tBe carefull on what you do boy\n\n");
+
+
+								}
+								break;
+							}
+						}
+					}
+				}
+				printf("Remaining\n");
+				break;
+			
+		case 2://EAST
+			
+				for (int i = 10; i < 28; i++){
+					if (((Exit*)entity[i])->origin == ((Npc*)entity[39])->location){//Checking if the position of the player is the same of the exit origin
+						if (((Exit*)entity[i])->direction == EAST){//Checking if the direction iss the same of the exit direction
+							if (((Exit*)entity[i])->open == true){//Checking if the door to enter the room is closed
+								((Npc*)entity[39])->location = ((Exit*)entity[i])->destination;//Now the player position is the destination of the exit
+								printf("Someone moved %s\n", ((Exit*)entity[i])->destination->name.c_str());
+								if (((Npc*)entity[39])->location == player->position){
+									for (int i = 0; i < player->trans.size(); i++){
+										if (player->trans[i]->name == "map"){
+											printf("Guardian: What are you doing with that map, you can't have this, give it to me\n\n");
+											printf("\t\t\t\t**The Guardian took your map**\n\n");
+											player->trans.cleaner(i);
+										}
+									}
+									printf("\t\t\t\tBe carefull on what you do boy\n\n");
+
+
+								}
+								break;
+							}
+						}
+					}
+				}
+				printf("Remaining\n");
+				break;
+			
+		case 3://WEST
+	
+				for (int i = 10; i < 28; i++){
+					if (((Exit*)entity[i])->origin == ((Npc*)entity[39])->location){//Checking if the position of the player is the same of the exit origin
+						if (((Exit*)entity[i])->direction == WEST){//Checking if the direction iss the same of the exit direction
+							if (((Exit*)entity[i])->open == true){//Checking if the door to enter the room is closed
+								((Npc*)entity[39])->location = ((Exit*)entity[i])->destination;//Now the player position is the destination of the exit
+								printf("Someone moved %s\n", ((Exit*)entity[i])->destination->name.c_str());
+								if (((Npc*)entity[39])->location == player->position){
+									for (int i = 0; i < player->trans.size(); i++){
+										if (player->trans[i]->name == "map"){
+											printf("Guardian: What are you doing with that map, you can't have this, give it to me\n\n");
+											printf("\t\t\t\t**The Guardian took your map**\n\n");
+											player->trans.cleaner(i);
+										}
+									}
+									printf("\t\t\t\tBe carefull on what you do boy\n\n");
+
+
+								}
+								break;
+							}
+						}
+					}
+				}
+				printf("Remaining\n");
+				break;
+			
+		default:
+			printf("Remaining\n");
+			break;
+		}
+
+		
+
 	}
 
 

@@ -24,8 +24,8 @@ public:
 
 public:
 	void CreateWorld();
-	void MovePosition(dir direction);
-	void Look(dir direction);
+	void MovePosition(dir direction)const;
+	void Look(dir direction)const;
 	void LookRoom();
 	void OpenDoor(dir door);
 	void CloseDoor(dir door);
@@ -40,6 +40,7 @@ public:
 	void talkidle(const String names)const;
 	void talkidle2(const String names)const;
 	void buy(const String names)const;
+	void Npcmove()const;
 	World();//builder
 	~World();//destroyer
 

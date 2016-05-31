@@ -8,7 +8,7 @@
 class Npc : public Creature{
 public:
 	Vector<Entity*> give;
-	
+	bool enter = true;
 
 public:
 

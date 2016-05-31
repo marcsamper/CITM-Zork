@@ -28,9 +28,7 @@ void Player::Inventory(){
 	
 	for (int i = 0; i<trans.size(); i++){
 		printf("--INVENTORY:----->");
-		printf("-%s\n", trans[i]->name.c_str());
-			
-			  
+		printf("-%s\n", trans[i]->name.c_str());			  
 			  
 				
 	}
