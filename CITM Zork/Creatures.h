@@ -10,7 +10,7 @@
 class Creature: public Entity{
 
 public:
-	Room* location;
+	Room* location = nullptr;
 
 public:
 

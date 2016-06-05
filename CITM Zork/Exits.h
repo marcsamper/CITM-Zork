@@ -11,8 +11,8 @@ enum dir{ NORTH, SOUTH, EAST, WEST };
 class Exit:public Entity{
 public:
 	
-	Room* origin;
-	Room* destination;
+	Room* origin = nullptr;
+	Room* destination=nullptr;
 	Entity* point=nullptr;
 	dir direction;
 	bool open;

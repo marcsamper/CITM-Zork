@@ -24,22 +24,22 @@ public:
 
 public:
 	void CreateWorld();
-	void MovePosition(dir direction)const;
-	void Look(dir direction)const;
+	void MovePosition(const dir direction)const;
+	void Look(const dir direction)const;
 	void LookRoom();
 	void OpenDoor(dir door);
 	void CloseDoor(dir door);
-	void PickItem( String name);
-	void DropItem(const String name);
+	void PickItem( const String& name);
+	void DropItem(const String& name);
 	bool Inpunts();
-	void PutItem(const String item);
-	void GetItem(const String item);
-	void Description(const String name)const;
+	void PutItem(const String& item);
+	void GetItem(const String& item);
+	void Description(const String& name)const;
 	void Map()const;
-	void talk(const String names)const;
-	void talkidle(const String names)const;
-	void talkidle2(const String names)const;
-	void buy(const String names)const;
+	void talk(const String& names)const;
+	void talkidle(const String& names)const;
+	void talkidle2(const String& names)const;
+	void buy(const String& names)const;
 	void Npcmove()const;
 	World();//builder
 	~World();//destroyer

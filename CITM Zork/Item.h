@@ -10,8 +10,8 @@
 class Item: public Entity{
 
 public:
-	Room* localitzation;
-	Npc* mine;
+	Room* localitzation=nullptr;
+	Npc* mine= nullptr;
 	Vector<Entity*> transp;
 public:
 	Item(const char*, const char*, Room*);
